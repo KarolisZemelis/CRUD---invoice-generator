@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="{{url}}app.js"></script>
+  <link rel="stylesheet" href="{{url}}style.css">
+    <title>{{pageTitle}}</title>
+  </head>
+</head>
+<body>
+  <header>
+        <ul>
+        <li><a href="http://localhost:3000">Sukurti</a></li>
+        <li><a href="http://localhost:3000">Visos PVM sąskaitos</a></li>
+    </ul>
+  </header>
+  <main>
+    
+  </main>
+
