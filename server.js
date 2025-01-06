@@ -35,13 +35,24 @@ const renderPage = (data, page) => {
 //   res.send(html);
 // });
 
-app.get("/", (req, res) => {
+app.get("/invoice", (req, res) => {
+  // res.send("Hello World!");
+  const data = {
+    script: "invoice.js",
+    style: "style.css",
+    title: "PVM SF generavimas",
+  };
+  const html = renderPage(data, "invoice");
+  res.send(html);
+});
+
+app.get("/invoiceList", (req, res) => {
   // res.send("Hello World!");
   const data = {
     script: "invoice.js",
     style: "style.css",
   };
-  const html = renderPage(data, "invoice");
+  const html = renderPage(data, "invoiceList");
   res.send(html);
 });
 

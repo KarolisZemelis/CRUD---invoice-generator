@@ -1,7 +1,3 @@
-a {
-  color: red;
-}
-
-h1 {
-  color: green;
+[data-invoice-seller-buyer-container] {
+  display: flex;
 }

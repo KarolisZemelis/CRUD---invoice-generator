@@ -1,1 +1,91 @@
-<h1>Kaip čia blin veikia</h1>
+<div data-invoice-container>
+  <div data-invoice-details-container>
+    <h1>PVM Sąskaita faktūra</h1>
+    <div>
+      <h3>Serija: <span id="test" data-invoice-number></span></h3>
+    </div>
+    <div data-invoice-date></div>
+  </div>
+  <div data-invoice-seller-buyer-container>
+    <div data-invoice-seller-details>
+      <h3>Pardavėjo duomenys:</h3>
+      <div class="name">
+        <p>Pavadinimas: <span data-invoice-seller-name></span></p>
+      </div>
+      <div class="address">
+        <p>Adresas: <span data-invoice-seller-address></span></p>
+      </div>
+      <div class="code">
+        <p>Kodas: <span data-invoice-seller-code></span></p>
+      </div>
+      <div class="vat">
+        <p>VAT:<span data-invoice-seller-vat></span></p>
+      </div>
+      <div class="phone">
+        <p>Tel.Nr.:<span data-invoice-seller-phone></span></p>
+      </div>
+      <div class="email">
+        <p>El.Paštas:<span data-invoice-seller-email></span></p>
+      </div>
+    </div>
+    <div data-invoice-buyer-details>
+      <h3>Pirkėjo duomenys:</h3>
+      <div class="name">
+        <p>Pavadinimas: <span data-invoice-buyer-name></span></p>
+      </div>
+      <div class="address">
+        <p>Adresas: <span data-invoice-buyer-address></span></p>
+      </div>
+      <div class="code">
+        <p>Kodas: <span data-invoice-buyer-code></span></p>
+      </div>
+      <div class="vat">
+        <p>VAT:<span data-invoice-buyer-vat></span></p>
+      </div>
+      <div class="phone">
+        <p>Tel.Nr.:<span data-invoice-buyer-phone></span></p>
+      </div>
+      <div class="email">
+        <p>El.Paštas:<span data-invoice-buyer-email></span></p>
+      </div>
+    </div>
+  </div>
+  <div data-product-table-container>
+    <table>
+      <thead>
+        <tr class="table_headers">
+          <th>Eil. Nr.</th>
+          <th>Prekės/paslaugos pavadinimas</th>
+          <th>Kiekis</th>
+          <th>Kaina (be PVM) Eur</th>
+          <th>Nuolaida</th>
+          <th>Kaina su nuolaida (be PVM) Eur</th>
+          <th>Suma Eur</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div data-totals-container>
+      <div data-total-numbers-container>
+        <div data-item-total-container>
+          <p>Suma: <span data-item-total></span>€</p>
+        </div>
+        <div data-transport-container>
+          <p>Transportas: <span data-transport-cost></span>€</p>
+        </div>
+        <div data-vat-container>
+          <p>PVM(21.00%): <span data-total-vat></span>€</p>
+        </div>
+        <div data-invoice-total-container>
+          <p>Suma viso: <span data-invoice-total></span>€</p>
+        </div>
+        <div data-total-words-container>
+          <p>Suma žodžiais: <span data-words-total></span>€</p>
+        </div>
+        <div data-due-date-container>
+          <p>Apmokėti iki: <span data-due-date></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
