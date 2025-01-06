@@ -1,174 +1,93 @@
-const url = "https://in3.dev/inv/";
+const url = "http://localhost:3000/api/invoice";
 
-function numberToWordsLT(amount) {
-  const ones = [
-    "",
-    "vienas",
-    "du",
-    "trys",
-    "keturi",
-    "penki",
-    "šeši",
-    "septyni",
-    "aštuoni",
-    "devyni",
-  ];
-  const teens = [
-    "",
-    "vienuolika",
-    "dvylika",
-    "trylika",
-    "keturiolika",
-    "penkiolika",
-    "šešiolika",
-    "septyniolika",
-    "aštuoniolika",
-    "devyniolika",
-  ];
-  const tens = [
-    "",
-    "dešimt",
-    "dvidešimt",
-    "trisdešimt",
-    "keturiasdešimt",
-    "penkiasdešimt",
-    "šešiasdešimt",
-    "septyniasdešimt",
-    "aštuoniasdešimt",
-    "devyniasdešimt",
-  ];
-  const hundreds = [
-    "",
-    "šimtas",
-    "du šimtai",
-    "trys šimtai",
-    "keturi šimtai",
-    "penki šimtai",
-    "šeši šimtai",
-    "septyni šimtai",
-    "aštuoni šimtai",
-    "devyni šimtai",
-  ];
-  const thousands = ["", "tūkstantis", "tūkstančiai", "tūkstančių"];
+// async function getData() {
+//   try {
+//     const response = await fetch(url);
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status : ${response.status}`);
+//     }
 
-  function getOnesAndTens(n) {
-    if (n < 10) return ones[n];
-    if (n > 10 && n < 20) return teens[n - 10];
-    return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? " " + ones[n % 10] : "");
-  }
+//     const invoiceData = await response.json();
+//     const invoiceObject = {};
 
-  function convertPart(n) {
-    if (n === 0) return "";
-    const h = Math.floor(n / 100);
-    const t = n % 100;
-    return ((h ? hundreds[h] + " " : "") + (t ? getOnesAndTens(t) : "")).trim();
-  }
+//     render(createInvoiceObject(invoiceData, invoiceObject));
+//   } catch (error) {
+//     console.error("There was a problem with the fetch operation:", error);
+//     throw error;
+//   }
+// }
 
-  function getThousandsPart(n) {
-    if (n === 0) return "";
-    if (n === 1) return "vienas tūkstantis";
-    const rem = n % 10;
-    const thousandsForm =
-      n % 100 >= 11 && n % 100 <= 19
-        ? thousands[3] // "tūkstančių" for teens
-        : rem === 1
-        ? thousands[1] // "tūkstantis" for singular
-        : rem >= 2 && rem <= 9
-        ? thousands[2] // "tūkstančiai" for plural nominative
-        : thousands[3]; // "tūkstančių" for plural genitive
-    return convertPart(n) + " " + thousandsForm;
-  }
+// function createInvoiceObject(invoiceData, invoiceObject) {
+//   for (const [key, value] of Object.entries(invoiceData)) {
+//     invoiceObject[key] = value;
+//   }
+//   let items = invoiceObject.items;
+//   let discountAmount = 0;
+//   let allProductTotal = 0;
 
-  function getEurosWord(euros) {
-    if (euros % 10 === 1 && euros % 100 !== 11) return "euras";
-    if (
-      euros % 10 >= 2 &&
-      euros % 10 <= 9 &&
-      (euros % 100 < 10 || euros % 100 >= 20)
-    )
-      return "eurai";
-    return "eurų";
-  }
+//   for (let i = 0; i < items.length; i++) {
+//     let productTotal = 0;
+//     for (const key in items[i]) {
+//       if (key === "discount") {
+//         if (items[i][key].type === "fixed") {
+//           discountAmount = -Math.abs(
+//             parseFloat(items[i][key].value).toFixed(2)
+//           );
+//           items[i][key].discountAmount = discountAmount;
+//         } else if (items[i][key].type === "percentage") {
+//           discountAmount = -Math.abs(
+//             parseFloat(items[i].price * (items[i][key].value / 100)).toFixed(2)
+//           );
+//           items[i][key].discountAmount = discountAmount;
+//         } else {
+//           discountAmount = 0;
+//         }
+//       }
+//       const itemPrice = parseFloat(items[i].price).toFixed(2);
+//       const itemQty = parseFloat(items[i].quantity).toFixed(2);
+//       const priceAfterDiscount = parseFloat(
+//         (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
+//       );
+//       invoiceObject.items[i].priceAfterDiscount = priceAfterDiscount;
+//       productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
+//       invoiceObject.items[i].productTotal = productTotal;
+//     }
+//     allProductTotal += productTotal;
+//   }
+//   invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
+//   return invoiceObject;
+// }
 
-  // Parse amount into euros and cents
-  const [euros, cents] = amount.toFixed(2).split(".").map(Number);
-
-  if (euros === 0 && cents === 0) return "nulis eurų ir 00 ct";
-
-  const eurText =
-    euros < 1000
-      ? convertPart(euros)
-      : getThousandsPart(Math.floor(euros / 1000)) +
-        (euros % 1000 !== 0 ? " " + convertPart(euros % 1000) : "");
-
-  const eurWord = getEurosWord(euros);
-  const ctText = cents < 10 ? "0" + cents : cents;
-
-  return (
-    (eurText ? eurText + " " + eurWord : "") +
-    " ir " +
-    ctText +
-    " ct"
-  ).trim();
-}
-
-async function getData() {
+// FORM THE INVOICE WITH FUNCTIONS BELOW
+let invoiceObject; // Declare it globally
+// GET INVOICE OBJECT FROM SERVER
+async function fetchInvoiceObject() {
   try {
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`HTTP error! status : ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-
-    const invoiceData = await response.json();
-    const invoiceObject = {};
-
-    render(createInvoiceObject(invoiceData, invoiceObject));
+    invoiceObject = await response.json(); // Store the object
+    console.log("Invoice Object fetched:", invoiceObject); // Use it here
+    return invoiceObject;
   } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
+    console.error("Error fetching invoice data:", error);
     throw error;
   }
 }
+// WAIT FOR INVOICE OBJECT TO LOAD
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    invoiceObject = await fetchInvoiceObject(); // Fetch invoiceObject
+    console.log("Global Invoice Object:", invoiceObject);
 
-function createInvoiceObject(invoiceData, invoiceObject) {
-  for (const [key, value] of Object.entries(invoiceData)) {
-    invoiceObject[key] = value;
+    // Render after invoiceObject is fetched
+    console.log("laukiu kol uzsikraus", invoiceObject);
+    render(invoiceObject);
+  } catch (error) {
+    console.error("Error handling invoice:", error);
   }
-  let items = invoiceObject.items;
-  let discountAmount = 0;
-  let allProductTotal = 0;
-
-  for (let i = 0; i < items.length; i++) {
-    let productTotal = 0;
-    for (const key in items[i]) {
-      if (key === "discount") {
-        if (items[i][key].type === "fixed") {
-          discountAmount = -Math.abs(
-            parseFloat(items[i][key].value).toFixed(2)
-          );
-          items[i][key].discountAmount = discountAmount;
-        } else if (items[i][key].type === "percentage") {
-          discountAmount = -Math.abs(
-            parseFloat(items[i].price * (items[i][key].value / 100)).toFixed(2)
-          );
-          items[i][key].discountAmount = discountAmount;
-        } else {
-          discountAmount = 0;
-        }
-      }
-      const itemPrice = parseFloat(items[i].price).toFixed(2);
-      const itemQty = parseFloat(items[i].quantity).toFixed(2);
-      const priceAfterDiscount = parseFloat(
-        (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
-      );
-      invoiceObject.items[i].priceAfterDiscount = priceAfterDiscount;
-      productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
-      invoiceObject.items[i].productTotal = productTotal;
-    }
-    allProductTotal += productTotal;
-  }
-  invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
-  return invoiceObject;
-}
+});
 
 function getInvoiceDetails(invoiceObj) {
   document.querySelector("[data-invoice-number]").innerText = invoiceObj.number;
@@ -213,12 +132,17 @@ function populateTotalSection(invoiceObj) {
     (totalsNumb + shippingPrice + vat).toFixed(2)
   );
 
-  document.querySelector("[data-item-total]").innerHTML = totalsNumb;
-  document.querySelector("[data-transport-cost]").innerHTML = shippingPrice;
-  document.querySelector("[data-total-vat]").innerHTML = vat;
-  document.querySelector("[data-invoice-total]").innerHTML = invoiceTotal;
-  document.querySelector("[data-words-total]").innerHTML =
-    numberToWordsLT(invoiceTotal);
+  document.querySelector("[data-item-total]").innerHTML = `${totalsNumb} €`;
+  document.querySelector(
+    "[data-transport-cost]"
+  ).innerHTML = `${shippingPrice} €`;
+  document.querySelector("[data-total-vat]").innerHTML = `${vat} €`;
+  document.querySelector(
+    "[data-invoice-total]"
+  ).innerHTML = `${invoiceTotal} €`;
+  document.querySelector(
+    "[data-words-total]"
+  ).innerHTML = `${invoiceObj.allProductTotalString} €`;
   document.querySelector("[data-due-date]").innerHTML = invoiceObj.due_date;
 }
 
@@ -264,12 +188,36 @@ function populateProductData(invoiceObj) {
     tableHtml.append(tableRow);
   });
 }
-
+// RENDER THE INVOICE WITH FUNCTIONS ABOVE
 function render(invoiceObj) {
+  console.log("esu render funkcijoje", invoiceObj);
   getInvoiceDetails(invoiceObj);
   getBuyerDetails(invoiceObj);
   getSellerDetails(invoiceObj);
   populateProductData(invoiceObj);
   populateTotalSection(invoiceObj);
 }
-getData();
+console.log("xxx", invoiceObject);
+// render(invoiceObject);
+// getData();
+
+// SAVE THE RENDERED INVOICE
+document
+  .querySelector("form button")
+  .addEventListener("click", async function (e) {
+    e.preventDefault(); // Prevent default form submission
+
+    const response = await fetch("/invoice", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(invoiceObject), // Send invoiceObject to the server
+    });
+
+    if (response.ok) {
+      window.location.href = "/invoice"; // Redirect on success
+    } else {
+      console.error("Failed to save invoice");
+    }
+  });
