@@ -166,8 +166,9 @@ function createInvoiceObject(invoiceData, invoiceObject) {
       }
       const itemPrice = parseFloat(items[i].price).toFixed(2);
       const itemQty = parseFloat(items[i].quantity).toFixed(2);
-      const priceAfterDiscount =
-        itemPrice - (parseFloat(discountAmount) * -1).toFixed(2);
+      const priceAfterDiscount = parseFloat(
+        (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
+      );
       invoiceObject.items[i].priceAfterDiscount = priceAfterDiscount;
       productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
       invoiceObject.items[i].productTotal = productTotal;
@@ -183,6 +184,7 @@ function render(invoiceObj) {
   getInvoiceDetails(invoiceObj);
   getBuyerDetails(invoiceObj);
   getSellerDetails(invoiceObj);
+  populateProductData(invoiceObj);
   populateTotalSection(invoiceObj);
 }
 
@@ -236,4 +238,47 @@ function populateTotalSection(invoiceObj) {
   document.querySelector("[data-words-total]").innerHTML =
     numberToWordsLT(invoiceTotal);
   document.querySelector("[data-due-date]").innerHTML = invoiceObj.due_date;
+}
+
+function populateProductData(invoiceObj) {
+  const items = invoiceObj.items;
+  const tableHtml = document.querySelector("tbody");
+  let nrCounter = 1;
+
+  items.forEach((item) => {
+    const tableRow = document.createElement("tr");
+    tableHtml.append(tableRow);
+    const tableData = document.createElement("td");
+    tableData.innerHTML += nrCounter;
+    tableRow.append(tableData);
+    nrCounter++;
+
+    const tableDataDescription = document.createElement("td");
+    tableDataDescription.innerHTML = item.description;
+    const tableDataQty = document.createElement("td");
+    tableDataQty.innerHTML = item.quantity;
+    const tableDataPrice = document.createElement("td");
+    tableDataPrice.innerHTML = item.price;
+    const tableDataDiscount = document.createElement("td");
+
+    if (item.discount.type === "fixed") {
+      tableDataDiscount.innerHTML = item.discount.value;
+    } else if (item.discount.type === undefined) {
+      tableDataDiscount.innerHTML = "";
+    } else {
+      tableDataDiscount.innerHTML = `-${item.discount.value}% <br> ${item.discount.discountAmount}`;
+    }
+    const tableDataPriceAfterDiscount = document.createElement("td");
+    tableDataPriceAfterDiscount.innerHTML = item.priceAfterDiscount;
+    const tableDataTotalPrice = document.createElement("td");
+    tableDataTotalPrice.innerHTML = item.productTotal;
+    tableRow.append(tableData);
+    tableRow.append(tableDataDescription);
+    tableRow.append(tableDataQty);
+    tableRow.append(tableDataPrice);
+    tableRow.append(tableDataDiscount);
+    tableRow.append(tableDataPriceAfterDiscount);
+    tableRow.append(tableDataTotalPrice);
+    tableHtml.append(tableRow);
+  });
 }

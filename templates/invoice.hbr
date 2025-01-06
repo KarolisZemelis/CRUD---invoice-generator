@@ -88,4 +88,8 @@
       </div>
     </div>
   </div>
+  <div class="signature_container">
+    <div>Sąskaitą išrašė:</div>
+    <div>Sąskaitą pasirašė:</div>
+  </div>
 </div>

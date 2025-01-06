@@ -157,7 +157,7 @@ function createInvoiceObject(invoiceData, invoiceObject) {
       }
       var itemPrice = parseFloat(items[i].price).toFixed(2);
       var itemQty = parseFloat(items[i].quantity).toFixed(2);
-      var priceAfterDiscount = itemPrice - (parseFloat(discountAmount) * -1).toFixed(2);
+      var priceAfterDiscount = parseFloat((itemPrice - parseFloat(discountAmount) * -1).toFixed(2));
       invoiceObject.items[i].priceAfterDiscount = priceAfterDiscount;
       productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
       invoiceObject.items[i].productTotal = productTotal;
@@ -172,6 +172,7 @@ function render(invoiceObj) {
   getInvoiceDetails(invoiceObj);
   getBuyerDetails(invoiceObj);
   getSellerDetails(invoiceObj);
+  populateProductData(invoiceObj);
   populateTotalSection(invoiceObj);
 }
 function getInvoiceDetails(invoiceObj) {
@@ -195,9 +196,7 @@ function getSellerDetails(invoiceObj) {
   document.querySelector("[data-invoice-seller-email]").innerText = invoiceObj.company.seller.email;
 }
 function populateTotalSection(invoiceObj) {
-  // const totals = getProductData();
   var totalsNumb = parseFloat(invoiceObj.allProductTotal);
-  // const data = getData();
   var shippingPrice = parseFloat(invoiceObj.shippingPrice.toFixed(2));
   var vat = parseFloat(((totalsNumb + shippingPrice) * 0.21).toFixed(2));
   var invoiceTotal = parseFloat((totalsNumb + shippingPrice + vat).toFixed(2));
@@ -207,10 +206,45 @@ function populateTotalSection(invoiceObj) {
   document.querySelector("[data-invoice-total]").innerHTML = invoiceTotal;
   document.querySelector("[data-words-total]").innerHTML = numberToWordsLT(invoiceTotal);
   document.querySelector("[data-due-date]").innerHTML = invoiceObj.due_date;
-  // findByClass("transport").innerHTML = `${shippingPrice}€`;
-  // findByClass("totalVat").innerHTML = `${vat.toFixed(2)}€`;
-  // findByClass("invoiceTotal").innerHTML = `${invoiceTotal.toFixed(2)}€`;
-  // findByClass("totalWords").innerHTML = `${numberToWordsLT(invoiceTotal)}`;
+}
+function populateProductData(invoiceObj) {
+  var items = invoiceObj.items;
+  var tableHtml = document.querySelector("tbody");
+  var nrCounter = 1;
+  items.forEach(function (item) {
+    var tableRow = document.createElement("tr");
+    tableHtml.append(tableRow);
+    var tableData = document.createElement("td");
+    tableData.innerHTML += nrCounter;
+    tableRow.append(tableData);
+    nrCounter++;
+    var tableDataDescription = document.createElement("td");
+    tableDataDescription.innerHTML = item.description;
+    var tableDataQty = document.createElement("td");
+    tableDataQty.innerHTML = item.quantity;
+    var tableDataPrice = document.createElement("td");
+    tableDataPrice.innerHTML = item.price;
+    var tableDataDiscount = document.createElement("td");
+    if (item.discount.type === "fixed") {
+      tableDataDiscount.innerHTML = item.discount.value;
+    } else if (item.discount.type === undefined) {
+      tableDataDiscount.innerHTML = "";
+    } else {
+      tableDataDiscount.innerHTML = "-".concat(item.discount.value, "% <br> ").concat(item.discount.discountAmount);
+    }
+    var tableDataPriceAfterDiscount = document.createElement("td");
+    tableDataPriceAfterDiscount.innerHTML = item.priceAfterDiscount;
+    var tableDataTotalPrice = document.createElement("td");
+    tableDataTotalPrice.innerHTML = item.productTotal;
+    tableRow.append(tableData);
+    tableRow.append(tableDataDescription);
+    tableRow.append(tableDataQty);
+    tableRow.append(tableDataPrice);
+    tableRow.append(tableDataDiscount);
+    tableRow.append(tableDataPriceAfterDiscount);
+    tableRow.append(tableDataTotalPrice);
+    tableHtml.append(tableRow);
+  });
 }
 
 /***/ }),
