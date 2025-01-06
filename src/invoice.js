@@ -118,25 +118,16 @@ async function getData() {
     if (!response.ok) {
       throw new Error(`HTTP error! status : ${response.status}`);
     }
-    const data = await response.json();
-    return data;
+
+    const invoiceData = await response.json();
+    const invoiceObject = {};
+
+    render(createInvoiceObject(invoiceData, invoiceObject));
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
     throw error;
   }
 }
-
-(async function getInvoiceData() {
-  try {
-    const invoiceData = await getData();
-    const invoiceObject = {};
-
-    render(createInvoiceObject(invoiceData, invoiceObject));
-    console.log(invoiceObject);
-  } catch (error) {
-    console.error("Error fetching or processing data:", error);
-  }
-})();
 
 function createInvoiceObject(invoiceData, invoiceObject) {
   for (const [key, value] of Object.entries(invoiceData)) {
@@ -177,15 +168,6 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   }
   invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
   return invoiceObject;
-}
-
-function render(invoiceObj) {
-  const invoiceContainer = document.querySelector("[data-invoice-container]");
-  getInvoiceDetails(invoiceObj);
-  getBuyerDetails(invoiceObj);
-  getSellerDetails(invoiceObj);
-  populateProductData(invoiceObj);
-  populateTotalSection(invoiceObj);
 }
 
 function getInvoiceDetails(invoiceObj) {
@@ -282,3 +264,12 @@ function populateProductData(invoiceObj) {
     tableHtml.append(tableRow);
   });
 }
+
+function render(invoiceObj) {
+  getInvoiceDetails(invoiceObj);
+  getBuyerDetails(invoiceObj);
+  getSellerDetails(invoiceObj);
+  populateProductData(invoiceObj);
+  populateTotalSection(invoiceObj);
+}
+getData();

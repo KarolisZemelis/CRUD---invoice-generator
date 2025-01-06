@@ -66,71 +66,43 @@ function getData() {
   return _getData.apply(this, arguments);
 }
 function _getData() {
-  _getData = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
-    var response, data;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
-        case 0:
-          _context2.prev = 0;
-          _context2.next = 3;
-          return fetch(url);
-        case 3:
-          response = _context2.sent;
-          if (response.ok) {
-            _context2.next = 6;
-            break;
-          }
-          throw new Error("HTTP error! status : ".concat(response.status));
-        case 6:
-          _context2.next = 8;
-          return response.json();
-        case 8:
-          data = _context2.sent;
-          return _context2.abrupt("return", data);
-        case 12:
-          _context2.prev = 12;
-          _context2.t0 = _context2["catch"](0);
-          console.error("There was a problem with the fetch operation:", _context2.t0);
-          throw _context2.t0;
-        case 16:
-        case "end":
-          return _context2.stop();
-      }
-    }, _callee2, null, [[0, 12]]);
-  }));
-  return _getData.apply(this, arguments);
-}
-(function () {
-  var _getInvoiceData = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var invoiceData, invoiceObject;
+  _getData = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+    var response, invoiceData, invoiceObject;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
           _context.next = 3;
-          return getData();
+          return fetch(url);
         case 3:
+          response = _context.sent;
+          if (response.ok) {
+            _context.next = 6;
+            break;
+          }
+          throw new Error("HTTP error! status : ".concat(response.status));
+        case 6:
+          _context.next = 8;
+          return response.json();
+        case 8:
           invoiceData = _context.sent;
           invoiceObject = {};
           render(createInvoiceObject(invoiceData, invoiceObject));
-          console.log(invoiceObject);
-          _context.next = 12;
+          _context.next = 17;
           break;
-        case 9:
-          _context.prev = 9;
+        case 13:
+          _context.prev = 13;
           _context.t0 = _context["catch"](0);
-          console.error("Error fetching or processing data:", _context.t0);
-        case 12:
+          console.error("There was a problem with the fetch operation:", _context.t0);
+          throw _context.t0;
+        case 17:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[0, 13]]);
   }));
-  function getInvoiceData() {
-    return _getInvoiceData.apply(this, arguments);
-  }
-  return getInvoiceData;
-})()();
+  return _getData.apply(this, arguments);
+}
 function createInvoiceObject(invoiceData, invoiceObject) {
   for (var _i = 0, _Object$entries = Object.entries(invoiceData); _i < _Object$entries.length; _i++) {
     var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
@@ -166,14 +138,6 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   }
   invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
   return invoiceObject;
-}
-function render(invoiceObj) {
-  var invoiceContainer = document.querySelector("[data-invoice-container]");
-  getInvoiceDetails(invoiceObj);
-  getBuyerDetails(invoiceObj);
-  getSellerDetails(invoiceObj);
-  populateProductData(invoiceObj);
-  populateTotalSection(invoiceObj);
 }
 function getInvoiceDetails(invoiceObj) {
   document.querySelector("[data-invoice-number]").innerText = invoiceObj.number;
@@ -246,6 +210,23 @@ function populateProductData(invoiceObj) {
     tableHtml.append(tableRow);
   });
 }
+function render(invoiceObj) {
+  getInvoiceDetails(invoiceObj);
+  getBuyerDetails(invoiceObj);
+  getSellerDetails(invoiceObj);
+  populateProductData(invoiceObj);
+  populateTotalSection(invoiceObj);
+}
+
+// (async function getInvoiceData() {
+//   try {
+
+//     console.log(invoiceObject);
+//   } catch (error) {
+//     console.error("Error fetching or processing data:", error);
+//   }
+// })();
+getData();
 
 /***/ }),
 
