@@ -12,7 +12,7 @@
       <tr>
         <td>{{@key}}</td>
         <td>{{this.date}}</td>
-        <td>{{this.allProductTotal}}</td>
+        <td>{{this.invoiceTotal}} €</td>
         <td>
           <button>
             <a

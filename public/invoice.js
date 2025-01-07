@@ -101,7 +101,7 @@ function getSellerDetails(invoiceObj) {
   document.querySelector("[data-invoice-seller-email]").innerText = invoiceObj.company.seller.email;
 }
 function populateTotalSection(invoiceObj) {
-  document.querySelector("[data-item-total]").innerHTML = "".concat(invoiceObj.productTotal, " \u20AC");
+  document.querySelector("[data-item-total]").innerHTML = "".concat(invoiceObj.allProductTotal, " \u20AC");
   document.querySelector("[data-transport-cost]").innerHTML = "".concat(invoiceObj.shippingPrice, " \u20AC");
   document.querySelector("[data-total-vat]").innerHTML = "".concat(invoiceObj.vat, " \u20AC");
   document.querySelector("[data-invoice-total]").innerHTML = "".concat(invoiceObj.invoiceTotal, " \u20AC");

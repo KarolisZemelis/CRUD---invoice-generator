@@ -71,7 +71,7 @@ function getSellerDetails(invoiceObj) {
 function populateTotalSection(invoiceObj) {
   document.querySelector(
     "[data-item-total]"
-  ).innerHTML = `${invoiceObj.productTotal} €`;
+  ).innerHTML = `${invoiceObj.allProductTotal} €`;
   document.querySelector(
     "[data-transport-cost]"
   ).innerHTML = `${invoiceObj.shippingPrice} €`;

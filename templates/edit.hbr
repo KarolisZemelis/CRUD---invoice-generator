@@ -82,13 +82,22 @@
           <tr>
             <td>{{itemNumber}}</td>
             <td>{{description}}</td>
-            <td>{{quantity}}</td>
+            <td><input type="number" value="{{quantity}}" /></td>
             <td>{{price}}</td>
             <td>
-
-              // čia reikėtų pritaikyti ifą grečiausiai kaip daroma formuojant
-              objektą? arba pakeisti objekto formavimo logiką
-
+              {{#if discount}}
+                {{items}}
+                {{#if discount.percentage}}
+                  {{#if discount.percentage}}
+                    <span>% :</span>
+                    <input type="number" value="{{discount.value}}" />
+                  {{/if}}
+                  <input type="number" value="{{discount.discountAmount}}" />
+                {{/if}}
+                {{#if discount.fixed}}
+                  <input type="number" value="{{discount.discountAmount}}" />
+                {{/if}}
+              {{/if}}
             </td>
             <td>{{priceAfterDiscount}}</td>
             <td>{{productTotal}}</td>
@@ -99,17 +108,20 @@
     <div data-totals-container>
       <div data-total-numbers-container>
         <div data-item-total-container><p>Suma:
-            <span data-item-total>{{item.allProductTotal}}</span></p></div>
+            <span data-item-total>{{item.allProductTotal}} €</span>
+          </p></div>
         <div data-transport-container><p>Transportas:
-            <span data-transport-cost>{{item.shippingPrice}}</span></p></div>
+            <span data-transport-cost>{{item.shippingPrice}} €</span>
+          </p></div>
         <div data-vat-container><p>PVM(21.00%):
-            <span data-total-vat>{{item.vat}}</span></p></div>
+            <span data-total-vat>{{item.vat}} €</span>
+          </p></div>
         <div data-invoice-total-container><p>Suma viso:
-            <span data-invoice-total>{{item.invoiceTotal}}</span></p></div>
+            <span data-invoice-total>{{item.invoiceTotal}} €</span>
+          </p></div>
         <div data-total-words-container><p>Suma žodžiais:
-            <span
-              data-words-total
-            >{{item.allProductTotalString}}</span></p></div>
+            <span data-words-total>{{item.allProductTotalString}} €</span>
+          </p></div>
         <div data-due-date-container><p>Apmokėti iki:
             <span data-due-date>{{item.date}}</span></p></div>
       </div>

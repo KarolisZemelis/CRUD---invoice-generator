@@ -128,6 +128,7 @@ function numberToWordsLT(amount) {
     " ct"
   ).trim();
 }
+
 function createInvoiceObject(invoiceData, invoiceObject) {
   for (const [key, value] of Object.entries(invoiceData)) {
     invoiceObject[key] = value;
@@ -143,14 +144,16 @@ function createInvoiceObject(invoiceData, invoiceObject) {
 
     for (const key in item) {
       if (key === "discount") {
-        if (item[key].type === "fixed") {
+        if (item.discount.type === "fixed") {
           discountAmount = -Math.abs(parseFloat(item[key].value).toFixed(2));
-          item[key].discountAmount = discountAmount;
-        } else if (item[key].type === "percentage") {
+          item.discount.fixed = true;
+          item.discount.discountAmount = discountAmount;
+        } else if (item.discount.type === "percentage") {
           discountAmount = -Math.abs(
             parseFloat(item.price * (item[key].value / 100)).toFixed(2)
           );
-          item[key].discountAmount = discountAmount;
+          item.discount.percentage = true;
+          item.discount.discountAmount = discountAmount;
         } else {
           discountAmount = 0;
         }
@@ -171,7 +174,7 @@ function createInvoiceObject(invoiceData, invoiceObject) {
     allProductTotal += productTotal;
   });
 
-  const totalsNumb = parseFloat(allProductTotal);
+  const totalsNumb = parseFloat(allProductTotal.toFixed(2));
   const shippingPrice = parseFloat(invoiceObject.shippingPrice.toFixed(2));
   const vat = parseFloat(((totalsNumb + shippingPrice) * 0.21).toFixed(2));
   const invoiceTotal = parseFloat(
@@ -182,7 +185,7 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   invoiceObject.vat = vat;
   invoiceObject.allProductTotalString = numberToWordsLT(invoiceTotal);
 
-  invoiceObject.allProductTotal = allProductTotal;
+  invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
 
   return invoiceObject;
 }
