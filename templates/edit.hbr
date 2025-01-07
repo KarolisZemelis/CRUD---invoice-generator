@@ -78,8 +78,21 @@
         </tr>
       </thead>
       <tbody>
-        {{#each item}}
-          <td>{{item}}</td>
+        {{#each item.items}}
+          <tr>
+            <td>{{itemNumber}}</td>
+            <td>{{description}}</td>
+            <td>{{quantity}}</td>
+            <td>{{price}}</td>
+            <td>
+
+              // čia reikėtų pritaikyti ifą grečiausiai kaip daroma formuojant
+              objektą? arba pakeisti objekto formavimo logiką
+
+            </td>
+            <td>{{priceAfterDiscount}}</td>
+            <td>{{productTotal}}</td>
+          </tr>
         {{/each}}
       </tbody>
     </table>

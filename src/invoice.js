@@ -88,15 +88,15 @@ function populateTotalSection(invoiceObj) {
 function populateProductData(invoiceObj) {
   const items = invoiceObj.items;
   const tableHtml = document.querySelector("tbody");
-  let nrCounter = 1;
+  // let nrCounter = 1;
 
   items.forEach((item) => {
     const tableRow = document.createElement("tr");
     tableHtml.append(tableRow);
     const tableData = document.createElement("td");
-    tableData.innerHTML += nrCounter;
+    tableData.innerHTML = item.itemNumber;
     tableRow.append(tableData);
-    nrCounter++;
+    // nrCounter++;
 
     const tableDataDescription = document.createElement("td");
     tableDataDescription.innerHTML = item.description;

@@ -135,6 +135,7 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   let items = invoiceObject.items;
   let discountAmount = 0;
   let allProductTotal = 0;
+  let itemNumber = 1;
 
   items.forEach((item) => {
     let productTotal = 0;
@@ -165,7 +166,8 @@ function createInvoiceObject(invoiceData, invoiceObject) {
 
     productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
     item.productTotal = productTotal;
-
+    item.itemNumber = itemNumber;
+    itemNumber++;
     allProductTotal += productTotal;
   });
 
@@ -287,7 +289,7 @@ app.get("/invoiceList/edit/:id", (req, res) => {
     style: "style.css",
     item,
   };
-
+  console.log(item);
   const html = renderPage(data, "edit");
   res.send(html);
 });

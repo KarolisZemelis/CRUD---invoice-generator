@@ -111,14 +111,16 @@ function populateTotalSection(invoiceObj) {
 function populateProductData(invoiceObj) {
   var items = invoiceObj.items;
   var tableHtml = document.querySelector("tbody");
-  var nrCounter = 1;
+  // let nrCounter = 1;
+
   items.forEach(function (item) {
     var tableRow = document.createElement("tr");
     tableHtml.append(tableRow);
     var tableData = document.createElement("td");
-    tableData.innerHTML += nrCounter;
+    tableData.innerHTML = item.itemNumber;
     tableRow.append(tableData);
-    nrCounter++;
+    // nrCounter++;
+
     var tableDataDescription = document.createElement("td");
     tableDataDescription.innerHTML = item.description;
     var tableDataQty = document.createElement("td");
