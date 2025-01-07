@@ -2,11 +2,15 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const hbs = require("handlebars");
-hbs.registerPartial("top", fs.readFileSync("./templates/top.hbr", "utf8"));
-hbs.registerPartial(
-  "bottom",
-  fs.readFileSync("./templates/bottom.hbr", "utf8")
-);
+app.use((req, res, next) => {
+  // Dynamically reload the partials on each request
+  hbs.registerPartial("top", fs.readFileSync("./templates/top.hbr", "utf8"));
+  hbs.registerPartial(
+    "bottom",
+    fs.readFileSync("./templates/bottom.hbr", "utf8")
+  );
+  next();
+});
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -170,8 +174,15 @@ function createInvoiceObject(invoiceData, invoiceObject) {
 const renderPage = (data, page) => {
   const pageContent = fs.readFileSync(`./templates/${page}.hbr`, "utf8");
   const layout = fs.readFileSync("./templates/layout.hbs", "utf8");
-  const compiled = hbs.compile(layout);
-  return compiled({ ...data, body: pageContent });
+
+  const compiledLayout = hbs.compile(layout);
+  const compiledPageContent = hbs.compile(pageContent);
+
+  // Apply data to the page content
+  const renderedPageContent = compiledPageContent(data);
+
+  // Pass the rendered page content as the body to the layout
+  return compiledLayout({ ...data, body: renderedPageContent });
 };
 //WE TARGET EXTERNAL INVOICE API TO GET INVOICE WE THEN FORM IT TO AN OBJECT WITH createInvoiceObject FUNCTION AND RETURN IT WHEN THIS API IS TRIGGERED IN CLIENT SIDE JS CODE
 app.get("/api/invoice", (req, res) => {
@@ -188,7 +199,7 @@ app.get("/api/invoice", (req, res) => {
 });
 
 app.get("/invoice", (req, res) => {
-  res.setHeader("Cache-Control", "no-store");
+  // res.setHeader("Cache-Control", "no-store");
   const data = {
     script: "invoice.js",
     style: "style.css",
@@ -226,14 +237,45 @@ app.post("/invoice", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
+//READ
 app.get("/invoiceList", (req, res) => {
-  // res.send("Hello World!");
+  let list = fs.readFileSync("./data/list.json", "utf8");
+  list = JSON.parse(list);
+
   const data = {
-    script: "invoice.js",
+    script: "invoiceList.js",
     style: "style.css",
+    title: "PVM SF sąrašas",
+    list,
   };
+
   const html = renderPage(data, "invoiceList");
+  res.send(html);
+});
+//EDIT
+app.get("/invoiceList/edit/:id", (req, res) => {
+  let list = fs.readFileSync("./data/list.json", "utf8");
+  list = JSON.parse(list);
+  const item = list[req.params.id];
+
+  if (!item) {
+    const data = {
+      pageTitle: "Puslapis nerastas",
+      noMenu: true,
+      metaRedirect: true,
+    };
+    const html = renderPage(data, "404");
+    res.status(404).send(html);
+    return;
+  }
+
+  const data = {
+    pageTitle: "Redaguoti įrašą",
+    style: "style.css",
+    item,
+  };
+
+  const html = renderPage(data, "edit");
   res.send(html);
 });
 

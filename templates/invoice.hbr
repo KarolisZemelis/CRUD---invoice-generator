@@ -1,8 +1,8 @@
 <form action="/invoice" method="POST" data-button-container>
-  <ul>
+  <ul class="invoiceMenu">
     <li><button type="submit" data-form-submit>Išsaugoti</button></li>
-    <li><a href="http://localhost:3000">Atnaujinti</a></li>
-    <li><a href="http://localhost:3000">Atšaukti</a></li>
+    <li><a href="http://localhost:3000/invoice">Atnaujinti</a></li>
+    <li><a href="http://localhost:3000/invoiceList">Atšaukti</a></li>
   </ul>
 </form>
 

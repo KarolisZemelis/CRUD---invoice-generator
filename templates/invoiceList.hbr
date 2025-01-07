@@ -1,0 +1,32 @@
+<table class="invoiceList">
+  <thead>
+    <tr>
+      <th>Sąskaitos nr.</th>
+      <th>Sąskaitos data</th>
+      <th>Sąskaitos Suma</th>
+      <th>Veiksmai</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each list}}
+      <tr>
+        <td>{{@key}}</td>
+        <td>{{this.date}}</td>
+        <td>{{this.allProductTotal}}</td>
+        <td>
+          <button>
+            <a
+              href="http://localhost:3000/invoiceList/edit/{{@key}}"
+            >Redaguoti</a>
+          </button>
+          <button>
+            <a href="http://localhost:3000/invoice/{{@key}}">Žiūrėti</a>
+          </button>
+          <button>
+            <a href="http://localhost:3000/invoice/delete/{{@key}}">Ištrinti</a>
+          </button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

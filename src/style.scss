@@ -34,7 +34,8 @@ header {
   color: #333;
 }
 
-ul {
+.mainMenu,
+.invoiceMenu {
   display: flex;
 
   button {
@@ -78,7 +79,9 @@ ul {
     border-right: none;
   }
 }
-
+// .invoiceList{
+//   ;
+// }
 body {
   display: flex;
   flex-direction: column;

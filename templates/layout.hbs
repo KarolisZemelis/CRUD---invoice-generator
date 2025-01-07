@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          {{#if metaRedirect}}
+    <meta http-equiv="refresh" content="2;url={{url}}admin">
+    {{/if}}
     <script src="{{script}}" defer></script>
   <link rel="stylesheet" href="{{style}}">
   <title>{{title}}</title>
@@ -10,14 +13,17 @@
 <body>
   <header>
     <!-- Top content -->
+    {{#if noMenu}}
+    {{else}}
     {{> top }}
+   {{/if}}
   </header>
   
   <main>
     <!-- Dynamic main content -->
     {{{body}}}
   </main>
-  
+ 
   <footer>
     <!-- Bottom content -->
     {{> bottom }}
