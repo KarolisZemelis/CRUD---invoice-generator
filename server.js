@@ -9,6 +9,7 @@ hbs.registerPartial(
 );
 
 app.use(express.static("public"));
+app.use(express.json());
 
 const url = "https://in3.dev/inv/";
 let invoiceObject;
@@ -181,7 +182,7 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   }
   invoiceObject.allProductTotalString = numberToWordsLT(allProductTotal);
   invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
-  console.log(invoiceObject);
+
   return invoiceObject;
 }
 
@@ -207,25 +208,30 @@ app.get("/invoice", (req, res) => {
 });
 
 app.post("/invoice", async (req, res) => {
-  console.log("esu cia");
   try {
-    if (!invoiceObject) {
-      await getData(); // Ensure `invoiceObject` is fetched
+    console.log("Request body received:", req.body); // Log received data
+
+    // Read the file, or initialize an empty list if the file doesn't exist
+    let list;
+    try {
+      list = fs.readFileSync("./data/list.json", "utf8");
+      list = JSON.parse(list); // Parse the file content
+    } catch (readError) {
+      console.warn("list.json not found or invalid. Initializing new list.");
+      list = []; // Start with an empty array
     }
 
-    let list = fs.readFileSync("./data/list.json", "utf8");
-    list = JSON.parse(list);
+    const invoiceObjectToSave = req.body; // Extract the incoming invoice object
+    list.push(invoiceObjectToSave); // Add the new invoice to the list
 
-    list.push({
-      invoiceObject, // Save the invoiceObject
-    });
+    // Write back the updated list to the file
+    fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
 
-    fs.writeFileSync("./data/list.json", JSON.stringify(list));
-
-    res.redirect("/invoice"); // Redirect to the invoice page
+    console.log("Updated list saved:", list); // Log the updated list
+    res.status(200).send("Invoice saved successfully");
   } catch (error) {
     console.error("Error saving invoice:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Server Error");
   }
 });
 

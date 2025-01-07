@@ -1,0 +1,102 @@
+[
+  {
+    "number": "AB-23458736",
+    "date": "2025-01-05",
+    "due_date": "2025-01-15",
+    "company": {
+      "buyer": {
+        "name": "VŠĮ Baranauskas",
+        "address": "Saltoniškių g. 33, Panevėžys LT-27933",
+        "code": "84917089",
+        "vat": "LT326604632",
+        "phone": "8 674 19395",
+        "email": "bronislovas96@ciogintas.com"
+      },
+      "seller": {
+        "name": "UAB Žukauskas ir Kateiva",
+        "address": "Laisvės alėja 43-20, Klaipėda",
+        "code": "76843494",
+        "vat": "LT261858811",
+        "phone": "+370 5 311 5168",
+        "email": "gunaras27@gmail.com"
+      }
+    },
+    "items": [
+      {
+        "description": "Spinta su stumdomomis durimis \"Afrikos drambliai\" raudona",
+        "quantity": 10,
+        "price": 720.99,
+        "discount": [],
+        "priceAfterDiscount": 720.99,
+        "productTotal": 7209.9
+      },
+      {
+        "description": "Komoda žalia su 6 stalčiais",
+        "quantity": 6,
+        "price": 300,
+        "discount": [],
+        "priceAfterDiscount": 300,
+        "productTotal": 1800
+      },
+      {
+        "description": "Rašomasis stalas \"Studentas\" su stiklo plokšte ir ąžuoliniu stalviršium",
+        "quantity": 4,
+        "price": 270,
+        "discount": [],
+        "priceAfterDiscount": 270,
+        "productTotal": 1080
+      },
+      {
+        "description": "Fotelis su dėžėmis \"Dramblys\" su pagalve",
+        "quantity": 4,
+        "price": 195.97,
+        "discount": {
+          "type": "fixed",
+          "value": 67,
+          "discountAmount": -67
+        },
+        "priceAfterDiscount": 128.97,
+        "productTotal": 515.88
+      },
+      {
+        "description": "TV staliukas \"Telebimbam\" metalinis",
+        "quantity": 9,
+        "price": 150,
+        "discount": [],
+        "priceAfterDiscount": 150,
+        "productTotal": 1350
+      },
+      {
+        "description": "Kampinė sofa \"Ganykla\"",
+        "quantity": 10,
+        "price": 600.99,
+        "discount": {
+          "type": "fixed",
+          "value": 89,
+          "discountAmount": -89
+        },
+        "priceAfterDiscount": 511.99,
+        "productTotal": 5119.9
+      },
+      {
+        "description": "Baro kėdė \"Lilija\" nikeliuota",
+        "quantity": 7,
+        "price": 75,
+        "discount": [],
+        "priceAfterDiscount": 75,
+        "productTotal": 525
+      },
+      {
+        "description": "Geltonas vaikiškas odinis fotelis \"Saulutė\" su pagalve",
+        "quantity": 3,
+        "price": 165,
+        "discount": [],
+        "priceAfterDiscount": 165,
+        "productTotal": 495
+      }
+    ],
+    "shippingPrice": 15.99,
+    "allProductTotalString": "aštuoniolika tūkstančių devyniasdešimt penki eurai ir 68 ct",
+    "allProductTotal": 18095.68
+  }
+]

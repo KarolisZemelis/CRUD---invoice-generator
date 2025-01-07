@@ -1,63 +1,5 @@
 const url = "http://localhost:3000/api/invoice";
 
-// async function getData() {
-//   try {
-//     const response = await fetch(url);
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status : ${response.status}`);
-//     }
-
-//     const invoiceData = await response.json();
-//     const invoiceObject = {};
-
-//     render(createInvoiceObject(invoiceData, invoiceObject));
-//   } catch (error) {
-//     console.error("There was a problem with the fetch operation:", error);
-//     throw error;
-//   }
-// }
-
-// function createInvoiceObject(invoiceData, invoiceObject) {
-//   for (const [key, value] of Object.entries(invoiceData)) {
-//     invoiceObject[key] = value;
-//   }
-//   let items = invoiceObject.items;
-//   let discountAmount = 0;
-//   let allProductTotal = 0;
-
-//   for (let i = 0; i < items.length; i++) {
-//     let productTotal = 0;
-//     for (const key in items[i]) {
-//       if (key === "discount") {
-//         if (items[i][key].type === "fixed") {
-//           discountAmount = -Math.abs(
-//             parseFloat(items[i][key].value).toFixed(2)
-//           );
-//           items[i][key].discountAmount = discountAmount;
-//         } else if (items[i][key].type === "percentage") {
-//           discountAmount = -Math.abs(
-//             parseFloat(items[i].price * (items[i][key].value / 100)).toFixed(2)
-//           );
-//           items[i][key].discountAmount = discountAmount;
-//         } else {
-//           discountAmount = 0;
-//         }
-//       }
-//       const itemPrice = parseFloat(items[i].price).toFixed(2);
-//       const itemQty = parseFloat(items[i].quantity).toFixed(2);
-//       const priceAfterDiscount = parseFloat(
-//         (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
-//       );
-//       invoiceObject.items[i].priceAfterDiscount = priceAfterDiscount;
-//       productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
-//       invoiceObject.items[i].productTotal = productTotal;
-//     }
-//     allProductTotal += productTotal;
-//   }
-//   invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
-//   return invoiceObject;
-// }
-
 // FORM THE INVOICE WITH FUNCTIONS BELOW
 let invoiceObject; // Declare it globally
 // GET INVOICE OBJECT FROM SERVER
@@ -81,8 +23,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     invoiceObject = await fetchInvoiceObject(); // Fetch invoiceObject
     console.log("Global Invoice Object:", invoiceObject);
 
-    // Render after invoiceObject is fetched
-    console.log("laukiu kol uzsikraus", invoiceObject);
     render(invoiceObject);
   } catch (error) {
     console.error("Error handling invoice:", error);
@@ -190,34 +130,37 @@ function populateProductData(invoiceObj) {
 }
 // RENDER THE INVOICE WITH FUNCTIONS ABOVE
 function render(invoiceObj) {
-  console.log("esu render funkcijoje", invoiceObj);
   getInvoiceDetails(invoiceObj);
   getBuyerDetails(invoiceObj);
   getSellerDetails(invoiceObj);
   populateProductData(invoiceObj);
   populateTotalSection(invoiceObj);
 }
-console.log("xxx", invoiceObject);
-// render(invoiceObject);
-// getData();
 
 // SAVE THE RENDERED INVOICE
-document
-  .querySelector("form button")
-  .addEventListener("click", async function (e) {
-    e.preventDefault(); // Prevent default form submission
+console.log(document.querySelector("[data-form-submit]"));
+const formSubmitBtn = document.querySelector("[data-form-submit]");
 
-    const response = await fetch("/invoice", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(invoiceObject), // Send invoiceObject to the server
+formSubmitBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  console.log("esu event listenery", invoiceObject);
+  const response = fetch("/invoice", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(invoiceObject),
+  })
+    .then((response) => {
+      if (response.ok) {
+        window.location.href = "/invoice";
+      } else {
+        return response.text().then((errorText) => {
+          console.error("Server Error:", errorText);
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Fetch Error:", error);
     });
-
-    if (response.ok) {
-      window.location.href = "/invoice"; // Redirect on success
-    } else {
-      console.error("Failed to save invoice");
-    }
-  });
+});

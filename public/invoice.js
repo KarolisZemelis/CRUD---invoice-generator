@@ -13,64 +13,6 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var url = "http://localhost:3000/api/invoice";
 
-// async function getData() {
-//   try {
-//     const response = await fetch(url);
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status : ${response.status}`);
-//     }
-
-//     const invoiceData = await response.json();
-//     const invoiceObject = {};
-
-//     render(createInvoiceObject(invoiceData, invoiceObject));
-//   } catch (error) {
-//     console.error("There was a problem with the fetch operation:", error);
-//     throw error;
-//   }
-// }
-
-// function createInvoiceObject(invoiceData, invoiceObject) {
-//   for (const [key, value] of Object.entries(invoiceData)) {
-//     invoiceObject[key] = value;
-//   }
-//   let items = invoiceObject.items;
-//   let discountAmount = 0;
-//   let allProductTotal = 0;
-
-//   for (let i = 0; i < items.length; i++) {
-//     let productTotal = 0;
-//     for (const key in items[i]) {
-//       if (key === "discount") {
-//         if (items[i][key].type === "fixed") {
-//           discountAmount = -Math.abs(
-//             parseFloat(items[i][key].value).toFixed(2)
-//           );
-//           items[i][key].discountAmount = discountAmount;
-//         } else if (items[i][key].type === "percentage") {
-//           discountAmount = -Math.abs(
-//             parseFloat(items[i].price * (items[i][key].value / 100)).toFixed(2)
-//           );
-//           items[i][key].discountAmount = discountAmount;
-//         } else {
-//           discountAmount = 0;
-//         }
-//       }
-//       const itemPrice = parseFloat(items[i].price).toFixed(2);
-//       const itemQty = parseFloat(items[i].quantity).toFixed(2);
-//       const priceAfterDiscount = parseFloat(
-//         (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
-//       );
-//       invoiceObject.items[i].priceAfterDiscount = priceAfterDiscount;
-//       productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
-//       invoiceObject.items[i].productTotal = productTotal;
-//     }
-//     allProductTotal += productTotal;
-//   }
-//   invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
-//   return invoiceObject;
-// }
-
 // FORM THE INVOICE WITH FUNCTIONS BELOW
 var invoiceObject; // Declare it globally
 // GET INVOICE OBJECT FROM SERVER
@@ -78,39 +20,39 @@ function fetchInvoiceObject() {
   return _fetchInvoiceObject.apply(this, arguments);
 } // WAIT FOR INVOICE OBJECT TO LOAD
 function _fetchInvoiceObject() {
-  _fetchInvoiceObject = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+  _fetchInvoiceObject = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
     var response;
-    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
+    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+      while (1) switch (_context2.prev = _context2.next) {
         case 0:
-          _context3.prev = 0;
-          _context3.next = 3;
+          _context2.prev = 0;
+          _context2.next = 3;
           return fetch(url);
         case 3:
-          response = _context3.sent;
+          response = _context2.sent;
           if (response.ok) {
-            _context3.next = 6;
+            _context2.next = 6;
             break;
           }
           throw new Error("HTTP error! status: ".concat(response.status));
         case 6:
-          _context3.next = 8;
+          _context2.next = 8;
           return response.json();
         case 8:
-          invoiceObject = _context3.sent;
+          invoiceObject = _context2.sent;
           // Store the object
           console.log("Invoice Object fetched:", invoiceObject); // Use it here
-          return _context3.abrupt("return", invoiceObject);
+          return _context2.abrupt("return", invoiceObject);
         case 13:
-          _context3.prev = 13;
-          _context3.t0 = _context3["catch"](0);
-          console.error("Error fetching invoice data:", _context3.t0);
-          throw _context3.t0;
+          _context2.prev = 13;
+          _context2.t0 = _context2["catch"](0);
+          console.error("Error fetching invoice data:", _context2.t0);
+          throw _context2.t0;
         case 17:
         case "end":
-          return _context3.stop();
+          return _context2.stop();
       }
-    }, _callee3, null, [[0, 13]]);
+    }, _callee2, null, [[0, 13]]);
   }));
   return _fetchInvoiceObject.apply(this, arguments);
 }
@@ -125,21 +67,18 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator(/*#
         invoiceObject = _context.sent;
         // Fetch invoiceObject
         console.log("Global Invoice Object:", invoiceObject);
-
-        // Render after invoiceObject is fetched
-        console.log("laukiu kol uzsikraus", invoiceObject);
         render(invoiceObject);
-        _context.next = 12;
+        _context.next = 11;
         break;
-      case 9:
-        _context.prev = 9;
+      case 8:
+        _context.prev = 8;
         _context.t0 = _context["catch"](0);
         console.error("Error handling invoice:", _context.t0);
-      case 12:
+      case 11:
       case "end":
         return _context.stop();
     }
-  }, _callee, null, [[0, 9]]);
+  }, _callee, null, [[0, 8]]);
 })));
 function getInvoiceDetails(invoiceObj) {
   document.querySelector("[data-invoice-number]").innerText = invoiceObj.number;
@@ -214,50 +153,37 @@ function populateProductData(invoiceObj) {
 }
 // RENDER THE INVOICE WITH FUNCTIONS ABOVE
 function render(invoiceObj) {
-  console.log("esu render funkcijoje", invoiceObj);
   getInvoiceDetails(invoiceObj);
   getBuyerDetails(invoiceObj);
   getSellerDetails(invoiceObj);
   populateProductData(invoiceObj);
   populateTotalSection(invoiceObj);
 }
-console.log("xxx", invoiceObject);
-// render(invoiceObject);
-// getData();
 
 // SAVE THE RENDERED INVOICE
-document.querySelector("form button").addEventListener("click", /*#__PURE__*/function () {
-  var _ref2 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee2(e) {
-    var response;
-    return _regeneratorRuntime().wrap(function _callee2$(_context2) {
-      while (1) switch (_context2.prev = _context2.next) {
-        case 0:
-          e.preventDefault(); // Prevent default form submission
-          _context2.next = 3;
-          return fetch("/invoice", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(invoiceObject) // Send invoiceObject to the server
-          });
-        case 3:
-          response = _context2.sent;
-          if (response.ok) {
-            window.location.href = "/invoice"; // Redirect on success
-          } else {
-            console.error("Failed to save invoice");
-          }
-        case 5:
-        case "end":
-          return _context2.stop();
-      }
-    }, _callee2);
-  }));
-  return function (_x) {
-    return _ref2.apply(this, arguments);
-  };
-}());
+console.log(document.querySelector("[data-form-submit]"));
+var formSubmitBtn = document.querySelector("[data-form-submit]");
+formSubmitBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  console.log("esu event listenery", invoiceObject);
+  var response = fetch("/invoice", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(invoiceObject)
+  }).then(function (response) {
+    if (response.ok) {
+      window.location.href = "/invoice";
+    } else {
+      return response.text().then(function (errorText) {
+        console.error("Server Error:", errorText);
+      });
+    }
+  })["catch"](function (error) {
+    console.error("Fetch Error:", error);
+  });
+});
 
 /***/ }),
 
