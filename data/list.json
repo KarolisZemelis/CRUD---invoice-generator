@@ -1066,5 +1066,65 @@
     "shippingPrice": 61.97,
     "allProductTotalString": "trylika tūkstančių septyni šimtai septyniasdešimt devyni eurai ir 66 ct",
     "allProductTotal": 13779.66
+  },
+  "AB-08491924": {
+    "number": "AB-08491924",
+    "date": "2025-01-02",
+    "due_date": "2025-01-12",
+    "company": {
+      "buyer": {
+        "name": "IĮ \"Butkus ir Žukauskas\"",
+        "address": "Žalgirio g. 68-53, Alytus",
+        "code": "03607943",
+        "vat": "LT885492328",
+        "phone": "869821961",
+        "email": "mpetrauskas@yahoo.com"
+      },
+      "seller": {
+        "name": "MB \"Butkus\"",
+        "address": "Didžioji prospektas 40, Klaipėda LT-77615",
+        "code": "41769484",
+        "vat": "LT454334038",
+        "phone": "+37061471948",
+        "email": "deimante57@yahoo.com"
+      }
+    },
+    "items": [
+      {
+        "description": "Komoda ąžuolinė dažyta",
+        "quantity": 8,
+        "price": 690.95,
+        "discount": [],
+        "priceAfterDiscount": 690.95,
+        "productTotal": 5527.6
+      },
+      {
+        "description": "Kėdė virtuvinė mėlyna",
+        "quantity": 3,
+        "price": 15,
+        "discount": [],
+        "priceAfterDiscount": 15,
+        "productTotal": 45
+      },
+      {
+        "description": "Rašomasis stalas \"Studentas\"",
+        "quantity": 7,
+        "price": 180.95,
+        "discount": [],
+        "priceAfterDiscount": 180.95,
+        "productTotal": 1266.65
+      },
+      {
+        "description": "Sulakstoma kėdė \"Barbaras\"",
+        "quantity": 10,
+        "price": 60,
+        "discount": [],
+        "priceAfterDiscount": 60,
+        "productTotal": 600
+      }
+    ],
+    "shippingPrice": 46.97,
+    "allProductTotalString": "septyni tūkstančiai keturi šimtai trisdešimt devyni eurai ir 25 ct",
+    "allProductTotal": 7439.25
   }
 }

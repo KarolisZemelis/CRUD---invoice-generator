@@ -173,7 +173,7 @@ const renderPage = (data, page) => {
   const compiled = hbs.compile(layout);
   return compiled({ ...data, body: pageContent });
 };
-
+//WE TARGET EXTERNAL INVOICE API TO GET INVOICE WE THEN FORM IT TO AN OBJECT WITH createInvoiceObject FUNCTION AND RETURN IT WHEN THIS API IS TRIGGERED IN CLIENT SIDE JS CODE
 app.get("/api/invoice", (req, res) => {
   fetch(url) // Fetch invoice data from external API
     .then((apiResponse) => apiResponse.json())
@@ -203,15 +203,16 @@ app.post("/invoice", async (req, res) => {
     console.log("Request body received:", req.body); // Log received data
     // Read the file, or initialize an empty list if the file doesn't exist
     let list;
+
     try {
-      list = fs.readFileSync("./data/list.json", "utf8");
+      list = fs.readFileSync("./data/list.json", "utf8"); //SYNCRONOUS because the file is small and it doesnt stop the loop for long
       list = JSON.parse(list); // Parse the file content
     } catch (readError) {
       console.warn("list.json not found or invalid. Initializing new list.");
       list = {}; // Start with an empty array
     }
-    const invoiceNumber = req.body.number;
-    list[invoiceNumber] = req.body;
+
+    list[req.body.number] = req.body;
     try {
       fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
     } catch (writeError) {
