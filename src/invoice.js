@@ -69,21 +69,16 @@ function getSellerDetails(invoiceObj) {
 }
 
 function populateTotalSection(invoiceObj) {
-  const totalsNumb = parseFloat(invoiceObj.allProductTotal);
-  const shippingPrice = parseFloat(invoiceObj.shippingPrice.toFixed(2));
-  const vat = parseFloat(((totalsNumb + shippingPrice) * 0.21).toFixed(2));
-  const invoiceTotal = parseFloat(
-    (totalsNumb + shippingPrice + vat).toFixed(2)
-  );
-
-  document.querySelector("[data-item-total]").innerHTML = `${totalsNumb} €`;
+  document.querySelector(
+    "[data-item-total]"
+  ).innerHTML = `${invoiceObj.productTotal} €`;
   document.querySelector(
     "[data-transport-cost]"
-  ).innerHTML = `${shippingPrice} €`;
-  document.querySelector("[data-total-vat]").innerHTML = `${vat} €`;
+  ).innerHTML = `${invoiceObj.shippingPrice} €`;
+  document.querySelector("[data-total-vat]").innerHTML = `${invoiceObj.vat} €`;
   document.querySelector(
     "[data-invoice-total]"
-  ).innerHTML = `${invoiceTotal} €`;
+  ).innerHTML = `${invoiceObj.invoiceTotal} €`;
   document.querySelector(
     "[data-words-total]"
   ).innerHTML = `${invoiceObj.allProductTotalString} €`;

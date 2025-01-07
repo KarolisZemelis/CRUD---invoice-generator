@@ -101,14 +101,10 @@ function getSellerDetails(invoiceObj) {
   document.querySelector("[data-invoice-seller-email]").innerText = invoiceObj.company.seller.email;
 }
 function populateTotalSection(invoiceObj) {
-  var totalsNumb = parseFloat(invoiceObj.allProductTotal);
-  var shippingPrice = parseFloat(invoiceObj.shippingPrice.toFixed(2));
-  var vat = parseFloat(((totalsNumb + shippingPrice) * 0.21).toFixed(2));
-  var invoiceTotal = parseFloat((totalsNumb + shippingPrice + vat).toFixed(2));
-  document.querySelector("[data-item-total]").innerHTML = "".concat(totalsNumb, " \u20AC");
-  document.querySelector("[data-transport-cost]").innerHTML = "".concat(shippingPrice, " \u20AC");
-  document.querySelector("[data-total-vat]").innerHTML = "".concat(vat, " \u20AC");
-  document.querySelector("[data-invoice-total]").innerHTML = "".concat(invoiceTotal, " \u20AC");
+  document.querySelector("[data-item-total]").innerHTML = "".concat(invoiceObj.productTotal, " \u20AC");
+  document.querySelector("[data-transport-cost]").innerHTML = "".concat(invoiceObj.shippingPrice, " \u20AC");
+  document.querySelector("[data-total-vat]").innerHTML = "".concat(invoiceObj.vat, " \u20AC");
+  document.querySelector("[data-invoice-total]").innerHTML = "".concat(invoiceObj.invoiceTotal, " \u20AC");
   document.querySelector("[data-words-total]").innerHTML = "".concat(invoiceObj.allProductTotalString, " \u20AC");
   document.querySelector("[data-due-date]").innerHTML = invoiceObj.due_date;
 }

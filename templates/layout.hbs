@@ -6,8 +6,10 @@
           {{#if metaRedirect}}
     <meta http-equiv="refresh" content="2;url={{url}}admin">
     {{/if}}
-    <script src="{{script}}" defer></script>
-  <link rel="stylesheet" href="{{style}}">
+    {{#if script}}
+  <script src="{{script}}" defer></script>
+{{/if}}
+  <link rel="stylesheet" href="/{{style}}">
   <title>{{title}}</title>
 </head>
 <body>

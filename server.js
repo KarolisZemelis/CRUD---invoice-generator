@@ -136,37 +136,51 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   let discountAmount = 0;
   let allProductTotal = 0;
 
-  for (let i = 0; i < items.length; i++) {
+  items.forEach((item) => {
     let productTotal = 0;
-    for (const key in items[i]) {
+    let discountAmount = 0;
+
+    for (const key in item) {
       if (key === "discount") {
-        if (items[i][key].type === "fixed") {
+        if (item[key].type === "fixed") {
+          discountAmount = -Math.abs(parseFloat(item[key].value).toFixed(2));
+          item[key].discountAmount = discountAmount;
+        } else if (item[key].type === "percentage") {
           discountAmount = -Math.abs(
-            parseFloat(items[i][key].value).toFixed(2)
+            parseFloat(item.price * (item[key].value / 100)).toFixed(2)
           );
-          items[i][key].discountAmount = discountAmount;
-        } else if (items[i][key].type === "percentage") {
-          discountAmount = -Math.abs(
-            parseFloat(items[i].price * (items[i][key].value / 100)).toFixed(2)
-          );
-          items[i][key].discountAmount = discountAmount;
+          item[key].discountAmount = discountAmount;
         } else {
           discountAmount = 0;
         }
       }
-      const itemPrice = parseFloat(items[i].price).toFixed(2);
-      const itemQty = parseFloat(items[i].quantity).toFixed(2);
-      const priceAfterDiscount = parseFloat(
-        (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
-      );
-      invoiceObject.items[i].priceAfterDiscount = priceAfterDiscount;
-      productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
-      invoiceObject.items[i].productTotal = productTotal;
     }
+
+    const itemPrice = parseFloat(item.price).toFixed(2);
+    const itemQty = parseFloat(item.quantity).toFixed(2);
+    const priceAfterDiscount = parseFloat(
+      (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
+    );
+    item.priceAfterDiscount = priceAfterDiscount;
+
+    productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
+    item.productTotal = productTotal;
+
     allProductTotal += productTotal;
-  }
-  invoiceObject.allProductTotalString = numberToWordsLT(allProductTotal);
-  invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
+  });
+
+  const totalsNumb = parseFloat(allProductTotal);
+  const shippingPrice = parseFloat(invoiceObject.shippingPrice.toFixed(2));
+  const vat = parseFloat(((totalsNumb + shippingPrice) * 0.21).toFixed(2));
+  const invoiceTotal = parseFloat(
+    (totalsNumb + shippingPrice + vat).toFixed(2)
+  );
+
+  invoiceObject.invoiceTotal = invoiceTotal;
+  invoiceObject.vat = vat;
+  invoiceObject.allProductTotalString = numberToWordsLT(invoiceTotal);
+
+  invoiceObject.allProductTotal = allProductTotal;
 
   return invoiceObject;
 }
@@ -243,7 +257,6 @@ app.get("/invoiceList", (req, res) => {
   list = JSON.parse(list);
 
   const data = {
-    script: "invoiceList.js",
     style: "style.css",
     title: "PVM SF sąrašas",
     list,
