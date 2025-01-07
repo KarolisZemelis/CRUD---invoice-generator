@@ -12,26 +12,7 @@ app.use(express.static("public"));
 app.use(express.json());
 
 const url = "https://in3.dev/inv/";
-let invoiceObject;
 
-async function getData() {
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status : ${response.status}`);
-    }
-
-    const invoiceData = await response.json();
-    invoiceObject = {};
-
-    createInvoiceObject(invoiceData, invoiceObject);
-  } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
-    throw error;
-  }
-}
-getData().then(() => {});
 function numberToWordsLT(amount) {
   const ones = [
     "",
@@ -194,10 +175,20 @@ const renderPage = (data, page) => {
 };
 
 app.get("/api/invoice", (req, res) => {
-  res.json(invoiceObject); // Send the invoiceObject as JSON response
+  fetch(url) // Fetch invoice data from external API
+    .then((apiResponse) => apiResponse.json())
+    .then((invoiceData) => {
+      const invoiceObject = createInvoiceObject(invoiceData, {}); // Generate invoice object
+      res.json(invoiceObject); // Send invoice object as JSON
+    })
+    .catch((error) => {
+      console.error("Error fetching invoice from external API:", error);
+      res.status(500).send("Server Error");
+    });
 });
 
 app.get("/invoice", (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   const data = {
     script: "invoice.js",
     style: "style.css",
@@ -210,7 +201,6 @@ app.get("/invoice", (req, res) => {
 app.post("/invoice", async (req, res) => {
   try {
     console.log("Request body received:", req.body); // Log received data
-
     // Read the file, or initialize an empty list if the file doesn't exist
     let list;
     try {
@@ -218,17 +208,18 @@ app.post("/invoice", async (req, res) => {
       list = JSON.parse(list); // Parse the file content
     } catch (readError) {
       console.warn("list.json not found or invalid. Initializing new list.");
-      list = []; // Start with an empty array
+      list = {}; // Start with an empty array
     }
-
-    const invoiceObjectToSave = req.body; // Extract the incoming invoice object
-    list.push(invoiceObjectToSave); // Add the new invoice to the list
-
-    // Write back the updated list to the file
-    fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
-
+    const invoiceNumber = req.body.number;
+    list[invoiceNumber] = req.body;
+    try {
+      fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
+    } catch (writeError) {
+      console.error("Failed to write to list.json:", writeError);
+      throw writeError; // Re-throw the error
+    }
     console.log("Updated list saved:", list); // Log the updated list
-    res.status(200).send("Invoice saved successfully");
+    res.status(200).redirect("/invoice");
   } catch (error) {
     console.error("Error saving invoice:", error);
     res.status(500).send("Server Error");

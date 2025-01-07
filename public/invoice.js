@@ -12,8 +12,6 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var url = "http://localhost:3000/api/invoice";
-
-// FORM THE INVOICE WITH FUNCTIONS BELOW
 var invoiceObject; // Declare it globally
 // GET INVOICE OBJECT FROM SERVER
 function fetchInvoiceObject() {
@@ -65,15 +63,17 @@ document.addEventListener("DOMContentLoaded", /*#__PURE__*/_asyncToGenerator(/*#
         return fetchInvoiceObject();
       case 3:
         invoiceObject = _context.sent;
-        // Fetch invoiceObject
-        console.log("Global Invoice Object:", invoiceObject);
-        render(invoiceObject);
+        // Log the fetched data to confirm it's the latest
+        console.log("Fetched invoice:", invoiceObject);
+        if (invoiceObject) {
+          render(invoiceObject); // Render the invoice
+        }
         _context.next = 11;
         break;
       case 8:
         _context.prev = 8;
         _context.t0 = _context["catch"](0);
-        console.error("Error handling invoice:", _context.t0);
+        console.error("Error fetching invoice data:", _context.t0);
       case 11:
       case "end":
         return _context.stop();
@@ -161,12 +161,10 @@ function render(invoiceObj) {
 }
 
 // SAVE THE RENDERED INVOICE
-console.log(document.querySelector("[data-form-submit]"));
 var formSubmitBtn = document.querySelector("[data-form-submit]");
 formSubmitBtn.addEventListener("click", function (e) {
   e.preventDefault();
-  console.log("esu event listenery", invoiceObject);
-  var response = fetch("/invoice", {
+  fetch("/invoice", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -175,6 +173,7 @@ formSubmitBtn.addEventListener("click", function (e) {
   }).then(function (response) {
     if (response.ok) {
       window.location.href = "/invoice";
+      window.location.reload();
     } else {
       return response.text().then(function (errorText) {
         console.error("Server Error:", errorText);

@@ -1,6 +1,5 @@
 const url = "http://localhost:3000/api/invoice";
 
-// FORM THE INVOICE WITH FUNCTIONS BELOW
 let invoiceObject; // Declare it globally
 // GET INVOICE OBJECT FROM SERVER
 async function fetchInvoiceObject() {
@@ -20,12 +19,17 @@ async function fetchInvoiceObject() {
 // WAIT FOR INVOICE OBJECT TO LOAD
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    invoiceObject = await fetchInvoiceObject(); // Fetch invoiceObject
-    console.log("Global Invoice Object:", invoiceObject);
+    // Fetch the latest invoice data after the page reload
+    invoiceObject = await fetchInvoiceObject();
 
-    render(invoiceObject);
+    // Log the fetched data to confirm it's the latest
+    console.log("Fetched invoice:", invoiceObject);
+
+    if (invoiceObject) {
+      render(invoiceObject); // Render the invoice
+    }
   } catch (error) {
-    console.error("Error handling invoice:", error);
+    console.error("Error fetching invoice data:", error);
   }
 });
 
@@ -138,13 +142,11 @@ function render(invoiceObj) {
 }
 
 // SAVE THE RENDERED INVOICE
-console.log(document.querySelector("[data-form-submit]"));
 const formSubmitBtn = document.querySelector("[data-form-submit]");
 
 formSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  console.log("esu event listenery", invoiceObject);
-  const response = fetch("/invoice", {
+  fetch("/invoice", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -154,6 +156,7 @@ formSubmitBtn.addEventListener("click", (e) => {
     .then((response) => {
       if (response.ok) {
         window.location.href = "/invoice";
+        window.location.reload();
       } else {
         return response.text().then((errorText) => {
           console.error("Server Error:", errorText);
