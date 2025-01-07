@@ -1126,5 +1126,97 @@
     "shippingPrice": 46.97,
     "allProductTotalString": "septyni tūkstančiai keturi šimtai trisdešimt devyni eurai ir 25 ct",
     "allProductTotal": 7439.25
+  },
+  "AB-87179725": {
+    "number": "AB-87179725",
+    "date": "2025-01-06",
+    "due_date": "2025-01-14",
+    "company": {
+      "buyer": {
+        "name": "VŠĮ \"Žukauskas ir Kavaliauskas\"",
+        "address": "Didžioji prospektas 12-18, Ukmergė",
+        "code": "07140309",
+        "vat": "LT592287345",
+        "phone": "+370 691 84 870",
+        "email": "celestina04@salvijus.lt"
+      },
+      "seller": {
+        "name": "MB \"Stankevičius ir Vasiliauskas\"",
+        "address": "Didžioji g. 61-75, Mažeikiai",
+        "code": "04345059",
+        "vat": "LT974786316",
+        "phone": "(8 46) 08 56 44",
+        "email": "sakalauskas.liucijonas@gmail.com"
+      }
+    },
+    "items": [
+      {
+        "description": "Kavos staliukas \"Kakava\"",
+        "quantity": 6,
+        "price": 120,
+        "discount": {
+          "type": "percentage",
+          "value": 44,
+          "discountAmount": -52.8
+        },
+        "priceAfterDiscount": 67.2,
+        "productTotal": 403.2
+      },
+      {
+        "description": "Rašomasis stalas \"Profesorius\"",
+        "quantity": 1,
+        "price": 900,
+        "discount": [],
+        "priceAfterDiscount": 900,
+        "productTotal": 900
+      },
+      {
+        "description": "Veidrodžių komplektas \"7 nykštukai\" su pašvietimu ir reguliuojamom spalvom",
+        "quantity": 2,
+        "price": 210,
+        "discount": [],
+        "priceAfterDiscount": 210,
+        "productTotal": 420
+      },
+      {
+        "description": "Spinta \"Afrika\" su stiklo durimis",
+        "quantity": 3,
+        "price": 390,
+        "discount": [],
+        "priceAfterDiscount": 390,
+        "productTotal": 1170
+      },
+      {
+        "description": "TV staliukas \"Telebimbam\" juodai baltas",
+        "quantity": 3,
+        "price": 180.5,
+        "discount": {
+          "type": "fixed",
+          "value": 35,
+          "discountAmount": -35
+        },
+        "priceAfterDiscount": 145.5,
+        "productTotal": 436.5
+      },
+      {
+        "description": "Kėdė virtuvinė geltona",
+        "quantity": 8,
+        "price": 15,
+        "discount": [],
+        "priceAfterDiscount": 15,
+        "productTotal": 120
+      },
+      {
+        "description": "Paveikslo rėmas 100X150",
+        "quantity": 3,
+        "price": 135,
+        "discount": [],
+        "priceAfterDiscount": 135,
+        "productTotal": 405
+      }
+    ],
+    "shippingPrice": 8.95,
+    "allProductTotalString": "trys tūkstančiai aštuoni šimtai penkiasdešimt keturi eurai ir 70 ct",
+    "allProductTotal": 3854.7
   }
 }

@@ -28,11 +28,24 @@ main p {
 header {
   width: 100%;
   margin-bottom: 5px;
+  font-family: "Arial", sans-serif;
+  line-height: 1.6;
+  color: #333;
 }
 
 ul {
   display: flex;
-  justify-content: space-between;
+}
+ul button {
+  background-color: transparent; /* Remove default background */
+  color: inherit; /* Inherit text color */
+  border: none; /* Remove border */
+  cursor: pointer; /* Make the button behave like a link */
+  text-decoration: none; /* Remove underline */
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
 }
 ul li {
   width: 50%;
@@ -45,7 +58,17 @@ ul li {
   border: 1px solid black;
 }
 ul li a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 16px;
   text-decoration: none;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
 }
 ul li:nth-child(1) {
   border-right: none;
@@ -62,7 +85,6 @@ body {
   border-bottom: 1px solid #ddd;
   padding-bottom: 50px;
   margin-bottom: 20px;
-  /* A4 page size styles */
   width: 210mm;
   min-height: 297mm;
   padding: 10mm;
