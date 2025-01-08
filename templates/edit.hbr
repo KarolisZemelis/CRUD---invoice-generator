@@ -79,28 +79,36 @@
       </thead>
       <tbody>
         {{#each item.items}}
-          <tr>
+          <tr data-table-items>
             <td>{{itemNumber}}</td>
             <td>{{description}}</td>
-            <td><input type="number" value="{{quantity}}" /></td>
-            <td>{{price}}</td>
+            <td data-input-qty><input type="number" value="{{quantity}}" /></td>
+            <td data-table-item-price>{{price}}</td>
             <td>
               {{#if discount}}
-                {{items}}
                 {{#if discount.percentage}}
-                  {{#if discount.percentage}}
-                    <span>% :</span>
-                    <input type="number" value="{{discount.value}}" />
-                  {{/if}}
-                  <input type="number" value="{{discount.discountAmount}}" />
+
+                  <span data-input-percentage>% :</span>
+                  <input
+                    type="number"
+                    value="{{discount.value}}"
+                    data-input-percentage-value
+                  />
+
+                  <span>{{discount.discountAmount}}</span>
+
                 {{/if}}
                 {{#if discount.fixed}}
-                  <input type="number" value="{{discount.discountAmount}}" />
+                  <input
+                    type="number"
+                    value="{{discount.discountAmount}}"
+                    data-input-fixed-value
+                  />
                 {{/if}}
               {{/if}}
             </td>
             <td>{{priceAfterDiscount}}</td>
-            <td>{{productTotal}}</td>
+            <td data-table-rowTotal>{{productTotal}}</td>
           </tr>
         {{/each}}
       </tbody>

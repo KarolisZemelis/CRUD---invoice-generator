@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          {{#if metaRedirect}}
-    <meta http-equiv="refresh" content="2;url={{url}}admin">
+    {{#if metaRedirect}}
+      <meta http-equiv="refresh" content="2;url={{url}}admin">
     {{/if}}
     {{#if script}}
-  <script src="{{script}}" defer></script>
-{{/if}}
+      <script src="/{{script}}" defer></script>
+    {{/if}}
   <link rel="stylesheet" href="/{{style}}">
   <title>{{title}}</title>
 </head>

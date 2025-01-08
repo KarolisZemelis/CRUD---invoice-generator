@@ -290,6 +290,7 @@ app.get("/invoiceList/edit/:id", (req, res) => {
   const data = {
     pageTitle: "Redaguoti įrašą",
     style: "style.css",
+    script: "invoiceList.js",
     item,
   };
   console.log(item);
