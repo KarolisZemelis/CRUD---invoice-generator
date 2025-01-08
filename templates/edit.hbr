@@ -107,7 +107,7 @@
                 {{/if}}
               {{/if}}
             </td>
-            <td>{{priceAfterDiscount}}</td>
+            <td data-table-priceAfterDiscount>{{priceAfterDiscount}}</td>
             <td data-table-rowTotal>{{productTotal}}</td>
           </tr>
         {{/each}}
