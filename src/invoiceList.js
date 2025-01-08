@@ -1,12 +1,20 @@
 tableRow = document.querySelectorAll("[data-table-items]");
 itemTotal = 0;
-function calculateTotals(itemTotal) {}
+function calculateRowTotals(rows) {
+  itemTotal = 0;
+  rows.forEach((row) => {
+    itemTotal += parseFloat(
+      row.querySelector("[data-table-rowTotal]").innerText
+    );
+  });
+  console.log(itemTotal);
+  return itemTotal;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   let rowSum = 0;
   tableRow.forEach((row) => {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
-    console.log(rowSum);
     row.addEventListener("input", () => {
       let qtyInput = parseFloat(
         row.querySelector("[data-input-qty] input").value
@@ -31,18 +39,16 @@ document.addEventListener("DOMContentLoaded", () => {
         priceAfterDiscount = parseFloat((price - discountFixed).toFixed(2));
         priceAfterDiscountDOM.innerText = priceAfterDiscount;
       }
-
-      rowSum = 0;
-
       priceAfterDiscount > 0
         ? (rowSum = parseFloat(qtyInput * priceAfterDiscount).toFixed(2))
         : (rowSum = parseFloat(qtyInput * price).toFixed(2));
 
       row.querySelector("[data-table-rowTotal]").innerText = rowSum;
-      console.log(itemTotal);
+
+      calculateRowTotals(tableRow, rowSum);
     });
-    itemTotal += parseFloat(rowSum);
+    // itemTotal += parseFloat(rowSum);
   });
 
-  console.log(itemTotal);
+  // console.log(itemTotal);
 });

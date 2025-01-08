@@ -4,12 +4,18 @@
   \****************************/
 tableRow = document.querySelectorAll("[data-table-items]");
 itemTotal = 0;
-function calculateTotals(itemTotal) {}
+function calculateRowTotals(rows) {
+  itemTotal = 0;
+  rows.forEach(function (row) {
+    itemTotal += parseFloat(row.querySelector("[data-table-rowTotal]").innerText);
+  });
+  console.log(itemTotal);
+  return itemTotal;
+}
 document.addEventListener("DOMContentLoaded", function () {
   var rowSum = 0;
   tableRow.forEach(function (row) {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
-    console.log(rowSum);
     row.addEventListener("input", function () {
       var qtyInput = parseFloat(row.querySelector("[data-input-qty] input").value);
       var price = parseFloat(row.querySelector("[data-table-item-price]").innerText);
@@ -26,14 +32,14 @@ document.addEventListener("DOMContentLoaded", function () {
         priceAfterDiscount = parseFloat((price - discountFixed).toFixed(2));
         priceAfterDiscountDOM.innerText = priceAfterDiscount;
       }
-      rowSum = 0;
       priceAfterDiscount > 0 ? rowSum = parseFloat(qtyInput * priceAfterDiscount).toFixed(2) : rowSum = parseFloat(qtyInput * price).toFixed(2);
       row.querySelector("[data-table-rowTotal]").innerText = rowSum;
-      console.log(itemTotal);
+      calculateRowTotals(tableRow, rowSum);
     });
-    itemTotal += parseFloat(rowSum);
+    // itemTotal += parseFloat(rowSum);
   });
-  console.log(itemTotal);
+
+  // console.log(itemTotal);
 });
 /******/ })()
 ;
