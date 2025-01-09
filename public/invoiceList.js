@@ -91,7 +91,11 @@ document.addEventListener("DOMContentLoaded", function () {
   tableRows.forEach(function (row) {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
     row.addEventListener("input", function () {
-      var qtyInput = parseFloat(row.querySelector("[data-input-qty] input").value || 0);
+      var qtyInputElement = row.querySelector("[data-input-qty] input");
+      var qtyInput = parseFloat(qtyInputElement.value) || 0;
+      // let qtyInput = parseFloat(
+      //   row.querySelector("[data-input-qty] input").value || 0
+      // );
       var price = parseFloat(row.querySelector("[data-table-item-price]").innerText);
       var discountPercentage = row.querySelector("[data-input-percentage-value]");
       var discountFixed = row.querySelector("[data-input-fixed-value]");
@@ -109,6 +113,12 @@ document.addEventListener("DOMContentLoaded", function () {
       priceAfterDiscount > 0 ? rowSum = parseFloat(qtyInput * priceAfterDiscount).toFixed(2) : rowSum = parseFloat(qtyInput * price).toFixed(2);
       row.querySelector("[data-table-rowTotal]").innerText = rowSum;
       calculateRowTotals(tableRows, rowSum);
+      qtyInputElement.addEventListener("blur", function () {
+        // If the input is empty, set its value to 0
+        if (qtyInputElement.value === "") {
+          qtyInputElement.value = 0;
+        }
+      });
     });
     deleteRow(tableRows);
   });

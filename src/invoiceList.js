@@ -158,9 +158,11 @@ document.addEventListener("DOMContentLoaded", () => {
   tableRows.forEach((row) => {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
     row.addEventListener("input", () => {
-      let qtyInput = parseFloat(
-        row.querySelector("[data-input-qty] input").value || 0
-      );
+      let qtyInputElement = row.querySelector("[data-input-qty] input");
+      let qtyInput = parseFloat(qtyInputElement.value) || 0;
+      // let qtyInput = parseFloat(
+      //   row.querySelector("[data-input-qty] input").value || 0
+      // );
       const price = parseFloat(
         row.querySelector("[data-table-item-price]").innerText
       );
@@ -190,6 +192,12 @@ document.addEventListener("DOMContentLoaded", () => {
       row.querySelector("[data-table-rowTotal]").innerText = rowSum;
 
       calculateRowTotals(tableRows, rowSum);
+      qtyInputElement.addEventListener("blur", function () {
+        // If the input is empty, set its value to 0
+        if (qtyInputElement.value === "") {
+          qtyInputElement.value = 0;
+        }
+      });
     });
     deleteRow(tableRows);
   });

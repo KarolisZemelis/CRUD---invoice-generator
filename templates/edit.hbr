@@ -63,7 +63,11 @@
           >{{item.company.buyer.email}}</span></p></div>
     </div>
   </div>
-  <form action="/invoice" method="POST" data-button-container>
+  <form
+    action="/invoiceList/edit/{{item.number}}"
+    method="POST"
+    data-button-container
+  >
     <ul class="invoiceMenu">
       <li><button type="submit" data-form-submit>Išsaugoti</button></li>
 
@@ -88,18 +92,29 @@
             <tr data-table-items>
               <td>{{itemNumber}}</td>
               <td>{{description}}</td>
-              <td data-input-qty><input
+              <td data-input-qty>
+                <label for="qty-{{itemNumber}}"></label>
+                <input
+                  id="qty-{{itemNumber}}"
+                  name="quantity_for_item_nr_{{itemNumber}}"
                   type="number"
+                  min="0"
+                  step="1"
                   value="{{quantity}}"
                 /></td>
               <td data-table-item-price>{{price}}</td>
               <td>
                 {{#if discount}}
                   {{#if discount.percentage}}
-
-                    <span data-input-percentage>% :</span>
+                    <label
+                      for="discount-percentage-{{itemNumber}}"
+                      data-input-percentage
+                    >% :</label>
                     <input
                       type="number"
+                      id="discount-percentage-{{itemNumber}}"
+                      name="discount_percentage_{{itemNumber}}"
+                      min="0"
                       value="{{discount.value}}"
                       data-input-percentage-value
                     />
@@ -108,8 +123,11 @@
 
                   {{/if}}
                   {{#if discount.fixed}}
+                    <label for="discount-fixed-{{itemNumber}}"></label>
                     <input
                       type="number"
+                      id="discount-fixed-{{itemNumber}}"
+                      name="discount_fixed_{{itemNumber}}"
                       value="{{discount.discountAmount}}"
                       data-input-fixed-value
                     />
@@ -122,6 +140,7 @@
             </tr>
           {{/each}}
         </tbody>
+
       </table>
       <div data-totals-container>
         <div data-total-numbers-container>

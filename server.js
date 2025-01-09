@@ -1,7 +1,11 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
 const fs = require("fs");
 const hbs = require("handlebars");
+
+const URL = "http://localhost:3000/";
+//reload data after page reload
 app.use((req, res, next) => {
   // Dynamically reload the partials on each request
   hbs.registerPartial("top", fs.readFileSync("./templates/top.hbr", "utf8"));
@@ -14,6 +18,7 @@ app.use((req, res, next) => {
 
 app.use(express.static("public"));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const url = "https://in3.dev/inv/";
 
@@ -204,6 +209,7 @@ const renderPage = (data, page) => {
   return compiledLayout({ ...data, body: renderedPageContent });
 };
 //WE TARGET EXTERNAL INVOICE API TO GET INVOICE WE THEN FORM IT TO AN OBJECT WITH createInvoiceObject FUNCTION AND RETURN IT WHEN THIS API IS TRIGGERED IN CLIENT SIDE JS CODE
+
 app.get("/api/invoice", (req, res) => {
   fetch(url) // Fetch invoice data from external API
     .then((apiResponse) => apiResponse.json())
@@ -216,9 +222,8 @@ app.get("/api/invoice", (req, res) => {
       res.status(500).send("Server Error");
     });
 });
-
+//CREATE
 app.get("/invoice", (req, res) => {
-  // res.setHeader("Cache-Control", "no-store");
   const data = {
     script: "invoice.js",
     style: "style.css",
@@ -227,10 +232,10 @@ app.get("/invoice", (req, res) => {
   const html = renderPage(data, "invoice");
   res.send(html);
 });
-
+//STORE
 app.post("/invoice", async (req, res) => {
   try {
-    console.log("Request body received:", req.body); // Log received data
+    //console.log("Request body received:", req.body); // Log received data
     // Read the file, or initialize an empty list if the file doesn't exist
     let list;
 
@@ -293,11 +298,26 @@ app.get("/invoiceList/edit/:id", (req, res) => {
     script: "invoiceList.js",
     item,
   };
-  console.log(item);
+
   const html = renderPage(data, "edit");
   res.send(html);
 });
+//UPDATE
+app.post("/invoiceList/edit/:id", (req, res) => {
+  const invoiceId = req.params.id;
+  const formData = req.body;
 
+  console.log(invoiceId);
+  console.log(formData);
+  console.log(invoiceId);
+  // console.log(formData);
+  // console.log("JSON Data:", req.body);
+  let list = fs.readFileSync("./data/list.json", "utf8");
+  list = JSON.parse(list);
+  res.redirect(URL + "invoiceList");
+
+  //gaunam siokius duomenis juos jau galima manipuliuoti, tačiau reikia pagalvoti apie eilutės trinimą, šie duomenys gal ir pakankami, kad atrastume kuri eilutė ištrinta bet ne 100% esu įsitikinęs
+});
 const port = 3000;
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
