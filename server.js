@@ -217,6 +217,8 @@ function formChangeObject(formData) {
   return result;
 }
 
+function reformList() {}
+
 const renderPage = (data, page) => {
   const pageContent = fs.readFileSync(`./templates/${page}.hbr`, "utf8");
   const layout = fs.readFileSync("./templates/layout.hbs", "utf8");
@@ -333,8 +335,18 @@ app.post("/invoiceList/edit/:id", (req, res) => {
   list = JSON.parse(list);
 
   res.redirect(URL + "invoiceList");
+  const invoiceToChange = list[invoiceId];
   const reformObjectData = formChangeObject(formData);
-  console.log(reformObjectData);
+  let newItems = [];
+  let oldItems = [];
+  for (const key in reformObjectData) {
+    newItems.push(Number(key));
+  }
+  for (const key in invoiceToChange.items) {
+    let oldKey = invoiceToChange.items[key].itemNumber;
+    oldItems.push(oldKey);
+  }
+  const finalItems = newItems.filter((number) => oldItems.includes(number));
 });
 const port = 3000;
 app.listen(port, () => {
