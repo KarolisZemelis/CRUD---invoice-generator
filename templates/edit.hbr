@@ -96,7 +96,7 @@
                 <label for="qty-{{itemNumber}}"></label>
                 <input
                   id="qty-{{itemNumber}}"
-                  name="quantity_for_item_nr_{{itemNumber}}"
+                  name="itemNumber_{{itemNumber}} quantity"
                   type="number"
                   min="0"
                   step="1"
@@ -106,14 +106,11 @@
               <td>
                 {{#if discount}}
                   {{#if discount.percentage}}
-                    <label
-                      for="discount-percentage-{{itemNumber}}"
-                      data-input-percentage
-                    >% :</label>
+                    <label for="discount-percentage" data-input-percentage>% :</label>
                     <input
                       type="number"
-                      id="discount-percentage-{{itemNumber}}"
-                      name="discount_percentage_{{itemNumber}}"
+                      id="discount-percentage"
+                      name="itemNumber_{{itemNumber}} discount_percentage"
                       min="0"
                       value="{{discount.value}}"
                       data-input-percentage-value
@@ -123,11 +120,11 @@
 
                   {{/if}}
                   {{#if discount.fixed}}
-                    <label for="discount-fixed-{{itemNumber}}"></label>
+                    <label for="discount-fixed"></label>
                     <input
                       type="number"
-                      id="discount-fixed-{{itemNumber}}"
-                      name="discount_fixed_{{itemNumber}}"
+                      id="discount-fixed"
+                      name="itemNumber_{{itemNumber}} discount_fixed"
                       value="{{discount.discountAmount}}"
                       data-input-fixed-value
                     />

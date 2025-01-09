@@ -195,6 +195,28 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   return invoiceObject;
 }
 
+function formChangeObject(formData) {
+  const reformObject = (formData) => {
+    const output = {};
+
+    for (const key in formData) {
+      const [itemKey, dataKey] = key.split(" ");
+      const [, itemNumber] = itemKey.split("_"); // Extract number after "itemNumber_"
+
+      if (!output[itemNumber]) {
+        output[itemNumber] = { itemNumber };
+      }
+
+      output[itemNumber][dataKey] = formData[key];
+    }
+
+    return output;
+  };
+
+  const result = reformObject(formData);
+  return result;
+}
+
 const renderPage = (data, page) => {
   const pageContent = fs.readFileSync(`./templates/${page}.hbr`, "utf8");
   const layout = fs.readFileSync("./templates/layout.hbs", "utf8");
@@ -307,16 +329,12 @@ app.post("/invoiceList/edit/:id", (req, res) => {
   const invoiceId = req.params.id;
   const formData = req.body;
 
-  console.log(invoiceId);
-  console.log(formData);
-  console.log(invoiceId);
-  // console.log(formData);
-  // console.log("JSON Data:", req.body);
   let list = fs.readFileSync("./data/list.json", "utf8");
   list = JSON.parse(list);
-  res.redirect(URL + "invoiceList");
 
-  //gaunam siokius duomenis juos jau galima manipuliuoti, tačiau reikia pagalvoti apie eilutės trinimą, šie duomenys gal ir pakankami, kad atrastume kuri eilutė ištrinta bet ne 100% esu įsitikinęs
+  res.redirect(URL + "invoiceList");
+  const reformObjectData = formChangeObject(formData);
+  console.log(reformObjectData);
 });
 const port = 3000;
 app.listen(port, () => {
