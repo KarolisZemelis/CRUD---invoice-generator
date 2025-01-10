@@ -141,6 +141,33 @@ function calculateRowTotals(rows) {
   recalculateTotalsSection(itemTotal);
 }
 
+function listenForDicountSelect() {
+  document.querySelectorAll(".discount-type-selector").forEach((selector) => {
+    selector.addEventListener("change", function () {
+      const parent = this.closest("div"); // Get the parent <div>
+      console.log("isauna pasikeitimas");
+      const fixedInput = parent.querySelector("[data-input-fixed-value]");
+
+      const percentageInput = parent.querySelector(
+        "[data-input-percentage-value]"
+      );
+      console.log(percentageInput);
+      // Show/Hide based on selection
+      if (this.value === "fixed") {
+        fixedInput.style.display = "block";
+        fixedInput.disabled = false;
+        percentageInput.style.display = "none";
+        percentageInput.disabled = true;
+      } else if (this.value === "percentage") {
+        fixedInput.style.display = "none";
+        fixedInput.disabled = true;
+        percentageInput.style.display = "block";
+        percentageInput.disabled = false;
+      }
+    });
+  });
+}
+
 function deleteRow(rows) {
   rows.forEach((row) => {
     const deleteRowBtn = row.querySelector("[data-table-deleteRow]");
@@ -160,9 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     row.addEventListener("input", () => {
       let qtyInputElement = row.querySelector("[data-input-qty] input");
       let qtyInput = parseFloat(qtyInputElement.value) || 0;
-      // let qtyInput = parseFloat(
-      //   row.querySelector("[data-input-qty] input").value || 0
-      // );
+
       const price = parseFloat(
         row.querySelector("[data-table-item-price]").innerText
       );
@@ -200,5 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
     deleteRow(tableRows);
+    listenForDicountSelect();
   });
 });

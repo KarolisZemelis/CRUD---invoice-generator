@@ -103,7 +103,7 @@
                   value="{{quantity}}"
                 /></td>
               <td data-table-item-price>{{price}}</td>
-              <td>
+              <!--<td>
                 {{#if discount}}
                   {{#if discount.percentage}}
                     <label for="discount-percentage" data-input-percentage>% :</label>
@@ -129,7 +129,129 @@
                       data-input-fixed-value
                     />
                   {{/if}}
+                {{else}}
+                  <label for=""></label>
+                  <input type="number" name="newDiscount" value="0" />
                 {{/if}}
+
+                <select class="discount-type-selector">
+                  <option value="percentage">Procentinė nuolaida</option>
+                  <option value="fixed">Fiksuota nuolaida</option>
+                </select>
+
+              </td> -->
+              <td>
+                {{#if discount}}
+                  {{#if discount.percentage}}
+                    <div class="percentage-discount">
+                      <select class="discount-type-selector">
+                        <option value="percentage" selected>Procentinė nuolaida</option>
+                        <option value="fixed">Fiksuota nuolaida</option>
+                      </select>
+                      <div
+                        style="display: block; background-color: red;"
+                        data-input-percentage-value
+                      >
+                        <label for="discount-percentage">% :</label>
+                        <input
+                          type="number"
+                          id="discount-percentage"
+                          name="itemNumber_{{itemNumber}} discount_percentage"
+                          min="0"
+                          max="100"
+                          value="{{discount.value}}"
+                        />
+                      </div>
+                      <div
+                        style="display: none; background-color: blue;"
+                        data-input-fixed-value
+                      >
+                        <label for="discount-fixed"></label>
+                        <input
+                          type="number"
+                          id="discount-fixed"
+                          name="itemNumber_{{itemNumber}} discount_fixed"
+                          min="0"
+                          value="{{discount.discountAmount}}"
+                          disabled="true"
+                        />
+                      </div>
+                    </div>
+                  {{/if}}
+
+                  {{#if discount.fixed}}
+                    <div class="fixed-discount">
+                      <select class="discount-type-selector">
+                        <option value="fixed" selected>Fiksuota nuolaida</option>
+                        <option value="percentage">Procentinė nuolaida</option>
+                      </select>
+                      <div
+                        style="display: none; background-color: red"
+                        data-input-percentage-value
+                      >
+                        <label for="discount-percentage">% :</label>
+                        <input
+                          type="number"
+                          id="discount-percentage"
+                          name="itemNumber_{{itemNumber}} discount_percentage"
+                          min="0"
+                          max="100"
+                          value="{{discount.discountPercentage}}"
+                          disabled="true"
+                        />
+                      </div>
+                      <div
+                        style="display: block; background-color: blue"
+                        data-input-fixed-value
+                      >
+                        <label for="discount-fixed"></label>
+                        <input
+                          type="number"
+                          id="discount-fixed"
+                          name="itemNumber_{{itemNumber}} discount_fixed"
+                          value="{{discount.discountAmount}}"
+                        />
+                      </div>
+                    </div>
+                  {{/if}}
+                {{else}}
+                  <div>
+                    <select class="discount-type-selector">
+                      <option value="fixed" selected>Fiksuota nuolaida</option>
+                      <option value="percentage">Procentinė nuolaida</option>
+                    </select>
+                    <div
+                      style="display: none; background-color: red"
+                      data-input-percentage-value
+                    >
+                      <label for="discount-percentage">% :</label>
+                      <input
+                        type="number"
+                        id="discount-percentage"
+                        name="itemNumber_{{itemNumber}} discount_percentage"
+                        min="0"
+                        max="100"
+                        value="0"
+                        disabled="true"
+                      />
+                    </div>
+                    <div
+                      style="display: block; background-color: blue"
+                      data-input-fixed-value
+                    >
+                      <label for="discount-fixed"></label>
+                      <input
+                        type="number"
+                        id="discount-fixed"
+                        name="itemNumber_{{itemNumber}} discount_fixed"
+                        min="0"
+                        value="0"
+                      />
+                    </div>
+                  </div>
+
+                {{/if}}
+
               </td>
               <td data-table-priceAfterDiscount>{{priceAfterDiscount}}</td>
               <td data-table-rowTotal>{{productTotal}}</td>

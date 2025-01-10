@@ -146,13 +146,17 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   items.forEach((item) => {
     let productTotal = 0;
     let discountAmount = 0;
-
+    const itemPrice = parseFloat(item.price).toFixed(2);
+    const itemQty = parseFloat(item.quantity).toFixed(2);
     for (const key in item) {
       if (key === "discount") {
         if (item.discount.type === "fixed") {
           discountAmount = -Math.abs(parseFloat(item[key].value).toFixed(2));
           item.discount.fixed = true;
           item.discount.discountAmount = discountAmount;
+          item.discount.discountPercentage = parseFloat(
+            ((discountAmount * 100) / itemPrice).toFixed(2)
+          );
         } else if (item.discount.type === "percentage") {
           discountAmount = -Math.abs(
             parseFloat(item.price * (item[key].value / 100)).toFixed(2)
@@ -165,8 +169,6 @@ function createInvoiceObject(invoiceData, invoiceObject) {
       }
     }
 
-    const itemPrice = parseFloat(item.price).toFixed(2);
-    const itemQty = parseFloat(item.quantity).toFixed(2);
     const priceAfterDiscount = parseFloat(
       (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
     );
@@ -336,10 +338,10 @@ app.post("/invoiceList/edit/:id", (req, res) => {
 
   res.redirect(URL + "invoiceList");
   const invoiceToChange = list[invoiceId];
-  const reformObjectData = formChangeObject(formData);
+  const reformedObjectData = formChangeObject(formData);
   let newItems = [];
   let oldItems = [];
-  for (const key in reformObjectData) {
+  for (const key in reformedObjectData) {
     newItems.push(Number(key));
   }
   for (const key in invoiceToChange.items) {
@@ -347,6 +349,35 @@ app.post("/invoiceList/edit/:id", (req, res) => {
     oldItems.push(oldKey);
   }
   const finalItems = newItems.filter((number) => oldItems.includes(number));
+  // console.log(reformedObjectData);
+  const itemsToAddToInvoice = { items: [] };
+  finalItems.forEach((itemNr) => {
+    const selectedItem = invoiceToChange.items.find(
+      (item) => item.itemNumber === itemNr
+    );
+    selectedItem.quantity = Number(reformedObjectData[itemNr].quantity);
+
+    if (reformedObjectData[itemNr].hasOwnProperty("discount_fixed")) {
+      selectedItem.discount.value = Math.abs(
+        Number(reformedObjectData[itemNr].discount_fixed)
+      );
+      selectedItem.discount.discountAmount = Number(
+        reformedObjectData[itemNr].discount_fixed
+      );
+    } else if (
+      reformedObjectData[itemNr].hasOwnProperty("discount_percentage")
+    ) {
+      selectedItem.discount.value = Math.abs(
+        Number(reformedObjectData[itemNr].discount_percentage)
+      );
+      selectedItem.discount.discountAmount = Number(
+        reformedObjectData[itemNr].discount_percentage
+      );
+    }
+    console.log("mes veikiam cia ar ne?");
+    itemsToAddToInvoice.items.push(selectedItem);
+  });
+  console.log(itemsToAddToInvoice.items[3].discount);
 });
 const port = 3000;
 app.listen(port, () => {
