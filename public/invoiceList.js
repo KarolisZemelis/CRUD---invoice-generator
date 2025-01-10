@@ -76,21 +76,27 @@ function calculateRowTotals(rows) {
   });
   recalculateTotalsSection(itemTotal);
 }
-function listenForDicountSelect() {
+function listenForDiscountSelect() {
   document.querySelectorAll(".discount-type-selector").forEach(function (selector) {
     selector.addEventListener("change", function () {
       var parent = this.closest("div"); // Get the parent <div>
-      console.log("isauna pasikeitimas");
+
+      var fixedInputContainer = parent.querySelector("[data-fixed-discount-container]");
+      var percentageInputContainer = parent.querySelector("[data-percentage-discount-container]");
       var fixedInput = parent.querySelector("[data-input-fixed-value]");
       var percentageInput = parent.querySelector("[data-input-percentage-value]");
-      console.log(percentageInput);
-      // Show/Hide based on selection
+      fixedInput.value = 0;
+      percentageInput.value = 0;
       if (this.value === "fixed") {
-        fixedInput.style.display = "block";
-        percentageInput.style.display = "none";
+        fixedInputContainer.style.display = "block";
+        fixedInput.disabled = false;
+        percentageInputContainer.style.display = "none";
+        percentageInput.disabled = true;
       } else if (this.value === "percentage") {
-        fixedInput.style.display = "none";
-        percentageInput.style.display = "block";
+        fixedInputContainer.style.display = "none";
+        fixedInput.disabled = true;
+        percentageInputContainer.style.display = "block";
+        percentageInput.disabled = false;
       }
     });
   });
@@ -110,18 +116,22 @@ document.addEventListener("DOMContentLoaded", function () {
   tableRows.forEach(function (row) {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
     row.addEventListener("input", function () {
+      listenForDiscountSelect();
       var qtyInputElement = row.querySelector("[data-input-qty] input");
       var qtyInput = parseFloat(qtyInputElement.value) || 0;
       var price = parseFloat(row.querySelector("[data-table-item-price]").innerText);
       var discountPercentage = row.querySelector("[data-input-percentage-value]");
       var discountFixed = row.querySelector("[data-input-fixed-value]");
+      var discountType = document.querySelector(".discount-type-selector").value;
+      console.log(discountType);
       var priceAfterDiscountDOM = row.querySelector("[data-table-priceAfterDiscount]");
       var priceAfterDiscount = 0;
-      if (discountPercentage) {
+      if (discountType === "percentage") {
         discountPercentage = parseFloat(discountPercentage.value) / 100;
+        console.log(discountPercentage);
         priceAfterDiscount = parseFloat(price - price * discountPercentage);
         priceAfterDiscountDOM.innerText = parseFloat(priceAfterDiscount.toFixed(2));
-      } else if (discountFixed) {
+      } else if (discountType === "fixed") {
         discountFixed = parseFloat(Math.abs(discountFixed.value));
         priceAfterDiscount = parseFloat((price - discountFixed).toFixed(2));
         priceAfterDiscountDOM.innerText = priceAfterDiscount;
@@ -137,7 +147,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
     deleteRow(tableRows);
-    listenForDicountSelect();
   });
 });
 /******/ })()

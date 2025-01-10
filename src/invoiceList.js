@@ -141,27 +141,37 @@ function calculateRowTotals(rows) {
   recalculateTotalsSection(itemTotal);
 }
 
-function listenForDicountSelect() {
+function listenForDiscountSelect() {
   document.querySelectorAll(".discount-type-selector").forEach((selector) => {
     selector.addEventListener("change", function () {
       const parent = this.closest("div"); // Get the parent <div>
-      console.log("isauna pasikeitimas");
+
+      const fixedInputContainer = parent.querySelector(
+        "[data-fixed-discount-container]"
+      );
+
+      const percentageInputContainer = parent.querySelector(
+        "[data-percentage-discount-container]"
+      );
+
       const fixedInput = parent.querySelector("[data-input-fixed-value]");
 
       const percentageInput = parent.querySelector(
         "[data-input-percentage-value]"
       );
-      console.log(percentageInput);
-      // Show/Hide based on selection
+
+      fixedInput.value = 0;
+      percentageInput.value = 0;
+
       if (this.value === "fixed") {
-        fixedInput.style.display = "block";
+        fixedInputContainer.style.display = "block";
         fixedInput.disabled = false;
-        percentageInput.style.display = "none";
+        percentageInputContainer.style.display = "none";
         percentageInput.disabled = true;
       } else if (this.value === "percentage") {
-        fixedInput.style.display = "none";
+        fixedInputContainer.style.display = "none";
         fixedInput.disabled = true;
-        percentageInput.style.display = "block";
+        percentageInputContainer.style.display = "block";
         percentageInput.disabled = false;
       }
     });
@@ -185,6 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
   tableRows.forEach((row) => {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
     row.addEventListener("input", () => {
+      listenForDiscountSelect();
       let qtyInputElement = row.querySelector("[data-input-qty] input");
       let qtyInput = parseFloat(qtyInputElement.value) || 0;
 
@@ -195,18 +206,26 @@ document.addEventListener("DOMContentLoaded", () => {
         "[data-input-percentage-value]"
       );
       let discountFixed = row.querySelector("[data-input-fixed-value]");
+
+      let discountType = document.querySelector(
+        ".discount-type-selector"
+      ).value;
+      console.log(discountType);
       let priceAfterDiscountDOM = row.querySelector(
         "[data-table-priceAfterDiscount]"
       );
       let priceAfterDiscount = 0;
-      if (discountPercentage) {
+      if (discountType === "percentage") {
         discountPercentage = parseFloat(discountPercentage.value) / 100;
+
+        console.log(discountPercentage);
         priceAfterDiscount = parseFloat(price - price * discountPercentage);
         priceAfterDiscountDOM.innerText = parseFloat(
           priceAfterDiscount.toFixed(2)
         );
-      } else if (discountFixed) {
+      } else if (discountType === "fixed") {
         discountFixed = parseFloat(Math.abs(discountFixed.value));
+
         priceAfterDiscount = parseFloat((price - discountFixed).toFixed(2));
         priceAfterDiscountDOM.innerText = priceAfterDiscount;
       }
@@ -225,6 +244,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
     deleteRow(tableRows);
-    listenForDicountSelect();
   });
 });

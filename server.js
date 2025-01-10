@@ -335,7 +335,7 @@ app.post("/invoiceList/edit/:id", (req, res) => {
 
   let list = fs.readFileSync("./data/list.json", "utf8");
   list = JSON.parse(list);
-
+  console.log(formData);
   res.redirect(URL + "invoiceList");
   const invoiceToChange = list[invoiceId];
   const reformedObjectData = formChangeObject(formData);
@@ -374,10 +374,9 @@ app.post("/invoiceList/edit/:id", (req, res) => {
         reformedObjectData[itemNr].discount_percentage
       );
     }
-    console.log("mes veikiam cia ar ne?");
+
     itemsToAddToInvoice.items.push(selectedItem);
   });
-  console.log(itemsToAddToInvoice.items[3].discount);
 });
 const port = 3000;
 app.listen(port, () => {

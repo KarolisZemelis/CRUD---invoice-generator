@@ -103,54 +103,18 @@
                   value="{{quantity}}"
                 /></td>
               <td data-table-item-price>{{price}}</td>
-              <!--<td>
-                {{#if discount}}
-                  {{#if discount.percentage}}
-                    <label for="discount-percentage" data-input-percentage>% :</label>
-                    <input
-                      type="number"
-                      id="discount-percentage"
-                      name="itemNumber_{{itemNumber}} discount_percentage"
-                      min="0"
-                      value="{{discount.value}}"
-                      data-input-percentage-value
-                    />
-
-                    <span>{{discount.discountAmount}}</span>
-
-                  {{/if}}
-                  {{#if discount.fixed}}
-                    <label for="discount-fixed"></label>
-                    <input
-                      type="number"
-                      id="discount-fixed"
-                      name="itemNumber_{{itemNumber}} discount_fixed"
-                      value="{{discount.discountAmount}}"
-                      data-input-fixed-value
-                    />
-                  {{/if}}
-                {{else}}
-                  <label for=""></label>
-                  <input type="number" name="newDiscount" value="0" />
-                {{/if}}
-
-                <select class="discount-type-selector">
-                  <option value="percentage">Procentinė nuolaida</option>
-                  <option value="fixed">Fiksuota nuolaida</option>
-                </select>
-
-              </td> -->
               <td>
                 {{#if discount}}
                   {{#if discount.percentage}}
-                    <div class="percentage-discount">
+
+                    <div>
                       <select class="discount-type-selector">
                         <option value="percentage" selected>Procentinė nuolaida</option>
                         <option value="fixed">Fiksuota nuolaida</option>
                       </select>
                       <div
                         style="display: block; background-color: red;"
-                        data-input-percentage-value
+                        data-percentage-discount-container
                       >
                         <label for="discount-percentage">% :</label>
                         <input
@@ -160,20 +124,21 @@
                           min="0"
                           max="100"
                           value="{{discount.value}}"
+                          data-input-percentage-value
                         />
                       </div>
                       <div
                         style="display: none; background-color: blue;"
-                        data-input-fixed-value
+                        data-fixed-discount-container
                       >
                         <label for="discount-fixed"></label>
                         <input
                           type="number"
                           id="discount-fixed"
                           name="itemNumber_{{itemNumber}} discount_fixed"
-                          min="0"
                           value="{{discount.discountAmount}}"
                           disabled="true"
+                          data-input-fixed-value
                         />
                       </div>
                     </div>
@@ -187,7 +152,7 @@
                       </select>
                       <div
                         style="display: none; background-color: red"
-                        data-input-percentage-value
+                        data-percentage-discount-container
                       >
                         <label for="discount-percentage">% :</label>
                         <input
@@ -198,11 +163,12 @@
                           max="100"
                           value="{{discount.discountPercentage}}"
                           disabled="true"
+                          data-input-percentage-value
                         />
                       </div>
                       <div
                         style="display: block; background-color: blue"
-                        data-input-fixed-value
+                        data-fixed-discount-container
                       >
                         <label for="discount-fixed"></label>
                         <input
@@ -210,6 +176,7 @@
                           id="discount-fixed"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           value="{{discount.discountAmount}}"
+                          data-input-fixed-value
                         />
                       </div>
                     </div>
@@ -222,7 +189,7 @@
                     </select>
                     <div
                       style="display: none; background-color: red"
-                      data-input-percentage-value
+                      data-percentage-discount-container
                     >
                       <label for="discount-percentage">% :</label>
                       <input
@@ -231,21 +198,22 @@
                         name="itemNumber_{{itemNumber}} discount_percentage"
                         min="0"
                         max="100"
-                        value="0"
                         disabled="true"
+                        value="0"
+                        data-input-percentage-value
                       />
                     </div>
                     <div
                       style="display: block; background-color: blue"
-                      data-input-fixed-value
+                      data-fixed-discount-container
                     >
                       <label for="discount-fixed"></label>
                       <input
                         type="number"
                         id="discount-fixed"
                         name="itemNumber_{{itemNumber}} discount_fixed"
-                        min="0"
                         value="0"
+                        data-input-fixed-value
                       />
                     </div>
                   </div>
