@@ -204,14 +204,22 @@ function formChangeObject(formData) {
     for (const key in formData) {
       const [itemKey, dataKey] = key.split(" ");
       const [, itemNumber] = itemKey.split("_"); // Extract number after "itemNumber_"
-
+      // console.log(formData);
       if (!output[itemNumber]) {
         output[itemNumber] = { itemNumber };
       }
 
-      output[itemNumber][dataKey] = formData[key];
+      if (
+        key.includes("discount_fixed") ||
+        key.includes("discount_percentage")
+      ) {
+        //
+        if (formData[key] !== "0") {
+          output[itemNumber][dataKey] = formData[key];
+        }
+      }
     }
-
+    console.log(output);
     return output;
   };
 
@@ -335,10 +343,11 @@ app.post("/invoiceList/edit/:id", (req, res) => {
 
   let list = fs.readFileSync("./data/list.json", "utf8");
   list = JSON.parse(list);
-  console.log(formData);
+
   res.redirect(URL + "invoiceList");
   const invoiceToChange = list[invoiceId];
   const reformedObjectData = formChangeObject(formData);
+  // console.log(reformedObjectData);
   let newItems = [];
   let oldItems = [];
   for (const key in reformedObjectData) {
