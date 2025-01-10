@@ -134,12 +134,8 @@ function numberToWordsLT(amount) {
   ).trim();
 }
 
-function createInvoiceObject(invoiceData, invoiceObject) {
-  for (const [key, value] of Object.entries(invoiceData)) {
-    invoiceObject[key] = value;
-  }
+function invoiceTotalCalculations(invoiceObject) {
   let items = invoiceObject.items;
-  let discountAmount = 0;
   let allProductTotal = 0;
   let itemNumber = 1;
 
@@ -147,20 +143,25 @@ function createInvoiceObject(invoiceData, invoiceObject) {
     let productTotal = 0;
     let discountAmount = 0;
     const itemPrice = parseFloat(item.price).toFixed(2);
+    //itemPRICE OK
     const itemQty = parseFloat(item.quantity).toFixed(2);
+    //itemQTY OK
     for (const key in item) {
       if (key === "discount") {
         if (item.discount.type === "fixed") {
-          discountAmount = -Math.abs(parseFloat(item[key].value).toFixed(2));
+          discountAmount = parseFloat(item[key].value).toFixed(2);
+
           item.discount.fixed = true;
           item.discount.discountAmount = discountAmount;
           item.discount.discountPercentage = parseFloat(
             ((discountAmount * 100) / itemPrice).toFixed(2)
           );
+          //ok
         } else if (item.discount.type === "percentage") {
-          discountAmount = -Math.abs(
-            parseFloat(item.price * (item[key].value / 100)).toFixed(2)
-          );
+          discountAmount = parseFloat(
+            item.price * (item[key].value / 100)
+          ).toFixed(2);
+
           item.discount.percentage = true;
           item.discount.discountAmount = discountAmount;
         } else {
@@ -170,18 +171,26 @@ function createInvoiceObject(invoiceData, invoiceObject) {
     }
 
     const priceAfterDiscount = parseFloat(
-      (itemPrice - parseFloat(discountAmount) * -1).toFixed(2)
+      (itemPrice - parseFloat(discountAmount)).toFixed(2)
     );
+
     item.priceAfterDiscount = priceAfterDiscount;
 
     productTotal = parseFloat((priceAfterDiscount * itemQty).toFixed(2));
+
     item.productTotal = productTotal;
+
     item.itemNumber = itemNumber;
     itemNumber++;
     allProductTotal += productTotal;
   });
 
   const totalsNumb = parseFloat(allProductTotal.toFixed(2));
+  console.log("*******************************************");
+
+  console.log("totalsNumb", totalsNumb);
+
+  console.log("*******************************************");
   const shippingPrice = parseFloat(invoiceObject.shippingPrice.toFixed(2));
   const vat = parseFloat(((totalsNumb + shippingPrice) * 0.21).toFixed(2));
   const invoiceTotal = parseFloat(
@@ -192,9 +201,16 @@ function createInvoiceObject(invoiceData, invoiceObject) {
   invoiceObject.vat = vat;
   invoiceObject.allProductTotalString = numberToWordsLT(invoiceTotal);
 
-  invoiceObject.allProductTotal = parseFloat(allProductTotal.toFixed(2));
+  invoiceObject.allProductTotal = allProductTotal;
 
   return invoiceObject;
+}
+
+function createInvoiceObject(invoiceData, invoiceObject) {
+  for (const [key, value] of Object.entries(invoiceData)) {
+    invoiceObject[key] = value;
+  }
+  return invoiceTotalCalculations(invoiceObject);
 }
 
 function formChangeObject(formData) {
@@ -217,9 +233,11 @@ function formChangeObject(formData) {
         if (formData[key] !== "0") {
           output[itemNumber][dataKey] = formData[key];
         }
+      } else {
+        output[itemNumber][dataKey] = formData[key];
       }
     }
-    console.log(output);
+
     return output;
   };
 
@@ -227,7 +245,49 @@ function formChangeObject(formData) {
   return result;
 }
 
-function reformList() {}
+function reformedItems(list, formData, reformedObjectData, invoiceToChange) {
+  let newItems = [];
+  let oldItems = [];
+  for (const key in reformedObjectData) {
+    newItems.push(Number(key));
+  }
+  for (const key in invoiceToChange.items) {
+    let oldKey = invoiceToChange.items[key].itemNumber;
+    oldItems.push(oldKey);
+  }
+  const finalItems = newItems.filter((number) => oldItems.includes(number));
+
+  const itemsToAddToInvoice = { items: [] };
+  finalItems.forEach((itemNr) => {
+    const selectedItem = invoiceToChange.items.find(
+      (item) => item.itemNumber === itemNr
+    );
+    selectedItem.quantity = Number(reformedObjectData[itemNr].quantity);
+
+    if (reformedObjectData[itemNr].hasOwnProperty("discount_fixed")) {
+      selectedItem.discount.value = Math.abs(
+        Number(reformedObjectData[itemNr].discount_fixed)
+      );
+      selectedItem.discount.discountAmount = Number(
+        reformedObjectData[itemNr].discount_fixed
+      );
+      selectedItem.discount.type = "fixed";
+    } else if (
+      reformedObjectData[itemNr].hasOwnProperty("discount_percentage")
+    ) {
+      selectedItem.discount.value = Math.abs(
+        Number(reformedObjectData[itemNr].discount_percentage)
+      );
+      selectedItem.discount.discountAmount = Number(
+        reformedObjectData[itemNr].discount_percentage
+      );
+      selectedItem.discount.type = "percentage";
+    }
+
+    itemsToAddToInvoice.items.push(selectedItem);
+  });
+  return itemsToAddToInvoice;
+}
 
 const renderPage = (data, page) => {
   const pageContent = fs.readFileSync(`./templates/${page}.hbr`, "utf8");
@@ -347,45 +407,17 @@ app.post("/invoiceList/edit/:id", (req, res) => {
   res.redirect(URL + "invoiceList");
   const invoiceToChange = list[invoiceId];
   const reformedObjectData = formChangeObject(formData);
-  // console.log(reformedObjectData);
-  let newItems = [];
-  let oldItems = [];
-  for (const key in reformedObjectData) {
-    newItems.push(Number(key));
-  }
-  for (const key in invoiceToChange.items) {
-    let oldKey = invoiceToChange.items[key].itemNumber;
-    oldItems.push(oldKey);
-  }
-  const finalItems = newItems.filter((number) => oldItems.includes(number));
-  // console.log(reformedObjectData);
-  const itemsToAddToInvoice = { items: [] };
-  finalItems.forEach((itemNr) => {
-    const selectedItem = invoiceToChange.items.find(
-      (item) => item.itemNumber === itemNr
-    );
-    selectedItem.quantity = Number(reformedObjectData[itemNr].quantity);
+  const itemsToUpload = reformedItems(
+    list,
+    formData,
+    reformedObjectData,
+    invoiceToChange
+  );
+  console.log("*******************************************");
 
-    if (reformedObjectData[itemNr].hasOwnProperty("discount_fixed")) {
-      selectedItem.discount.value = Math.abs(
-        Number(reformedObjectData[itemNr].discount_fixed)
-      );
-      selectedItem.discount.discountAmount = Number(
-        reformedObjectData[itemNr].discount_fixed
-      );
-    } else if (
-      reformedObjectData[itemNr].hasOwnProperty("discount_percentage")
-    ) {
-      selectedItem.discount.value = Math.abs(
-        Number(reformedObjectData[itemNr].discount_percentage)
-      );
-      selectedItem.discount.discountAmount = Number(
-        reformedObjectData[itemNr].discount_percentage
-      );
-    }
-
-    itemsToAddToInvoice.items.push(selectedItem);
-  });
+  invoiceToChange.items = itemsToUpload.items;
+  invoiceTotalCalculations(invoiceToChange);
+  console.log(invoiceToChange);
 });
 const port = 3000;
 app.listen(port, () => {

@@ -8,7 +8,6 @@ function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) 
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
 function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
-var tableRows = document.querySelectorAll("[data-table-items]");
 itemTotal = 0;
 function numberToWordsLT(amount) {
   var ones = ["", "vienas", "du", "trys", "keturi", "penki", "šeši", "septyni", "aštuoni", "devyni"];
@@ -70,9 +69,12 @@ function recalculateTotalsSection(total) {
   invoiceTotalWordsElement.innerText = "".concat(numberToWordsLT(invoiceTotal), " \u20AC");
 }
 function calculateRowTotals(rows) {
+  console.log("sauna funkcija");
   itemTotal = 0;
   rows.forEach(function (row) {
-    itemTotal += parseFloat(row.querySelector("[data-table-rowTotal]").innerText);
+    var rowTotal = parseFloat(row.querySelector("[data-table-rowTotal]").innerText);
+    itemTotal += rowTotal;
+    console.log("rowTotalX", rowTotal);
   });
   recalculateTotalsSection(itemTotal);
 }
@@ -85,8 +87,10 @@ function listenForDiscountSelect() {
       var percentageInputContainer = parent.querySelector("[data-percentage-discount-container]");
       var fixedInput = parent.querySelector("[data-input-fixed-value]");
       var percentageInput = parent.querySelector("[data-input-percentage-value]");
-      fixedInput.value = 0;
-      percentageInput.value = 0;
+      var fixedInputOldData = parent.querySelector("[data-input-fixed-value]").value;
+      var percentageInputOldData = parent.querySelector("[data-input-percentage-value]").value;
+      fixedInput.value = fixedInputOldData;
+      percentageInput.value = percentageInputOldData;
       if (this.value === "fixed") {
         fixedInputContainer.style.display = "block";
         fixedInput.disabled = false;
@@ -113,6 +117,7 @@ function deleteRow(rows) {
 }
 document.addEventListener("DOMContentLoaded", function () {
   var rowSum = 0;
+  var tableRows = document.querySelectorAll("[data-table-items]");
   tableRows.forEach(function (row) {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
     row.addEventListener("input", function () {
@@ -123,13 +128,12 @@ document.addEventListener("DOMContentLoaded", function () {
       var discountPercentage = row.querySelector("[data-input-percentage-value]");
       var discountFixed = row.querySelector("[data-input-fixed-value]");
       var discountType = document.querySelector(".discount-type-selector").value;
-      console.log(discountType);
       var priceAfterDiscountDOM = row.querySelector("[data-table-priceAfterDiscount]");
       var priceAfterDiscount = 0;
       if (discountType === "percentage") {
         discountPercentage = parseFloat(discountPercentage.value) / 100;
         console.log(discountPercentage);
-        priceAfterDiscount = parseFloat(price - price * discountPercentage);
+        priceAfterDiscount = parseFloat((price - price * discountPercentage).toFixed(2));
         priceAfterDiscountDOM.innerText = parseFloat(priceAfterDiscount.toFixed(2));
       } else if (discountType === "fixed") {
         discountFixed = parseFloat(Math.abs(discountFixed.value));
@@ -138,7 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       priceAfterDiscount > 0 ? rowSum = parseFloat(qtyInput * priceAfterDiscount).toFixed(2) : rowSum = parseFloat(qtyInput * price).toFixed(2);
       row.querySelector("[data-table-rowTotal]").innerText = rowSum;
-      calculateRowTotals(tableRows, rowSum);
+      var tableRowsRefresh = document.querySelectorAll("[data-table-items]");
+      calculateRowTotals(tableRowsRefresh, rowSum);
       qtyInputElement.addEventListener("blur", function () {
         // If the input is empty, set its value to 0
         if (qtyInputElement.value === "") {

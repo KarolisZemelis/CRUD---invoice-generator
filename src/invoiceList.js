@@ -1,4 +1,3 @@
-const tableRows = document.querySelectorAll("[data-table-items]");
 itemTotal = 0;
 
 function numberToWordsLT(amount) {
@@ -132,12 +131,16 @@ function recalculateTotalsSection(total) {
 }
 
 function calculateRowTotals(rows) {
+  console.log("sauna funkcija");
   itemTotal = 0;
   rows.forEach((row) => {
-    itemTotal += parseFloat(
+    let rowTotal = parseFloat(
       row.querySelector("[data-table-rowTotal]").innerText
     );
+    itemTotal += rowTotal;
+    console.log("rowTotalX", rowTotal);
   });
+
   recalculateTotalsSection(itemTotal);
 }
 
@@ -160,8 +163,14 @@ function listenForDiscountSelect() {
         "[data-input-percentage-value]"
       );
 
-      fixedInput.value = 0;
-      percentageInput.value = 0;
+      const fixedInputOldData = parent.querySelector(
+        "[data-input-fixed-value]"
+      ).value;
+      const percentageInputOldData = parent.querySelector(
+        "[data-input-percentage-value]"
+      ).value;
+      fixedInput.value = fixedInputOldData;
+      percentageInput.value = percentageInputOldData;
 
       if (this.value === "fixed") {
         fixedInputContainer.style.display = "block";
@@ -192,6 +201,7 @@ function deleteRow(rows) {
 
 document.addEventListener("DOMContentLoaded", () => {
   let rowSum = 0;
+  const tableRows = document.querySelectorAll("[data-table-items]");
   tableRows.forEach((row) => {
     rowSum = row.querySelector("[data-table-rowTotal]").innerText;
     row.addEventListener("input", () => {
@@ -210,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
       let discountType = document.querySelector(
         ".discount-type-selector"
       ).value;
-      console.log(discountType);
+
       let priceAfterDiscountDOM = row.querySelector(
         "[data-table-priceAfterDiscount]"
       );
@@ -219,7 +229,9 @@ document.addEventListener("DOMContentLoaded", () => {
         discountPercentage = parseFloat(discountPercentage.value) / 100;
 
         console.log(discountPercentage);
-        priceAfterDiscount = parseFloat(price - price * discountPercentage);
+        priceAfterDiscount = parseFloat(
+          (price - price * discountPercentage).toFixed(2)
+        );
         priceAfterDiscountDOM.innerText = parseFloat(
           priceAfterDiscount.toFixed(2)
         );
@@ -234,8 +246,9 @@ document.addEventListener("DOMContentLoaded", () => {
         : (rowSum = parseFloat(qtyInput * price).toFixed(2));
 
       row.querySelector("[data-table-rowTotal]").innerText = rowSum;
+      const tableRowsRefresh = document.querySelectorAll("[data-table-items]");
+      calculateRowTotals(tableRowsRefresh, rowSum);
 
-      calculateRowTotals(tableRows, rowSum);
       qtyInputElement.addEventListener("blur", function () {
         // If the input is empty, set its value to 0
         if (qtyInputElement.value === "") {

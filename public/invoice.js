@@ -129,7 +129,7 @@ function populateProductData(invoiceObj) {
     tableDataPrice.innerHTML = item.price;
     var tableDataDiscount = document.createElement("td");
     if (item.discount.type === "fixed") {
-      tableDataDiscount.innerHTML = item.discount.value;
+      tableDataDiscount.innerHTML = -item.discount.value;
     } else if (item.discount.type === undefined) {
       tableDataDiscount.innerHTML = "";
     } else {

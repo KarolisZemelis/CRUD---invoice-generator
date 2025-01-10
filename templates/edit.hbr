@@ -135,6 +135,7 @@
                         <input
                           type="number"
                           id="discount-fixed"
+                          max="0"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           value="{{discount.discountAmount}}"
                           disabled="true"
@@ -173,6 +174,7 @@
                         <label for="discount-fixed"></label>
                         <input
                           type="number"
+                          max="0"
                           id="discount-fixed"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           value="{{discount.discountAmount}}"
@@ -210,6 +212,7 @@
                       <label for="discount-fixed"></label>
                       <input
                         type="number"
+                        max="0"
                         id="discount-fixed"
                         name="itemNumber_{{itemNumber}} discount_fixed"
                         value="0"
