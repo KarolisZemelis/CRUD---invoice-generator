@@ -130,10 +130,10 @@ function populateProductData(invoiceObj) {
     var tableDataDiscount = document.createElement("td");
     if (item.discount.type === "fixed") {
       tableDataDiscount.innerHTML = -item.discount.value;
-    } else if (item.discount.type === undefined) {
-      tableDataDiscount.innerHTML = "";
-    } else {
+    } else if (item.discount.type === "percentage") {
       tableDataDiscount.innerHTML = "-".concat(item.discount.value, "% <br> ").concat(item.discount.discountAmount);
+    } else if (item.discount.type === "none") {
+      tableDataDiscount.innerHTML = "";
     }
     var tableDataPriceAfterDiscount = document.createElement("td");
     tableDataPriceAfterDiscount.innerHTML = item.priceAfterDiscount;

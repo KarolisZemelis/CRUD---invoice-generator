@@ -152,6 +152,7 @@ function invoiceTotalCalculations(invoiceObject) {
           discountAmount = parseFloat(item[key].value).toFixed(2);
 
           item.discount.fixed = true;
+
           item.discount.discountAmount = discountAmount;
           item.discount.discountPercentage = parseFloat(
             ((discountAmount * 100) / itemPrice).toFixed(2)
@@ -165,9 +166,15 @@ function invoiceTotalCalculations(invoiceObject) {
           item.discount.percentage = true;
           item.discount.discountAmount = discountAmount;
         } else {
+          console.log("esu else");
+          item.discount = {};
+          item.discount.type = "none";
+          item.discount.none = true;
           discountAmount = 0;
         }
       }
+
+      item.discount.minDiscount = -itemPrice + 1;
     }
 
     const priceAfterDiscount = parseFloat(

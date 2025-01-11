@@ -216,31 +216,31 @@ document.addEventListener("DOMContentLoaded", () => {
         "[data-input-percentage-value]"
       );
       let discountFixed = row.querySelector("[data-input-fixed-value]");
-
-      let discountType = document.querySelector(
-        ".discount-type-selector"
-      ).value;
-
+      let discountType = row.querySelector("[data-discount-type]").value;
       let priceAfterDiscountDOM = row.querySelector(
         "[data-table-priceAfterDiscount]"
       );
       let priceAfterDiscount = 0;
       if (discountType === "percentage") {
-        discountPercentage = parseFloat(discountPercentage.value) / 100;
+        let discountPercentageValue =
+          parseFloat(discountPercentage.value) / 100;
 
-        console.log(discountPercentage);
         priceAfterDiscount = parseFloat(
-          (price - price * discountPercentage).toFixed(2)
+          (price - price * discountPercentageValue).toFixed(2)
         );
         priceAfterDiscountDOM.innerText = parseFloat(
           priceAfterDiscount.toFixed(2)
         );
       } else if (discountType === "fixed") {
-        discountFixed = parseFloat(Math.abs(discountFixed.value));
+        let discountFixedValue = parseFloat(Math.abs(discountFixed.value));
 
-        priceAfterDiscount = parseFloat((price - discountFixed).toFixed(2));
+        priceAfterDiscount = parseFloat(
+          (price - discountFixedValue).toFixed(2)
+        );
+
         priceAfterDiscountDOM.innerText = priceAfterDiscount;
       }
+
       priceAfterDiscount > 0
         ? (rowSum = parseFloat(qtyInput * priceAfterDiscount).toFixed(2))
         : (rowSum = parseFloat(qtyInput * price).toFixed(2));
