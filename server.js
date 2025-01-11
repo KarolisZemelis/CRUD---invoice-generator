@@ -339,6 +339,21 @@ app.get("/invoice", (req, res) => {
   const html = renderPage(data, "invoice");
   res.send(html);
 });
+//VIEW
+app.get("/view/invoice/:id", (req, res) => {
+  let list = fs.readFileSync("./data/list.json", "utf8");
+  list = JSON.parse(list);
+  let invoiceNumber = req.params.id;
+  let invoice = list[invoiceNumber];
+  const data = {
+    style: "style.css",
+    title: `PVM SF ${invoiceNumber}`,
+    invoice,
+  };
+  const html = renderPage(data, "view");
+  res.send(html);
+});
+
 //STORE
 app.post("/invoice", async (req, res) => {
   try {
@@ -418,7 +433,7 @@ app.post("/invoiceList/edit/:id", (req, res) => {
 
   const invoiceToChange = list[invoiceId]; //ok
   const reformedObjectData = formChangeObject(formData);
-  console.log(reformedObjectData);
+
   const itemsToUpload = reformedItems(
     list,
     formData,
@@ -432,6 +447,43 @@ app.post("/invoiceList/edit/:id", (req, res) => {
   list[invoiceId] = invoiceTotalCalculations(invoiceToChange);
 
   fs.writeFileSync("data/list.json", JSON.stringify(list, null, 2));
+  res.redirect(URL + "invoiceList");
+});
+//DELETE
+app.get("/invoiceList/delete/:id", (req, res) => {
+  let list = fs.readFileSync("./data/list.json", "utf8");
+  list = JSON.parse(list);
+  const invoiceToDelete = list[req.params.id];
+  if (!invoiceToDelete) {
+    const data = {
+      pageTitle: "Puslapis nerastas",
+      noMenu: true,
+      metaRedirect: true,
+    };
+    const html = renderPage(data, "404");
+    res.status(404).send(html);
+    return;
+  }
+  const data = {
+    pageTitle: "Patvirtinimas",
+    invoiceToDelete,
+    noMenu: true,
+    URL,
+  };
+  const html = renderPage(data, "delete");
+  res.send(html);
+});
+//DESTROY
+app.post("/invoiceList/destroy/:id", (req, res) => {
+  let list = fs.readFileSync("./data/list.json", "utf8");
+  list = JSON.parse(list);
+  delete list[req.params.id];
+
+  list = JSON.stringify(list);
+  fs.writeFileSync("./data/list.json", list);
+
+  // updateSession(req, "message", { text: "Įrašas ištrintas", type: "success" });
+
   res.redirect(URL + "invoiceList");
 });
 const port = 3000;

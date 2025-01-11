@@ -20,10 +20,12 @@
             >Redaguoti</a>
           </button>
           <button>
-            <a href="http://localhost:3000/invoice/{{@key}}">Žiūrėti</a>
+            <a href="http://localhost:3000/view/invoice/{{@key}}">Žiūrėti</a>
           </button>
           <button>
-            <a href="http://localhost:3000/invoice/delete/{{@key}}">Ištrinti</a>
+            <a
+              href="http://localhost:3000/invoiceList/delete/{{@key}}"
+            >Ištrinti</a>
           </button>
         </td>
       </tr>

@@ -1,0 +1,10 @@
+<div>
+  <h5>Ar tikrai norite pašalinti <i>{{invoiceToDelete.number}}</i></h5>
+  <form
+    action="{{URL}}invoiceList/destroy/{{invoiceToDelete.number}}"
+    method="post"
+  >
+    <button type="submit">Taip</button>
+    <a href="{{URL}}invoiceList">Ne</a>
+  </form>
+</div>
