@@ -174,7 +174,7 @@ function invoiceTotalCalculations(invoiceObject) {
         }
       }
 
-      item.discount.minDiscount = -itemPrice + 1;
+      item.discount.minDiscount = parseFloat((-itemPrice + 0.01).toFixed(2));
     }
 
     const priceAfterDiscount = parseFloat(

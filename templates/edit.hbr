@@ -135,11 +135,12 @@
                         <input
                           type="number"
                           id="discount-fixed"
-                          min="{{discount.min}}"
+                          min="{{discount.minDiscount}}"
                           max="0"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           value="-{{discount.discountAmount}}"
                           disabled="true"
+                          step="any"
                           data-input-fixed-value
                         />
                       </div>
@@ -176,10 +177,11 @@
                         <input
                           type="number"
                           max="0"
-                          min="{{discount.min}}"
+                          min="{{discount.minDiscount}}"
                           id="discount-fixed"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           value="-{{discount.discountAmount}}"
+                          step="any"
                           data-input-fixed-value
                         />
                       </div>
@@ -215,9 +217,10 @@
                         <input
                           type="number"
                           max="0"
-                          min="{{discount.min}}"
+                          min="{{discount.minDiscount}}"
                           id="discount-fixed"
                           name="itemNumber_{{itemNumber}} discount_fixed"
+                          step="any"
                           value="-0"
                           data-input-fixed-value
                         />
