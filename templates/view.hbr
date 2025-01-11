@@ -92,6 +92,7 @@
               {{/if}}
               {{#if discount.percentage}}
                 <span>{{discount.value}}%</span>
+                <br />
                 <span>-{{discount.discountAmount}}</span>
               {{/if}}
             </td>
