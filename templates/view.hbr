@@ -88,7 +88,7 @@
             <td data-table-item-price>{{price}}</td>
             <td>
               {{#if discount.fixed}}
-                -{{items.discountAmount}}
+                -{{discount.discountAmount}}
               {{/if}}
               {{#if discount.percentage}}
                 <span>{{discount.value}}%</span>
