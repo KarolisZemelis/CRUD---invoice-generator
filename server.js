@@ -143,9 +143,8 @@ function invoiceTotalCalculations(invoiceObject) {
     let productTotal = 0;
     let discountAmount = 0;
     const itemPrice = parseFloat(item.price).toFixed(2);
-    //itemPRICE OK
     const itemQty = parseFloat(item.quantity).toFixed(2);
-    //itemQTY OK
+
     for (const key in item) {
       if (key === "discount") {
         if (item.discount.type === "fixed") {
@@ -166,14 +165,12 @@ function invoiceTotalCalculations(invoiceObject) {
           item.discount.percentage = true;
           item.discount.discountAmount = discountAmount;
         } else {
-          console.log("esu else");
           item.discount = {};
           item.discount.type = "none";
           item.discount.none = true;
           discountAmount = 0;
         }
       }
-
       item.discount.minDiscount = parseFloat((-itemPrice + 0.01).toFixed(2));
     }
 
@@ -193,11 +190,7 @@ function invoiceTotalCalculations(invoiceObject) {
   });
 
   const totalsNumb = parseFloat(allProductTotal.toFixed(2));
-  console.log("*******************************************");
 
-  console.log("totalsNumb", totalsNumb);
-
-  console.log("*******************************************");
   const shippingPrice = parseFloat(invoiceObject.shippingPrice.toFixed(2));
   const vat = parseFloat(((totalsNumb + shippingPrice) * 0.21).toFixed(2));
   const invoiceTotal = parseFloat(
@@ -221,25 +214,27 @@ function createInvoiceObject(invoiceData, invoiceObject) {
 }
 
 function formChangeObject(formData) {
+  console.log("test");
   const reformObject = (formData) => {
     const output = {};
 
     for (const key in formData) {
       const [itemKey, dataKey] = key.split(" ");
       const [, itemNumber] = itemKey.split("_"); // Extract number after "itemNumber_"
-      // console.log(formData);
+
       if (!output[itemNumber]) {
         output[itemNumber] = { itemNumber };
       }
 
       if (
-        key.includes("discount_fixed") ||
-        key.includes("discount_percentage")
+        (key.includes("discount_fixed") &&
+          formData[key] !== "0" &&
+          Number(formData[key]) < 0) ||
+        (key.includes("discount_percentage") &&
+          formData[key] !== "0" &&
+          Number(formData[key]) > 0)
       ) {
-        //
-        if (formData[key] !== "0") {
-          output[itemNumber][dataKey] = formData[key];
-        }
+        output[itemNumber][dataKey] = formData[key];
       } else {
         output[itemNumber][dataKey] = formData[key];
       }
@@ -249,6 +244,7 @@ function formChangeObject(formData) {
   };
 
   const result = reformObject(formData);
+  console.log(result);
   return result;
 }
 
@@ -279,6 +275,11 @@ function reformedItems(list, formData, reformedObjectData, invoiceToChange) {
         reformedObjectData[itemNr].discount_fixed
       );
       selectedItem.discount.type = "fixed";
+      //nufalsinam kitas reikšmes jei jos yra
+      selectedItem.discount.percentage
+        ? (selectedItem.discount.percentage = false)
+        : null;
+      selectedItem.discount.none ? (selectedItem.discount.none = false) : null;
     } else if (
       reformedObjectData[itemNr].hasOwnProperty("discount_percentage")
     ) {
@@ -289,6 +290,11 @@ function reformedItems(list, formData, reformedObjectData, invoiceToChange) {
         reformedObjectData[itemNr].discount_percentage
       );
       selectedItem.discount.type = "percentage";
+      //nufalsinam kitas reikšmes jei jos yra
+      selectedItem.discount.fixed
+        ? (selectedItem.discount.fixed = false)
+        : null;
+      selectedItem.discount.none ? (selectedItem.discount.none = false) : null;
     }
 
     itemsToAddToInvoice.items.push(selectedItem);
@@ -336,7 +342,6 @@ app.get("/invoice", (req, res) => {
 //STORE
 app.post("/invoice", async (req, res) => {
   try {
-    //console.log("Request body received:", req.body); // Log received data
     // Read the file, or initialize an empty list if the file doesn't exist
     let list;
 
@@ -355,7 +360,7 @@ app.post("/invoice", async (req, res) => {
       console.error("Failed to write to list.json:", writeError);
       throw writeError; // Re-throw the error
     }
-    console.log("Updated list saved:", list); // Log the updated list
+
     res.status(200).redirect("/invoice");
   } catch (error) {
     console.error("Error saving invoice:", error);
@@ -380,9 +385,9 @@ app.get("/invoiceList", (req, res) => {
 app.get("/invoiceList/edit/:id", (req, res) => {
   let list = fs.readFileSync("./data/list.json", "utf8");
   list = JSON.parse(list);
-  const item = list[req.params.id];
+  const invoice = list[req.params.id];
 
-  if (!item) {
+  if (!invoice) {
     const data = {
       pageTitle: "Puslapis nerastas",
       noMenu: true,
@@ -396,8 +401,8 @@ app.get("/invoiceList/edit/:id", (req, res) => {
   const data = {
     pageTitle: "Redaguoti įrašą",
     style: "style.css",
-    script: "invoiceList.js",
-    item,
+    script: "editInvoice.js",
+    invoice,
   };
 
   const html = renderPage(data, "edit");
@@ -411,20 +416,23 @@ app.post("/invoiceList/edit/:id", (req, res) => {
   let list = fs.readFileSync("./data/list.json", "utf8");
   list = JSON.parse(list);
 
-  res.redirect(URL + "invoiceList");
-  const invoiceToChange = list[invoiceId];
+  const invoiceToChange = list[invoiceId]; //ok
   const reformedObjectData = formChangeObject(formData);
+  console.log(reformedObjectData);
   const itemsToUpload = reformedItems(
     list,
     formData,
     reformedObjectData,
     invoiceToChange
   );
-  console.log("*******************************************");
 
   invoiceToChange.items = itemsToUpload.items;
   invoiceTotalCalculations(invoiceToChange);
-  console.log(invoiceToChange);
+
+  list[invoiceId] = invoiceTotalCalculations(invoiceToChange);
+
+  fs.writeFileSync("data/list.json", JSON.stringify(list, null, 2));
+  res.redirect(URL + "invoiceList");
 });
 const port = 3000;
 app.listen(port, () => {

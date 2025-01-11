@@ -157,10 +157,10 @@ function listenForDiscountSelect() {
         "[data-percentage-discount-container]"
       );
 
-      const fixedInput = parent.querySelector("[data-input-fixed-value]");
+      const fixedInput = parent.querySelector("[ data-input-fixed-value]");
 
       const percentageInput = parent.querySelector(
-        "[data-input-percentage-value]"
+        "[ data-input-percentage-value]"
       );
 
       const fixedInputOldData = parent.querySelector(
@@ -198,64 +198,58 @@ function deleteRow(rows) {
     });
   });
 }
+//renderinam sąskaitą kurią editinsim
 
-document.addEventListener("DOMContentLoaded", () => {
-  let rowSum = 0;
-  const tableRows = document.querySelectorAll("[data-table-items]");
-  tableRows.forEach((row) => {
-    rowSum = row.querySelector("[data-table-rowTotal]").innerText;
-    row.addEventListener("input", () => {
-      listenForDiscountSelect();
-      let qtyInputElement = row.querySelector("[data-input-qty] input");
-      let qtyInput = parseFloat(qtyInputElement.value) || 0;
+let rowSum = 0;
+const tableRows = document.querySelectorAll("[data-table-items]");
+listenForDiscountSelect();
+deleteRow(tableRows);
+tableRows.forEach((row) => {
+  rowSum = row.querySelector("[data-table-rowTotal]").innerText;
 
-      const price = parseFloat(
-        row.querySelector("[data-table-item-price]").innerText
+  row.addEventListener("input", () => {
+    let qtyInputElement = row.querySelector("[data-input-qty] input");
+    let qtyInput = parseFloat(qtyInputElement.value) || 0;
+
+    const price = parseFloat(
+      row.querySelector("[data-table-item-price]").innerText
+    );
+    let discountPercentage = row.querySelector("[data-input-percentage-value]");
+    let discountFixed = row.querySelector("[data-input-fixed-value]");
+    let discountType = row.querySelector("[data-discount-type]").value;
+    let priceAfterDiscountDOM = row.querySelector(
+      "[data-table-priceAfterDiscount]"
+    );
+    let priceAfterDiscount = 0;
+    if (discountType === "percentage") {
+      let discountPercentageValue = parseFloat(discountPercentage.value) / 100;
+
+      priceAfterDiscount = parseFloat(
+        (price - price * discountPercentageValue).toFixed(2)
       );
-      let discountPercentage = row.querySelector(
-        "[data-input-percentage-value]"
+      priceAfterDiscountDOM.innerText = parseFloat(
+        priceAfterDiscount.toFixed(2)
       );
-      let discountFixed = row.querySelector("[data-input-fixed-value]");
-      let discountType = row.querySelector("[data-discount-type]").value;
-      let priceAfterDiscountDOM = row.querySelector(
-        "[data-table-priceAfterDiscount]"
-      );
-      let priceAfterDiscount = 0;
-      if (discountType === "percentage") {
-        let discountPercentageValue =
-          parseFloat(discountPercentage.value) / 100;
+    } else if (discountType === "fixed") {
+      let discountFixedValue = parseFloat(Math.abs(discountFixed.value));
 
-        priceAfterDiscount = parseFloat(
-          (price - price * discountPercentageValue).toFixed(2)
-        );
-        priceAfterDiscountDOM.innerText = parseFloat(
-          priceAfterDiscount.toFixed(2)
-        );
-      } else if (discountType === "fixed") {
-        let discountFixedValue = parseFloat(Math.abs(discountFixed.value));
+      priceAfterDiscount = parseFloat((price - discountFixedValue).toFixed(2));
 
-        priceAfterDiscount = parseFloat(
-          (price - discountFixedValue).toFixed(2)
-        );
+      priceAfterDiscountDOM.innerText = priceAfterDiscount;
+    }
 
-        priceAfterDiscountDOM.innerText = priceAfterDiscount;
+    priceAfterDiscount > 0
+      ? (rowSum = parseFloat(qtyInput * priceAfterDiscount).toFixed(2))
+      : (rowSum = parseFloat(qtyInput * price).toFixed(2));
+
+    row.querySelector("[data-table-rowTotal]").innerText = rowSum;
+    const tableRowsRefresh = document.querySelectorAll("[data-table-items]");
+    calculateRowTotals(tableRowsRefresh, rowSum);
+
+    qtyInputElement.addEventListener("blur", function () {
+      if (qtyInputElement.value === "") {
+        qtyInputElement.value = 0;
       }
-
-      priceAfterDiscount > 0
-        ? (rowSum = parseFloat(qtyInput * priceAfterDiscount).toFixed(2))
-        : (rowSum = parseFloat(qtyInput * price).toFixed(2));
-
-      row.querySelector("[data-table-rowTotal]").innerText = rowSum;
-      const tableRowsRefresh = document.querySelectorAll("[data-table-items]");
-      calculateRowTotals(tableRowsRefresh, rowSum);
-
-      qtyInputElement.addEventListener("blur", function () {
-        // If the input is empty, set its value to 0
-        if (qtyInputElement.value === "") {
-          qtyInputElement.value = 0;
-        }
-      });
     });
-    deleteRow(tableRows);
   });
 });

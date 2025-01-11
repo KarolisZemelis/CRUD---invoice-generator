@@ -2,9 +2,9 @@
   <div data-invoice-details-container>
     <h1>PVM Sąskaita faktūra</h1>
     <div>
-      <h3>Serija: <span data-invoice-number>{{item.number}}</span></h3>
+      <h3>Serija: <span data-invoice-number>{{invoice.number}}</span></h3>
     </div>
-    <div data-invoice-date>{{item.date}}</div>
+    <div data-invoice-date>{{invoice.date}}</div>
   </div>
 
   <div data-invoice-seller-buyer-container>
@@ -13,58 +13,58 @@
       <div class="name"><p>Pavadinimas:
           <span
             data-invoice-seller-name
-          >{{item.company.seller.name}}</span></p></div>
+          >{{invoice.company.seller.name}}</span></p></div>
       <div class="address"><p>Adresas:
           <span
             data-invoice-seller-address
-          >{{item.company.seller.address}}</span></p></div>
+          >{{invoice.company.seller.address}}</span></p></div>
       <div class="code"><p>Kodas:
           <span
             data-invoice-seller-code
-          >{{item.company.seller.code}}</span></p></div>
+          >{{invoice.company.seller.code}}</span></p></div>
       <div class="vat"><p>VAT:
           <span
             data-invoice-seller-vat
-          >{{item.company.seller.vat}}</span></p></div>
+          >{{invoice.company.seller.vat}}</span></p></div>
       <div class="phone"><p>Tel.Nr.:
           <span
             data-invoice-seller-phone
-          >{{item.company.seller.phone}}</span></p></div>
+          >{{invoice.company.seller.phone}}</span></p></div>
       <div class="email"><p>El.Paštas:
           <span
             data-invoice-seller-email
-          >{{item.company.seller.email}}</span></p></div>
+          >{{invoice.company.seller.email}}</span></p></div>
     </div>
     <div data-invoice-buyer-details>
       <h3>Pirkėjo duomenys:</h3>
       <div class="name"><p>Pavadinimas:
           <span
             data-invoice-buyer-name
-          >{{item.company.buyer.name}}</span></p></div>
+          >{{invoice.company.buyer.name}}</span></p></div>
       <div class="address"><p>Adresas:
           <span
             data-invoice-buyer-address
-          >{{item.company.buyer.address}}</span></p></div>
+          >{{invoice.company.buyer.address}}</span></p></div>
       <div class="code"><p>Kodas:
           <span
             data-invoice-buyer-code
-          >{{item.company.buyer.code}}</span></p></div>
+          >{{invoice.company.buyer.code}}</span></p></div>
       <div class="vat"><p>VAT:
           <span
             data-invoice-buyer-vat
-          >{{item.company.buyer.vat}}</span></p></div>
+          >{{invoice.company.buyer.vat}}</span></p></div>
       <div class="phone"><p>Tel.Nr.:
           <span
             data-invoice-buyer-phone
-          >{{item.company.buyer.phone}}</span></p></div>
+          >{{invoice.company.buyer.phone}}</span></p></div>
       <div class="email"><p>El.Paštas:
           <span
             data-invoice-buyer-email
-          >{{item.company.buyer.email}}</span></p></div>
+          >{{invoice.company.buyer.email}}</span></p></div>
     </div>
   </div>
   <form
-    action="/invoiceList/edit/{{item.number}}"
+    action="/invoiceList/edit/{{invoice.number}}"
     method="POST"
     data-button-container
   >
@@ -88,7 +88,7 @@
           </tr>
         </thead>
         <tbody>
-          {{#each item.items}}
+          {{#each invoice.items}}
             <tr data-table-items>
               <td>{{itemNumber}}</td>
               <td>{{description}}</td>
@@ -106,7 +106,6 @@
               <td>
                 {{#if discount}}
                   {{#if discount.percentage}}
-
                     <div>
                       <select class="discount-type-selector" data-discount-type>
                         <option value="percentage" selected>Procentinė nuolaida</option>
@@ -123,6 +122,7 @@
                           name="itemNumber_{{itemNumber}} discount_percentage"
                           min="0"
                           max="99"
+                          step="any"
                           value="{{discount.value}}"
                           data-input-percentage-value
                         />
@@ -137,10 +137,10 @@
                           id="discount-fixed"
                           min="{{discount.minDiscount}}"
                           max="0"
+                          step="any"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           value="-{{discount.discountAmount}}"
                           disabled="true"
-                          step="any"
                           data-input-fixed-value
                         />
                       </div>
@@ -164,6 +164,7 @@
                           name="itemNumber_{{itemNumber}} discount_percentage"
                           min="0"
                           max="99"
+                          step="any"
                           value="{{discount.discountPercentage}}"
                           disabled="true"
                           data-input-percentage-value
@@ -178,6 +179,7 @@
                           type="number"
                           max="0"
                           min="{{discount.minDiscount}}"
+                          step="any"
                           id="discount-fixed"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           value="-{{discount.discountAmount}}"
@@ -204,6 +206,7 @@
                           name="itemNumber_{{itemNumber}} discount_percentage"
                           min="0"
                           max="99"
+                          step="any"
                           disabled="true"
                           value="0"
                           data-input-percentage-value
@@ -218,6 +221,7 @@
                           type="number"
                           max="0"
                           min="{{discount.minDiscount}}"
+                          step="any"
                           id="discount-fixed"
                           name="itemNumber_{{itemNumber}} discount_fixed"
                           step="any"
@@ -243,22 +247,22 @@
       <div data-totals-container>
         <div data-total-numbers-container>
           <div data-item-total-container><p>Suma:
-              <span data-item-total>{{item.allProductTotal}} €</span>
+              <span data-item-total>{{invoice.allProductTotal}} €</span>
             </p></div>
           <div data-transport-container><p>Transportas:
-              <span data-transport-cost>{{item.shippingPrice}} €</span>
+              <span data-transport-cost>{{invoice.shippingPrice}} €</span>
             </p></div>
           <div data-vat-container><p>PVM(21.00%):
-              <span data-total-vat>{{item.vat}} €</span>
+              <span data-total-vat>{{invoice.vat}} €</span>
             </p></div>
           <div data-invoice-total-container><p>Suma viso:
-              <span data-invoice-total>{{item.invoiceTotal}} €</span>
+              <span data-invoice-total>{{invoice.invoiceTotal}} €</span>
             </p></div>
           <div data-total-words-container><p>Suma žodžiais:
-              <span data-words-total>{{item.allProductTotalString}} €</span>
+              <span data-words-total>{{invoice.allProductTotalString}} €</span>
             </p></div>
           <div data-due-date-container><p>Apmokėti iki:
-              <span data-due-date>{{item.date}}</span></p></div>
+              <span data-due-date>{{invoice.date}}</span></p></div>
         </div>
       </div>
     </div>

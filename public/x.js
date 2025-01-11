@@ -1,6 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /*!****************************!*\
-  !*** ./src/invoiceList.js ***!
+  !*** ./src/editInvoice.js ***!
   \****************************/
 function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -85,8 +85,8 @@ function listenForDiscountSelect() {
 
       var fixedInputContainer = parent.querySelector("[data-fixed-discount-container]");
       var percentageInputContainer = parent.querySelector("[data-percentage-discount-container]");
-      var fixedInput = parent.querySelector("[data-input-fixed-value]");
-      var percentageInput = parent.querySelector("[data-input-percentage-value]");
+      var fixedInput = parent.querySelector("[ data-input-fixed-value]");
+      var percentageInput = parent.querySelector("[ data-input-percentage-value]");
       var fixedInputOldData = parent.querySelector("[data-input-fixed-value]").value;
       var percentageInputOldData = parent.querySelector("[data-input-percentage-value]").value;
       fixedInput.value = fixedInputOldData;
