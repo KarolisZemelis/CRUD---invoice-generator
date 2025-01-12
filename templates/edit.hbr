@@ -64,7 +64,7 @@
     </div>
   </div>
   <form
-    action="/invoiceList/edit/{{invoice.number}}"
+    action="/invoiceList/update/{{invoice.number}}"
     method="POST"
     data-button-container
   ><nav data-invoice-menu>

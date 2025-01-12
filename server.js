@@ -448,7 +448,7 @@ app.get("/", (req, res) => {
   res.redirect(URL + "invoiceList");
 });
 //CREATE
-app.get("/invoice", (req, res) => {
+app.get("/invoice/create", (req, res) => {
   fetch(urlApi) // Fetch invoice data from external API
     .then((apiResponse) => apiResponse.json())
     .then((invoiceData) => {
@@ -458,7 +458,7 @@ app.get("/invoice", (req, res) => {
       const data = {
         invoice,
         style: "style.css",
-        title: "PVM SF generavimas",
+        title: `PVM SF ${invoice.number}`,
       };
       const html = renderPage(data, "invoice");
       res.send(html);
@@ -469,7 +469,7 @@ app.get("/invoice", (req, res) => {
     });
 });
 //STORE
-app.get("/invoiceSave", (req, res) => {
+app.get("/invoice/store", (req, res) => {
   try {
     // Read and parse the existing JSON file
     let list = JSON.parse(fs.readFileSync("./data/list.json", "utf8"));
@@ -547,18 +547,19 @@ app.get("/invoiceList/edit/:id", (req, res) => {
   }
 
   const data = {
-    pageTitle: "Redaguoti įrašą",
+    title: `Redaguoti PVM SF ${invoice.number}`,
     style: "style.css",
     style1: "styleEdit.css",
     script: "editInvoice.js",
     invoice,
+    message: req.user.message || null,
   };
 
   const html = renderPage(data, "edit");
   res.send(html);
 });
 //UPDATE
-app.post("/invoiceList/edit/:id", (req, res) => {
+app.post("/invoiceList/update/:id", (req, res) => {
   const invoiceId = req.params.id;
   const formData = req.body;
 
@@ -579,9 +580,9 @@ app.post("/invoiceList/edit/:id", (req, res) => {
   invoiceTotalCalculations(invoiceToChange);
 
   list[invoiceId] = invoiceTotalCalculations(invoiceToChange);
-
+  updateSession(req, "message", { text: "Įrašas pakeistas", type: "success" });
   fs.writeFileSync("data/list.json", JSON.stringify(list, null, 2));
-  res.redirect(URL + "invoiceList");
+  res.redirect(URL + `invoiceList/edit/${invoiceId}`);
 });
 //DELETE
 app.get("/invoiceList/delete/:id", (req, res) => {
@@ -599,7 +600,7 @@ app.get("/invoiceList/delete/:id", (req, res) => {
     return;
   }
   const data = {
-    pageTitle: "Patvirtinimas",
+    title: `Ištrinti ${invoiceToDelete.number}?`,
     invoiceToDelete,
     noMenu: true,
     URL,

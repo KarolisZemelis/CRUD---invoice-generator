@@ -1,6 +1,6 @@
 <nav data-invoice-menu>
   <ul class="mainMenu">
-    <li><a href="http://localhost:3000/invoiceSave">Išsaugoti</a></li>
+    <li><a href="http://localhost:3000/invoice/store">Išsaugoti</a></li>
     <li><a href="http://localhost:3000/invoice">Atnaujinti</a></li>
     <li><a href="http://localhost:3000/invoiceList">Atšaukti</a></li>
   </ul>
