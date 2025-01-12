@@ -1,5 +1,6 @@
 {
-    "/public/invoice.js": "/public/invoice.js",
     "/public/editInvoice.js": "/public/editInvoice.js",
+    "/public/styleEdit.css": "/public/styleEdit.css",
+    "/public/styleList.css": "/public/styleList.css",
     "/public/style.css": "/public/style.css"
 }

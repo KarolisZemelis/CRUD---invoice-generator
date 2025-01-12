@@ -250,5 +250,724 @@
     "vat": 981.54,
     "allProductTotalString": "penki tūkstančiai šeši šimtai penkiasdešimt penki eurai ir 52 ct",
     "allProductTotal": 4650.99
+  },
+  "AB-78856652": {
+    "number": "AB-78856652",
+    "date": "2025-01-07",
+    "due_date": "2025-01-20",
+    "company": {
+      "buyer": {
+        "name": "MB \"Kavaliauskas\"",
+        "address": "Žalgirio prospektas 80, Klaipėda LT-62225",
+        "code": "56204895",
+        "vat": "LT159331306",
+        "phone": "8 603 10043",
+        "email": "jankauskas.benonas@gmail.com"
+      },
+      "seller": {
+        "name": "VŠĮ Sakalauskas ir Butkus",
+        "address": "Laisvės alėja 37, Kaunas LT-73880",
+        "code": "93730315",
+        "vat": "LT067542621",
+        "phone": "+370 5 706 9662",
+        "email": "paulauskas.kaributas@adomas.lt"
+      }
+    },
+    "items": [
+      {
+        "description": "Fotelis \"Minkštuolis\" su pagalve ir uždengimu",
+        "quantity": 7,
+        "price": 165.99,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -165.98
+        },
+        "priceAfterDiscount": 165.99,
+        "productTotal": 1161.93,
+        "itemNumber": 1
+      },
+      {
+        "description": "Sofa dviguba \"Trys muškietininkai\"",
+        "quantity": 10,
+        "price": 450.97,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -450.96
+        },
+        "priceAfterDiscount": 450.97,
+        "productTotal": 4509.7,
+        "itemNumber": 2
+      },
+      {
+        "description": "Kampinė sofa \"Ganykla\"",
+        "quantity": 8,
+        "price": 600,
+        "discount": {
+          "type": "fixed",
+          "value": 64,
+          "minDiscount": -599.99,
+          "fixed": true,
+          "discountAmount": "64.00",
+          "discountPercentage": 10.67
+        },
+        "priceAfterDiscount": 536,
+        "productTotal": 4288,
+        "itemNumber": 3
+      },
+      {
+        "description": "Stiklinis kavos staliukas \"Krištolas\" su padėklu",
+        "quantity": 6,
+        "price": 420,
+        "discount": {
+          "type": "fixed",
+          "value": 202,
+          "minDiscount": -419.99,
+          "fixed": true,
+          "discountAmount": "202.00",
+          "discountPercentage": 48.1
+        },
+        "priceAfterDiscount": 218,
+        "productTotal": 1308,
+        "itemNumber": 4
+      },
+      {
+        "description": "Odinis pufas \"Krokodilas\" su uždengimu",
+        "quantity": 7,
+        "price": 150,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -149.99
+        },
+        "priceAfterDiscount": 150,
+        "productTotal": 1050,
+        "itemNumber": 5
+      },
+      {
+        "description": "Komoda \"Violeta\"",
+        "quantity": 2,
+        "price": 150.99,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -150.98
+        },
+        "priceAfterDiscount": 150.99,
+        "productTotal": 301.98,
+        "itemNumber": 6
+      },
+      {
+        "description": "Baro kėdė \"Violeta\" chromuota",
+        "quantity": 8,
+        "price": 75,
+        "discount": {
+          "type": "fixed",
+          "value": 8,
+          "minDiscount": -74.99,
+          "fixed": true,
+          "discountAmount": "8.00",
+          "discountPercentage": 10.67
+        },
+        "priceAfterDiscount": 67,
+        "productTotal": 536,
+        "itemNumber": 7
+      },
+      {
+        "description": "Geltonas odinis fotelis \"Saulutė\" su pagalve",
+        "quantity": 7,
+        "price": 225.97,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -225.96
+        },
+        "priceAfterDiscount": 225.97,
+        "productTotal": 1581.79,
+        "itemNumber": 8
+      }
+    ],
+    "shippingPrice": 81,
+    "invoiceTotal": 17930.26,
+    "vat": 3111.86,
+    "allProductTotalString": "septyniolika tūkstančių devyni šimtai trisdešimt eurų ir 26 ct",
+    "allProductTotal": 14737.4
+  },
+  "AB-70568663": {
+    "number": "AB-70568663",
+    "date": "2025-01-08",
+    "due_date": "2025-01-17",
+    "company": {
+      "buyer": {
+        "name": "MB \"Pocius\"",
+        "address": "Laisvės g. 98-68, Tauragė",
+        "code": "39644907",
+        "vat": "LT025055995",
+        "phone": "+370 5 298 9465",
+        "email": "vilmas96@hotmail.com"
+      },
+      "seller": {
+        "name": "AB Sakalauskas ir Kavaliauskas",
+        "address": "Saltoniškių prospektas 97-26, Marijampolė",
+        "code": "63788567",
+        "vat": "LT971834459",
+        "phone": "+370 46 04 89 18",
+        "email": "stankevicius.vladlenas@eldaras.com"
+      }
+    },
+    "items": [
+      {
+        "description": "Rašomasis stalas \"Lilija\" su lakuotu stalviršium",
+        "quantity": 8,
+        "price": 210.97,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -210.96
+        },
+        "priceAfterDiscount": 210.97,
+        "productTotal": 1687.76,
+        "itemNumber": 1
+      },
+      {
+        "description": "Kavos staliukas \"Bananas\" su geltonu paviršium",
+        "quantity": 3,
+        "price": 270.5,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -270.49
+        },
+        "priceAfterDiscount": 270.5,
+        "productTotal": 811.5,
+        "itemNumber": 2
+      },
+      {
+        "description": "Labai didelė lova \"Aerodromas\" su baldakimu",
+        "quantity": 4,
+        "price": 900.5,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -900.49
+        },
+        "priceAfterDiscount": 900.5,
+        "productTotal": 3602,
+        "itemNumber": 3
+      },
+      {
+        "description": "Rašomasis stalas \"Violeta\" su ąžuoliniu stalviršium",
+        "quantity": 4,
+        "price": 210,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -209.99
+        },
+        "priceAfterDiscount": 210,
+        "productTotal": 840,
+        "itemNumber": 4
+      },
+      {
+        "description": "Fotelis \"Pūkas\" su pagalve",
+        "quantity": 2,
+        "price": 135,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -134.99
+        },
+        "priceAfterDiscount": 135,
+        "productTotal": 270,
+        "itemNumber": 5
+      },
+      {
+        "description": "Kėdė virtuvinė balta",
+        "quantity": 3,
+        "price": 15.95,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -15.94
+        },
+        "priceAfterDiscount": 15.95,
+        "productTotal": 47.85,
+        "itemNumber": 6
+      }
+    ],
+    "shippingPrice": 78.99,
+    "invoiceTotal": 8879.1,
+    "vat": 1541,
+    "allProductTotalString": "aštuoni tūkstančiai aštuoni šimtai septyniasdešimt devyni eurai ir 10 ct",
+    "allProductTotal": 7259.11
+  },
+  "AB-50519746": {
+    "number": "AB-50519746",
+    "date": "2025-01-08",
+    "due_date": "2025-01-17",
+    "company": {
+      "buyer": {
+        "name": "AB \"Jankauskas ir Sakalauskas\"",
+        "address": "Liepų prospektas 53-29, Jonava",
+        "code": "60874228",
+        "vat": "LT254047465",
+        "phone": "+370 627 37 794",
+        "email": "vvasiliauskaite@iva.lt"
+      },
+      "seller": {
+        "name": "UAB Paulauskas",
+        "address": "Klaipėdos gatvė 18, Alytus",
+        "code": "20626911",
+        "vat": "LT303852486",
+        "phone": "(8 46) 87 61 14",
+        "email": "kazlauskaite.skaiste@maksas.com"
+      }
+    },
+    "items": [
+      {
+        "description": "Rašomasis stalas \"Mokinukas-2\"",
+        "quantity": 10,
+        "price": 150,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -149.99
+        },
+        "priceAfterDiscount": 150,
+        "productTotal": 1500,
+        "itemNumber": 1
+      },
+      {
+        "description": "Stalas \"Violeta\" apvalus",
+        "quantity": 8,
+        "price": 210,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -209.99
+        },
+        "priceAfterDiscount": 210,
+        "productTotal": 1680,
+        "itemNumber": 2
+      },
+      {
+        "description": "Žalias vaikiškas odinis fotelis \"Krokodilas\" su pagalve",
+        "quantity": 7,
+        "price": 165.99,
+        "discount": {
+          "type": "percentage",
+          "value": 14,
+          "minDiscount": -165.98,
+          "percentage": true,
+          "discountAmount": "23.24"
+        },
+        "priceAfterDiscount": 142.75,
+        "productTotal": 999.25,
+        "itemNumber": 3
+      },
+      {
+        "description": "Mėlynas odinis fotelis \"Smurf\" su pagalve",
+        "quantity": 5,
+        "price": 225,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -224.99
+        },
+        "priceAfterDiscount": 225,
+        "productTotal": 1125,
+        "itemNumber": 4
+      },
+      {
+        "description": "Stalas \"Violeta\" su stiklo plokšte",
+        "quantity": 6,
+        "price": 180.99,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -180.98
+        },
+        "priceAfterDiscount": 180.99,
+        "productTotal": 1085.94,
+        "itemNumber": 5
+      },
+      {
+        "description": "Kavos staliukas \"Bananas\" su geltonu paviršium",
+        "quantity": 9,
+        "price": 270.99,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -270.98
+        },
+        "priceAfterDiscount": 270.99,
+        "productTotal": 2438.91,
+        "itemNumber": 6
+      },
+      {
+        "description": "Metalinis kavos staliukas \"Sunkus metalas\" nikeliuotas",
+        "quantity": 4,
+        "price": 480,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -479.99
+        },
+        "priceAfterDiscount": 480,
+        "productTotal": 1920,
+        "itemNumber": 7
+      }
+    ],
+    "shippingPrice": 44,
+    "invoiceTotal": 13059.65,
+    "vat": 2266.55,
+    "allProductTotalString": "trylika tūkstančių penkiasdešimt devyni eurai ir 65 ct",
+    "allProductTotal": 10749.1
+  },
+  "AB-08950736": {
+    "number": "AB-08950736",
+    "date": "2025-01-09",
+    "due_date": "2025-01-19",
+    "company": {
+      "buyer": {
+        "name": "VŠĮ \"Butkus\"",
+        "address": "Liepų prospektas 24, Panevėžys",
+        "code": "57966293",
+        "vat": "LT158424770",
+        "phone": "(8 5) 704 2199",
+        "email": "kazlauskas.kuprijanas@patricija.com"
+      },
+      "seller": {
+        "name": "MB Stankevičius ir Paulauskas",
+        "address": "Vilniaus alėja 26, Marijampolė LT-63785",
+        "code": "92657341",
+        "vat": "LT773454674",
+        "phone": "(8 46) 79 15 18",
+        "email": "zukauskas.vilijus@dovilis.org"
+      }
+    },
+    "items": [
+      {
+        "description": "Sofa dviguba \"Trys muškietininkai\" su patalynės dėže",
+        "quantity": 10,
+        "price": 480,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -479.99
+        },
+        "priceAfterDiscount": 480,
+        "productTotal": 4800,
+        "itemNumber": 1
+      },
+      {
+        "description": "Mėlynas odinis fotelis \"Smurf\" su pagalve",
+        "quantity": 6,
+        "price": 225,
+        "discount": {
+          "type": "percentage",
+          "value": 43,
+          "minDiscount": -224.99,
+          "percentage": true,
+          "discountAmount": "96.75"
+        },
+        "priceAfterDiscount": 128.25,
+        "productTotal": 769.5,
+        "itemNumber": 2
+      },
+      {
+        "description": "Veidrodis 80X120 \"Snieguolė",
+        "quantity": 8,
+        "price": 150,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -149.99
+        },
+        "priceAfterDiscount": 150,
+        "productTotal": 1200,
+        "itemNumber": 3
+      },
+      {
+        "description": "Lova \"Spyruoklė\"",
+        "quantity": 6,
+        "price": 420,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -419.99
+        },
+        "priceAfterDiscount": 420,
+        "productTotal": 2520,
+        "itemNumber": 4
+      },
+      {
+        "description": "Pufas \"Miglė\"",
+        "quantity": 2,
+        "price": 90.5,
+        "discount": {
+          "type": "fixed",
+          "value": 35,
+          "minDiscount": -90.49,
+          "fixed": true,
+          "discountAmount": "35.00",
+          "discountPercentage": 38.67
+        },
+        "priceAfterDiscount": 55.5,
+        "productTotal": 111,
+        "itemNumber": 5
+      },
+      {
+        "description": "Kavos staliukas \"Arbūzas\" su raudonu paviršium ir su padėklu",
+        "quantity": 2,
+        "price": 300.97,
+        "discount": {
+          "type": "fixed",
+          "value": 67,
+          "minDiscount": -300.96,
+          "fixed": true,
+          "discountAmount": "67.00",
+          "discountPercentage": 22.26
+        },
+        "priceAfterDiscount": 233.97,
+        "productTotal": 467.94,
+        "itemNumber": 6
+      },
+      {
+        "description": "Sofa \"Lilija\"",
+        "quantity": 2,
+        "price": 300,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -299.99
+        },
+        "priceAfterDiscount": 300,
+        "productTotal": 600,
+        "itemNumber": 7
+      }
+    ],
+    "shippingPrice": 50.95,
+    "invoiceTotal": 12728.46,
+    "vat": 2209.07,
+    "allProductTotalString": "dvylika tūkstančių septyni šimtai dvidešimt aštuoni eurai ir 46 ct",
+    "allProductTotal": 10468.44
+  },
+  "AB-29451209": {
+    "number": "AB-29451209",
+    "date": "2025-01-10",
+    "due_date": "2025-01-19",
+    "company": {
+      "buyer": {
+        "name": "AB Petrauskas ir Pocius",
+        "address": "Didžioji gatvė 71, Marijampolė",
+        "code": "38072937",
+        "vat": "LT982857937",
+        "phone": "8 605 11259",
+        "email": "kateiva.venjaminas@dovilis.net"
+      },
+      "seller": {
+        "name": "IĮ Butkus ir Sakalauskas",
+        "address": "Didžioji g. 27-35, Klaipėda",
+        "code": "72370444",
+        "vat": "LT984223243",
+        "phone": "+370 46 45 37 14",
+        "email": "ykazlauskas@vejunas.com"
+      }
+    },
+    "items": [
+      {
+        "description": "Veidrodis 60X80",
+        "quantity": 2,
+        "price": 120.5,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -120.49
+        },
+        "priceAfterDiscount": 120.5,
+        "productTotal": 241,
+        "itemNumber": 1
+      },
+      {
+        "description": "Marmurinis kavos staliukas \"Marmuras\"",
+        "quantity": 9,
+        "price": 750.99,
+        "discount": {
+          "type": "fixed",
+          "value": 288,
+          "minDiscount": -750.98,
+          "fixed": true,
+          "discountAmount": "288.00",
+          "discountPercentage": 38.35
+        },
+        "priceAfterDiscount": 462.99,
+        "productTotal": 4166.91,
+        "itemNumber": 2
+      },
+      {
+        "description": "Lova \"Spyruoklė\"",
+        "quantity": 5,
+        "price": 420.99,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -420.98
+        },
+        "priceAfterDiscount": 420.99,
+        "productTotal": 2104.95,
+        "itemNumber": 3
+      },
+      {
+        "description": "Virtuvinis stalas paprastas žalias",
+        "quantity": 5,
+        "price": 90,
+        "discount": {
+          "type": "fixed",
+          "value": 12,
+          "minDiscount": -89.99,
+          "fixed": true,
+          "discountAmount": "12.00",
+          "discountPercentage": 13.33
+        },
+        "priceAfterDiscount": 78,
+        "productTotal": 390,
+        "itemNumber": 4
+      }
+    ],
+    "shippingPrice": 21.5,
+    "invoiceTotal": 8378.48,
+    "vat": 1454.12,
+    "allProductTotalString": "aštuoni tūkstančiai trys šimtai septyniasdešimt aštuoni eurai ir 48 ct",
+    "allProductTotal": 6902.86
+  },
+  "AB-69253702": {
+    "number": "AB-69253702",
+    "date": "2025-01-11",
+    "due_date": "2025-01-17",
+    "company": {
+      "buyer": {
+        "name": "IĮ Žukauskas",
+        "address": "Liepų prospektas 15, Šiauliai",
+        "code": "82091554",
+        "vat": "LT676209064",
+        "phone": "+370 46 28 60 18",
+        "email": "urboniene.roberta@ingita.com"
+      },
+      "seller": {
+        "name": "VŠĮ \"Jankauskas ir Baranauskas\"",
+        "address": "Vilniaus g. 98-88, Kaunas",
+        "code": "81989174",
+        "vat": "LT245798340",
+        "phone": "+370 46 03 16 07",
+        "email": "platonas96@yahoo.com"
+      }
+    },
+    "items": [
+      {
+        "description": "Rašomasis stalas \"Studentas\" su stiklo plokšte ir ąžuoliniu stalviršium",
+        "quantity": 6,
+        "price": 270,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -269.99
+        },
+        "priceAfterDiscount": 270,
+        "productTotal": 1620,
+        "itemNumber": 1
+      },
+      {
+        "description": "Dvivietis fotelis \"Dramblys\" su pagalve",
+        "quantity": 3,
+        "price": 180.99,
+        "discount": {
+          "type": "fixed",
+          "value": 22,
+          "minDiscount": -180.98,
+          "fixed": true,
+          "discountAmount": "22.00",
+          "discountPercentage": 12.16
+        },
+        "priceAfterDiscount": 158.99,
+        "productTotal": 476.97,
+        "itemNumber": 2
+      },
+      {
+        "description": "Rašomasis stalas \"Profesorius\" su ąžuoliniu stalviršium",
+        "quantity": 6,
+        "price": 960,
+        "discount": {
+          "type": "percentage",
+          "value": 17,
+          "minDiscount": -959.99,
+          "percentage": true,
+          "discountAmount": "163.20"
+        },
+        "priceAfterDiscount": 796.8,
+        "productTotal": 4780.8,
+        "itemNumber": 3
+      },
+      {
+        "description": "Raudonas odinis fotelis \"Raudonkepuraitė\"",
+        "quantity": 6,
+        "price": 210.99,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -210.98
+        },
+        "priceAfterDiscount": 210.99,
+        "productTotal": 1265.94,
+        "itemNumber": 4
+      },
+      {
+        "description": "Komoda \"Violeta\"",
+        "quantity": 9,
+        "price": 150,
+        "discount": {
+          "type": "percentage",
+          "value": 11,
+          "minDiscount": -149.99,
+          "percentage": true,
+          "discountAmount": "16.50"
+        },
+        "priceAfterDiscount": 133.5,
+        "productTotal": 1201.5,
+        "itemNumber": 5
+      },
+      {
+        "description": "Sulakstoma ąžuolinė kėdė \"Barbaras\" su uždengimu",
+        "quantity": 3,
+        "price": 90,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -89.99
+        },
+        "priceAfterDiscount": 90,
+        "productTotal": 270,
+        "itemNumber": 6
+      },
+      {
+        "description": "Stiklinis kavos staliukas \"Krištolas\" apvalus",
+        "quantity": 6,
+        "price": 450,
+        "discount": {
+          "type": "none",
+          "none": true,
+          "minDiscount": -449.99
+        },
+        "priceAfterDiscount": 450,
+        "productTotal": 2700,
+        "itemNumber": 7
+      }
+    ],
+    "shippingPrice": 33,
+    "invoiceTotal": 14941.33,
+    "vat": 2593.12,
+    "allProductTotalString": "keturiolika tūkstančių devyni šimtai keturiasdešimt vienas euras ir 33 ct",
+    "allProductTotal": 12315.21
   }
 }

@@ -483,7 +483,7 @@ app.get("/invoiceSave", (req, res) => {
     fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
 
     // Redirect to the invoice page
-    res.redirect(URL + "invoice");
+    res.redirect(URL + "invoiceList");
   } catch (error) {
     console.error("Error saving invoice:", error);
     res.status(500).send("Failed to save invoice.");
@@ -511,6 +511,7 @@ app.get("/invoiceList", (req, res) => {
   list = JSON.parse(list);
 
   const data = {
+    style1: "styleList.css",
     style: "style.css",
     title: "PVM SF sąrašas",
     list,
@@ -540,6 +541,7 @@ app.get("/invoiceList/edit/:id", (req, res) => {
   const data = {
     pageTitle: "Redaguoti įrašą",
     style: "style.css",
+    style1: "styleEdit.css",
     script: "editInvoice.js",
     invoice,
   };

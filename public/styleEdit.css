@@ -1,0 +1,222 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+[data-editInvoice-container] {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h3 {
+  color: #2c3e50;
+}
+
+[data-invoice-details-container] {
+  margin-bottom: 20px;
+}
+
+[data-invoice-seller-buyer-container] {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+[data-invoice-seller-details],
+[data-invoice-buyer-details] {
+  width: 48%;
+}
+
+[data-invoice-seller-details] p,
+[data-invoice-buyer-details] p {
+  margin: 5px 0;
+}
+
+[data-product-table-container] {
+  margin-top: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #2c3e50;
+  color: #fff;
+  font-size: 14px;
+}
+
+td {
+  font-size: 14px;
+}
+
+[data-input-qty] input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+}
+
+[data-table-priceAfterDiscount] {
+  color: #e74c3c;
+}
+
+[data-table-rowTotal] {
+  font-weight: bold;
+}
+
+.discount-type-selector {
+  width: 150px;
+  margin: 5px 0;
+}
+
+.discount-type-selector,
+input[type=number] {
+  padding: 5px;
+}
+
+[data-percentage-discount-container],
+[data-fixed-discount-container] {
+  margin-top: 10px;
+}
+
+[data-percentage-discount-container] {
+  display: flex;
+  align-items: center;
+}
+[data-percentage-discount-container] label {
+  margin-right: 3px;
+}
+[data-percentage-discount-container] input {
+  width: 70%;
+}
+
+[data-table-deleteRow] {
+  background-color: #e74c3c;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+[data-table-deleteRow]:hover {
+  background-color: #c0392b;
+}
+
+[data-totals-container] {
+  margin-top: 30px;
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+[data-total-numbers-container] div {
+  margin-bottom: 10px;
+}
+
+[data-total-numbers-container] span {
+  font-weight: bold;
+}
+
+nav[data-invoice-menu] {
+  margin-top: 20px;
+}
+
+ul.mainMenu {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+ul.mainMenu li {
+  border-radius: 5px;
+}
+
+ul.mainMenu#invoiceMenu {
+  height: 40px;
+}
+
+ul.mainMenu li button {
+  background-color: #3e5e7e;
+  border: none;
+  cursor: pointer;
+}
+
+ul.mainMenu#invoiceMenu li button:hover {
+  background-color: #34495e;
+}
+
+ul.mainMenu li a:hover {
+  background-color: #34495e;
+}
+
+[data-signature-container] {
+  margin-top: 40px;
+}
+
+[data-signature-container] div {
+  margin-bottom: 10px;
+}
+
+ul.mainMenu li a,
+ul.mainMenu li button {
+  text-decoration: none;
+  color: #ecf0f1; /* Same color for both */
+  font-weight: 600; /* Ensures the same font weight */
+  font-size: 20px; /* Sets the same font size */
+  display: block;
+  width: 100%;
+  text-align: center;
+  background-color: transparent; /* Remove button background */
+  border: none; /* Remove button border */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+ul.mainMenu li a:hover,
+ul.mainMenu li button:hover {
+  background-color: #34495e; /* Same hover effect for both */
+}
+
+ul.mainMenu li button {
+  /* Remove button-specific styles */
+  border-radius: 5px;
+}
+
+ul.mainMenu li a {
+  text-decoration: none;
+  color: #ecf0f1;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 10px 20px;
+  display: flex; /* Use flexbox */
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+  width: 100%;
+  height: 100%; /* Ensures it takes up the full height of its parent */
+  text-align: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+ul.mainMenu li a:hover {
+  background-color: #34495e;
+}

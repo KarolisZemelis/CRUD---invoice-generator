@@ -1,0 +1,73 @@
+.invoiceList {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.invoiceList thead tr {
+  background-color: #2c3e50;
+  color: #fff;
+}
+.invoiceList thead tr th {
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 1px solid #ccc;
+}
+.invoiceList tbody tr:nth-child(odd) {
+  background-color: #f8f8f8;
+}
+.invoiceList tbody tr:hover {
+  background-color: #eaeaea;
+}
+.invoiceList tbody tr td {
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+.invoiceList tbody tr td:nth-child(3) {
+  text-align: right;
+}
+.invoiceList tbody tr td:last-child {
+  text-align: center;
+}
+.invoiceList tbody tr td:last-child button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: #2c3e50;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.invoiceList tbody tr td:last-child button:hover {
+  background-color: #34495e;
+}
+.invoiceList tbody tr td:last-child button a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .invoiceList {
+    font-size: 12px;
+  }
+  .invoiceList thead th {
+    padding: 8px 10px;
+  }
+  .invoiceList tbody td {
+    padding: 8px 10px;
+  }
+  .invoiceList tbody td button {
+    padding: 3px 8px;
+    font-size: 12px;
+  }
+}

@@ -1,5 +1,5 @@
 <nav>
-  <ul class="mainMenu">
+  <ul class="mainMenu" data-top-menu>
     <li><a href="http://localhost:3000/invoice">Generuoti naują PVM SF</a></li>
     <li><a href="http://localhost:3000/invoiceList">Visos PVM sąskaitos</a></li>
   </ul>

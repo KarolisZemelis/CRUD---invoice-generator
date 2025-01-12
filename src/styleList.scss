@@ -1,0 +1,97 @@
+.invoiceList {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  // Table Headers
+  thead {
+    tr {
+      background-color: #2c3e50;
+      color: #fff;
+
+      th {
+        padding: 10px 15px;
+        text-align: left;
+        font-size: 16px;
+        font-weight: 600;
+        text-transform: uppercase;
+        border: 1px solid #ccc;
+      }
+    }
+  }
+
+  // Table Body
+  tbody {
+    tr {
+      &:nth-child(odd) {
+        background-color: #f8f8f8; // Alternating row color
+      }
+
+      &:hover {
+        background-color: #eaeaea; // Row hover effect
+      }
+
+      td {
+        padding: 10px 15px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+
+        // Align numbers to the right
+        &:nth-child(3) {
+          text-align: right;
+        }
+
+        // Action buttons column
+        &:last-child {
+          text-align: center;
+
+          button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #2c3e50;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+              background-color: #34495e;
+            }
+
+            a {
+              text-decoration: none;
+              color: inherit;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Styles
+@media (max-width: 768px) {
+  .invoiceList {
+    font-size: 12px;
+
+    thead th {
+      padding: 8px 10px;
+    }
+
+    tbody td {
+      padding: 8px 10px;
+
+      button {
+        padding: 3px 8px;
+        font-size: 12px;
+      }
+    }
+  }
+}

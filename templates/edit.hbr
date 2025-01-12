@@ -67,12 +67,13 @@
     action="/invoiceList/edit/{{invoice.number}}"
     method="POST"
     data-button-container
-  >
-    <ul class="invoiceMenu">
-      <li><button type="submit" data-form-submit>Išsaugoti</button></li>
+  ><nav data-invoice-menu>
+      <ul class="mainMenu" id="invoiceMenu">
+        <li><button type="submit" data-form-submit>Išsaugoti</button></li>
 
-      <li><a href="http://localhost:3000/invoiceList">Atšaukti</a></li>
-    </ul>
+        <li><a href="http://localhost:3000/invoiceList">Atšaukti</a></li>
+      </ul>
+    </nav>
     <div data-product-table-container>
       <table>
         <thead>
@@ -111,10 +112,7 @@
                         <option value="percentage" selected>Procentinė nuolaida</option>
                         <option value="fixed">Fiksuota nuolaida</option>
                       </select>
-                      <div
-                        style="display: block; background-color: red;"
-                        data-percentage-discount-container
-                      >
+                      <div data-percentage-discount-container>
                         <label for="discount-percentage">% :</label>
                         <input
                           type="number"
@@ -127,10 +125,7 @@
                           data-input-percentage-value
                         />
                       </div>
-                      <div
-                        style="display: none; background-color: blue;"
-                        data-fixed-discount-container
-                      >
+                      <div data-fixed-discount-container>
                         <label for="discount-fixed"></label>
                         <input
                           type="number"
@@ -266,11 +261,13 @@
         </div>
       </div>
     </div>
-    <ul class="invoiceMenu">
-      <li><button type="submit" data-form-submit>Išsaugoti</button></li>
+    <nav data-invoice-menu>
+      <ul class="mainMenu" id="invoiceMenu">
+        <li><button type="submit" data-form-submit>Išsaugoti</button></li>
 
-      <li><a href="http://localhost:3000/invoiceList">Atšaukti</a></li>
-    </ul>
+        <li><a href="http://localhost:3000/invoiceList">Atšaukti</a></li>
+      </ul>
+    </nav>
   </form>
   <div data-signature-container>
     <div>Sąskaitą išrašė:</div>
