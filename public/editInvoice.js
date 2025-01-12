@@ -74,12 +74,10 @@ function recalculateTotalsSection(total) {
   invoiceTotalWordsElement.innerText = "".concat(numberToWordsLT(invoiceTotal), " \u20AC");
 }
 function calculateRowTotals(rows) {
-  console.log("sauna funkcija");
   itemTotal = 0;
   rows.forEach(function (row) {
     var rowTotal = parseFloat(row.querySelector("[data-table-rowTotal]").innerText);
     itemTotal += rowTotal;
-    console.log("rowTotalX", rowTotal);
   });
   recalculateTotalsSection(itemTotal);
 }

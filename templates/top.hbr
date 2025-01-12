@@ -4,6 +4,3 @@
     <li><a href="http://localhost:3000/invoiceList">Visos PVM sąskaitos</a></li>
   </ul>
 </nav>
-<div role="alert">
-  {{message.text}}
-</div>

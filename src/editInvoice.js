@@ -131,14 +131,12 @@ function recalculateTotalsSection(total) {
 }
 
 function calculateRowTotals(rows) {
-  console.log("sauna funkcija");
   itemTotal = 0;
   rows.forEach((row) => {
     let rowTotal = parseFloat(
       row.querySelector("[data-table-rowTotal]").innerText
     );
     itemTotal += rowTotal;
-    console.log("rowTotalX", rowTotal);
   });
 
   recalculateTotalsSection(itemTotal);

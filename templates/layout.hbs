@@ -11,8 +11,23 @@
     {{/if}}
     <link rel="stylesheet" href="/{{style1}}">
   <link rel="stylesheet" href="/{{style}}">
-  
   <title>{{title}}</title>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const msg = document.querySelector("[data-msg]");
+
+  if (msg) {
+    msg.classList.add("visible");
+
+    setTimeout(() => {
+      msg.classList.remove("visible");
+       msg.style.display = 'none';
+    }, 3000); // The message will fade out after 3 seconds
+   
+  }
+});
+</script>
+
 </head>
 <body>
   <header>
@@ -21,6 +36,21 @@
     {{else}}
     {{> top }}
    {{/if}}
+       {{#if message}}
+<div class="container mt-5" data-msg>
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div  class="alert {{message.type}}" role="alert">
+                {{message.text}}
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+
+   
+{{/if}}
   </header>
   
   <main>

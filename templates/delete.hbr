@@ -1,10 +1,12 @@
-<div>
-  <h5>Ar tikrai norite pašalinti <i>{{invoiceToDelete.number}}</i></h5>
+<div class="delete-invoice-message">
+  <h5>Ar tikrai norite pašalinti <i>{{invoiceToDelete.number}}</i>?</h5>
   <form
     action="{{URL}}invoiceList/destroy/{{invoiceToDelete.number}}"
     method="post"
   >
-    <button type="submit">Taip</button>
-    <a href="{{URL}}invoiceList">Ne</a>
+    <div class="button-container">
+      <button type="submit" class="btn-confirm">Taip</button>
+      <a href="{{URL}}invoiceList" class="btn-cancel">Ne</a>
+    </div>
   </form>
 </div>

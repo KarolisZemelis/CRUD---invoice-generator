@@ -23,14 +23,18 @@ const updateSession = (req, prop, data) => {
   let sessions = fs.readFileSync("./data/session.json", "utf8");
   sessions = JSON.parse(sessions);
   let session = sessions.find((s) => s.sessionId === sessionId);
+
   if (!session) {
     return;
   }
-  if (null === data) {
+
+  // Set the property if data is provided, otherwise delete it
+  if (data === null) {
     delete session[prop];
   } else {
     session[prop] = data;
   }
+
   sessions = JSON.stringify(sessions);
   fs.writeFileSync("./data/session.json", sessions);
 };
@@ -76,9 +80,6 @@ const messagesMiddleware = (req, res, next) => {
   next();
 };
 
-app.use(express.static("public"));
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cookieMiddleware);
 app.use(sessionMiddleware);
@@ -91,7 +92,9 @@ app.use(
     cookie: { secure: false }, // Use `true` only if serving over HTTPS
   })
 );
-
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 const urlApi = "https://in3.dev/inv/";
 
 function numberToWordsLT(amount) {
@@ -441,7 +444,9 @@ const renderPage = (data, page) => {
 //     res.status(500).send("Server Error");
 //   }
 // });
-
+app.get("/", (req, res) => {
+  res.redirect(URL + "invoiceList");
+});
 //CREATE
 app.get("/invoice", (req, res) => {
   fetch(urlApi) // Fetch invoice data from external API
@@ -482,6 +487,8 @@ app.get("/invoiceSave", (req, res) => {
     // Write the updated list back to the file
     fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
 
+    updateSession(req, "message", { text: "Įrašas pridėtas", type: "success" });
+
     // Redirect to the invoice page
     res.redirect(URL + "invoiceList");
   } catch (error) {
@@ -519,6 +526,7 @@ app.get("/invoiceList", (req, res) => {
   };
 
   const html = renderPage(data, "invoiceList");
+
   res.send(html);
 });
 //EDIT
@@ -545,10 +553,7 @@ app.get("/invoiceList/edit/:id", (req, res) => {
     script: "editInvoice.js",
     invoice,
   };
-  updateSession(req, "message", {
-    text: "Įrašas atnaujintas",
-    type: "success",
-  });
+
   const html = renderPage(data, "edit");
   res.send(html);
 });
@@ -574,10 +579,7 @@ app.post("/invoiceList/edit/:id", (req, res) => {
   invoiceTotalCalculations(invoiceToChange);
 
   list[invoiceId] = invoiceTotalCalculations(invoiceToChange);
-  // updateSession(req, "message", {
-  //   text: "Įrašas atnaujintas",
-  //   type: "success",
-  // });
+
   fs.writeFileSync("data/list.json", JSON.stringify(list, null, 2));
   res.redirect(URL + "invoiceList");
 });
@@ -601,7 +603,9 @@ app.get("/invoiceList/delete/:id", (req, res) => {
     invoiceToDelete,
     noMenu: true,
     URL,
+    style: "style.css",
   };
+
   const html = renderPage(data, "delete");
   res.send(html);
 });
@@ -613,9 +617,7 @@ app.post("/invoiceList/destroy/:id", (req, res) => {
 
   list = JSON.stringify(list);
   fs.writeFileSync("./data/list.json", list);
-
-  // updateSession(req, "message", { text: "Įrašas ištrintas", type: "success" });
-
+  updateSession(req, "message", { text: "Įrašas ištrintas", type: "alert" });
   res.redirect(URL + "invoiceList");
 });
 const port = 3000;
