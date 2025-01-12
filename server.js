@@ -289,7 +289,6 @@ function createInvoiceObject(invoiceData, invoiceObject) {
 }
 
 function formChangeObject(formData) {
-  console.log("test");
   const reformObject = (formData) => {
     const output = {};
 
@@ -319,7 +318,7 @@ function formChangeObject(formData) {
   };
 
   const result = reformObject(formData);
-  console.log(result);
+
   return result;
 }
 
@@ -540,6 +539,9 @@ app.get("/invoiceList/edit/:id", (req, res) => {
       pageTitle: "Puslapis nerastas",
       noMenu: true,
       metaRedirect: true,
+      URL,
+      style: "style.css",
+      url: URL,
     };
     const html = renderPage(data, "404");
     res.status(404).send(html);
@@ -553,6 +555,7 @@ app.get("/invoiceList/edit/:id", (req, res) => {
     script: "editInvoice.js",
     invoice,
     message: req.user.message || null,
+    URL,
   };
 
   const html = renderPage(data, "edit");
@@ -565,7 +568,18 @@ app.post("/invoiceList/update/:id", (req, res) => {
 
   let list = fs.readFileSync("./data/list.json", "utf8");
   list = JSON.parse(list);
-
+  if (!list.invoiceId) {
+    const data = {
+      pageTitle: "Puslapis nerastas",
+      noMenu: true,
+      metaRedirect: true,
+      url: URL,
+      style: "style.css",
+    };
+    const html = renderPage(data, "404");
+    res.status(404).send(html);
+    return;
+  }
   const invoiceToChange = list[invoiceId]; //ok
   const reformedObjectData = formChangeObject(formData);
 
@@ -594,6 +608,8 @@ app.get("/invoiceList/delete/:id", (req, res) => {
       pageTitle: "Puslapis nerastas",
       noMenu: true,
       metaRedirect: true,
+      url: URL,
+      style: "style.css",
     };
     const html = renderPage(data, "404");
     res.status(404).send(html);
@@ -614,12 +630,27 @@ app.get("/invoiceList/delete/:id", (req, res) => {
 app.post("/invoiceList/destroy/:id", (req, res) => {
   let list = fs.readFileSync("./data/list.json", "utf8");
   list = JSON.parse(list);
-  delete list[req.params.id];
+  const invoiceToDelete = list[req.params.id];
+  console.log(req.params.id);
+  if (!invoiceToDelete) {
+    const data = {
+      pageTitle: "Puslapis nerastas",
+      noMenu: true,
+      metaRedirect: true,
+      url: URL,
+      style: "style.css",
+    };
+    const html = renderPage(data, "404");
+    res.status(404).send(html);
+    return;
+  } else {
+    delete list[req.params.id];
 
-  list = JSON.stringify(list);
-  fs.writeFileSync("./data/list.json", list);
-  updateSession(req, "message", { text: "Įrašas ištrintas", type: "alert" });
-  res.redirect(URL + "invoiceList");
+    list = JSON.stringify(list);
+    fs.writeFileSync("./data/list.json", list);
+    updateSession(req, "message", { text: "Įrašas ištrintas", type: "alert" });
+    res.redirect(URL + "invoiceList");
+  }
 });
 const port = 3000;
 app.listen(port, () => {

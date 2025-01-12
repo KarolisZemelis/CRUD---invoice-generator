@@ -397,3 +397,43 @@ $transition-duration: 0.5s;
     }
   }
 }
+
+// SCSS for the 404 error page
+
+// General container styling
+.container404 {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5; // Light background
+}
+
+// Row and column for centering
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Error 404 styling
+.error-404 {
+  text-align: center;
+  background-color: #fff; // White background for the error box
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  h1 {
+    font-size: 8rem; // Large size for the number
+    color: #e74c3c; // Red color for the 404
+    margin-bottom: 0.5em;
+  }
+
+  h2 {
+    font-size: 2rem; // Slightly smaller for the message
+    color: #7f8c8d; // Neutral color for the text
+  }
+}
