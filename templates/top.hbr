@@ -1,6 +1,6 @@
 <nav>
   <ul class="mainMenu">
-    <li><a href="http://localhost:3000/invoice">Sukurti</a></li>
+    <li><a href="http://localhost:3000/invoice">Generuoti naują PVM SF</a></li>
     <li><a href="http://localhost:3000/invoiceList">Visos PVM sąskaitos</a></li>
   </ul>
 </nav>

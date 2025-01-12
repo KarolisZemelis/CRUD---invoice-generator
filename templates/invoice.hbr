@@ -1,48 +1,73 @@
-<form action="/invoice" method="POST" data-button-container>
-  <ul class="invoiceMenu">
-    <li><button type="submit" data-form-submit>Išsaugoti</button></li>
+<nav>
+  <ul class="mainMenu">
+    <li><a href="http://localhost:3000/invoiceSave">Išsaugoti</a></li>
     <li><a href="http://localhost:3000/invoice">Atnaujinti</a></li>
-    <li><a href="http://localhost:3000/invoiceList">Atšaukti</a></li>
+    <li><a href="http://localhost:3000/invoiceList">Visos PVM sąskaitos</a></li>
   </ul>
-</form>
-
-<div data-invoice-container>
+</nav>
+<div data-editInvoice-container>
   <div data-invoice-details-container>
     <h1>PVM Sąskaita faktūra</h1>
     <div>
-      <h3>Serija: <span data-invoice-number></span></h3>
+      <h3>Serija: <span data-invoice-number>{{invoice.number}}</span></h3>
     </div>
-    <div data-invoice-date></div>
+    <div data-invoice-date>{{invoice.date}}</div>
   </div>
 
   <div data-invoice-seller-buyer-container>
     <div data-invoice-seller-details>
       <h3>Pardavėjo duomenys:</h3>
       <div class="name"><p>Pavadinimas:
-          <span data-invoice-seller-name></span></p></div>
+          <span
+            data-invoice-seller-name
+          >{{invoice.company.seller.name}}</span></p></div>
       <div class="address"><p>Adresas:
-          <span data-invoice-seller-address></span></p></div>
+          <span
+            data-invoice-seller-address
+          >{{invoice.company.seller.address}}</span></p></div>
       <div class="code"><p>Kodas:
-          <span data-invoice-seller-code></span></p></div>
-      <div class="vat"><p>VAT: <span data-invoice-seller-vat></span></p></div>
+          <span
+            data-invoice-seller-code
+          >{{invoice.company.seller.code}}</span></p></div>
+      <div class="vat"><p>VAT:
+          <span
+            data-invoice-seller-vat
+          >{{invoice.company.seller.vat}}</span></p></div>
       <div class="phone"><p>Tel.Nr.:
-          <span data-invoice-seller-phone></span></p></div>
+          <span
+            data-invoice-seller-phone
+          >{{invoice.company.seller.phone}}</span></p></div>
       <div class="email"><p>El.Paštas:
-          <span data-invoice-seller-email></span></p></div>
+          <span
+            data-invoice-seller-email
+          >{{invoice.company.seller.email}}</span></p></div>
     </div>
     <div data-invoice-buyer-details>
       <h3>Pirkėjo duomenys:</h3>
       <div class="name"><p>Pavadinimas:
-          <span data-invoice-buyer-name></span></p></div>
+          <span
+            data-invoice-buyer-name
+          >{{invoice.company.buyer.name}}</span></p></div>
       <div class="address"><p>Adresas:
-          <span data-invoice-buyer-address></span></p></div>
+          <span
+            data-invoice-buyer-address
+          >{{invoice.company.buyer.address}}</span></p></div>
       <div class="code"><p>Kodas:
-          <span data-invoice-buyer-code></span></p></div>
-      <div class="vat"><p>VAT: <span data-invoice-buyer-vat></span></p></div>
+          <span
+            data-invoice-buyer-code
+          >{{invoice.company.buyer.code}}</span></p></div>
+      <div class="vat"><p>VAT:
+          <span
+            data-invoice-buyer-vat
+          >{{invoice.company.buyer.vat}}</span></p></div>
       <div class="phone"><p>Tel.Nr.:
-          <span data-invoice-buyer-phone></span></p></div>
+          <span
+            data-invoice-buyer-phone
+          >{{invoice.company.buyer.phone}}</span></p></div>
       <div class="email"><p>El.Paštas:
-          <span data-invoice-buyer-email></span></p></div>
+          <span
+            data-invoice-buyer-email
+          >{{invoice.company.buyer.email}}</span></p></div>
     </div>
   </div>
 
@@ -57,25 +82,54 @@
           <th>Nuolaida</th>
           <th>Kaina su nuolaida (be PVM) Eur</th>
           <th>Suma Eur</th>
+
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        {{#each invoice.items}}
+          <tr data-table-items>
+            <td>{{itemNumber}}</td>
+            <td>{{description}}</td>
+            <td data-input-qty>
+              {{quantity}}</td>
+            <td data-table-item-price>{{price}}</td>
+            <td>
+              {{#if discount.fixed}}
+                -{{discount.discountAmount}}
+              {{/if}}
+              {{#if discount.percentage}}
+                <span>{{discount.value}}%</span>
+                <br />
+                <span>-{{discount.discountAmount}}</span>
+              {{/if}}
+            </td>
+            <td data-table-priceAfterDiscount>{{priceAfterDiscount}}</td>
+            <td data-table-rowTotal>{{productTotal}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+
     </table>
-  </div>
-  <div data-totals-container>
-    <div data-total-numbers-container>
-      <div data-item-total-container><p>Suma:
-          <span data-item-total></span></p></div>
-      <div data-transport-container><p>Transportas:
-          <span data-transport-cost></span></p></div>
-      <div data-vat-container><p>PVM(21.00%):
-          <span data-total-vat></span></p></div>
-      <div data-invoice-total-container><p>Suma viso:
-          <span data-invoice-total></span></p></div>
-      <div data-total-words-container><p>Suma žodžiais:
-          <span data-words-total></span></p></div>
-      <div data-due-date-container><p>Apmokėti iki:
-          <span data-due-date></span></p></div>
+    <div data-totals-container>
+      <div data-total-numbers-container>
+        <div data-item-total-container><p>Suma:
+            <span data-item-total>{{invoice.allProductTotal}} €</span>
+          </p></div>
+        <div data-transport-container><p>Transportas:
+            <span data-transport-cost>{{invoice.shippingPrice}} €</span>
+          </p></div>
+        <div data-vat-container><p>PVM(21.00%):
+            <span data-total-vat>{{invoice.vat}} €</span>
+          </p></div>
+        <div data-invoice-total-container><p>Suma viso:
+            <span data-invoice-total>{{invoice.invoiceTotal}} €</span>
+          </p></div>
+        <div data-total-words-container><p>Suma žodžiais:
+            <span data-words-total>{{invoice.allProductTotalString}} €</span>
+          </p></div>
+        <div data-due-date-container><p>Apmokėti iki:
+            <span data-due-date>{{invoice.date}}</span></p></div>
+      </div>
     </div>
   </div>
 

@@ -4,6 +4,7 @@ const app = express();
 const fs = require("fs");
 const hbs = require("handlebars");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 const URL = "http://localhost:3000/";
 //reload data after page reload
@@ -82,8 +83,16 @@ app.use(cookieParser());
 app.use(cookieMiddleware);
 app.use(sessionMiddleware);
 app.use(messagesMiddleware);
+app.use(
+  session({
+    secret: "your-secret-key", // Replace with a strong secret
+    resave: false, // Prevent unnecessary session saving
+    saveUninitialized: true, // Save uninitialized sessions
+    cookie: { secure: false }, // Use `true` only if serving over HTTPS
+  })
+);
 
-const url = "https://in3.dev/inv/";
+const urlApi = "https://in3.dev/inv/";
 
 function numberToWordsLT(amount) {
   const ones = [
@@ -264,7 +273,7 @@ function invoiceTotalCalculations(invoiceObject) {
   invoiceObject.vat = vat;
   invoiceObject.allProductTotalString = numberToWordsLT(invoiceTotal);
 
-  invoiceObject.allProductTotal = allProductTotal;
+  invoiceObject.allProductTotal = totalsNumb;
 
   return invoiceObject;
 }
@@ -378,30 +387,109 @@ const renderPage = (data, page) => {
   // Pass the rendered page content as the body to the layout
   return compiledLayout({ ...data, body: renderedPageContent });
 };
+
+// OLD WAY
 //WE TARGET EXTERNAL INVOICE API TO GET INVOICE WE THEN FORM IT TO AN OBJECT WITH createInvoiceObject FUNCTION AND RETURN IT WHEN THIS API IS TRIGGERED IN CLIENT SIDE JS CODE
 
-app.get("/api/invoice", (req, res) => {
-  fetch(url) // Fetch invoice data from external API
+// app.get("/api/invoice", (req, res) => {
+//   fetch(urlApi) // Fetch invoice data from external API
+//     .then((apiResponse) => apiResponse.json())
+//     .then((invoiceData) => {
+//       const invoiceObject = createInvoiceObject(invoiceData, {}); // Generate invoice object
+//       res.json(invoiceObject); // Send invoice object as JSON
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching invoice from external API:", error);
+//       res.status(500).send("Server Error");
+//     });
+// });
+//CREATE
+// app.get("/invoice", (req, res) => {
+//   const data = {
+//     script: "invoice.js",
+//     style: "style.css",
+//     title: "PVM SF generavimas",
+//   };
+//   const html = renderPage(data, "invoice");
+//   res.send(html);
+// });
+//STORE
+// app.post("/invoice", async (req, res) => {
+//   try {
+//     // Read the file, or initialize an empty list if the file doesn't exist
+//     let list;
+
+//     try {
+//       list = fs.readFileSync("./data/list.json", "utf8"); //SYNCRONOUS because the file is small and it doesnt stop the loop for long
+//       list = JSON.parse(list); // Parse the file content
+//     } catch (readError) {
+//       console.warn("list.json not found or invalid. Initializing new list.");
+//       list = {}; // Start with an empty array
+//     }
+
+//     list[req.body.number] = req.body;
+//     try {
+//       fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
+//     } catch (writeError) {
+//       console.error("Failed to write to list.json:", writeError);
+//       throw writeError; // Re-throw the error
+//     }
+
+//     res.status(200).redirect("/invoice");
+//   } catch (error) {
+//     console.error("Error saving invoice:", error);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
+//CREATE
+app.get("/invoice", (req, res) => {
+  fetch(urlApi) // Fetch invoice data from external API
     .then((apiResponse) => apiResponse.json())
     .then((invoiceData) => {
-      const invoiceObject = createInvoiceObject(invoiceData, {}); // Generate invoice object
-      res.json(invoiceObject); // Send invoice object as JSON
+      const invoice = createInvoiceObject(invoiceData, {}); // Generate invoice object
+      req.session.invoice = invoice;
+      // Render the page with the fetched invoice data
+      const data = {
+        invoice,
+        style: "style.css",
+        title: "PVM SF generavimas",
+      };
+      const html = renderPage(data, "invoice");
+      res.send(html);
     })
     .catch((error) => {
       console.error("Error fetching invoice from external API:", error);
       res.status(500).send("Server Error");
     });
 });
-//CREATE
-app.get("/invoice", (req, res) => {
-  const data = {
-    script: "invoice.js",
-    style: "style.css",
-    title: "PVM SF generavimas",
-  };
-  const html = renderPage(data, "invoice");
-  res.send(html);
+//STORE
+app.get("/invoiceSave", (req, res) => {
+  try {
+    // Read and parse the existing JSON file
+    let list = JSON.parse(fs.readFileSync("./data/list.json", "utf8"));
+
+    // Retrieve the invoice from the session
+    const invoice = req.session.invoice;
+
+    if (!invoice) {
+      return res.status(400).send("No invoice found in session to save.");
+    }
+
+    // Add or update the invoice in the list object
+    list[invoice.number] = invoice;
+
+    // Write the updated list back to the file
+    fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
+
+    // Redirect to the invoice page
+    res.redirect(URL + "invoice");
+  } catch (error) {
+    console.error("Error saving invoice:", error);
+    res.status(500).send("Failed to save invoice.");
+  }
 });
+
 //VIEW
 app.get("/view/invoice/:id", (req, res) => {
   let list = fs.readFileSync("./data/list.json", "utf8");
@@ -417,34 +505,6 @@ app.get("/view/invoice/:id", (req, res) => {
   res.send(html);
 });
 
-//STORE
-app.post("/invoice", async (req, res) => {
-  try {
-    // Read the file, or initialize an empty list if the file doesn't exist
-    let list;
-
-    try {
-      list = fs.readFileSync("./data/list.json", "utf8"); //SYNCRONOUS because the file is small and it doesnt stop the loop for long
-      list = JSON.parse(list); // Parse the file content
-    } catch (readError) {
-      console.warn("list.json not found or invalid. Initializing new list.");
-      list = {}; // Start with an empty array
-    }
-
-    list[req.body.number] = req.body;
-    try {
-      fs.writeFileSync("./data/list.json", JSON.stringify(list, null, 2));
-    } catch (writeError) {
-      console.error("Failed to write to list.json:", writeError);
-      throw writeError; // Re-throw the error
-    }
-
-    res.status(200).redirect("/invoice");
-  } catch (error) {
-    console.error("Error saving invoice:", error);
-    res.status(500).send("Server Error");
-  }
-});
 //READ
 app.get("/invoiceList", (req, res) => {
   let list = fs.readFileSync("./data/list.json", "utf8");
